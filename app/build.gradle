@@ -3,6 +3,8 @@ plugins {
 }
 
 android {
+    namespace 'com.example.fe_ai_book' // ← 이 줄 추가
+
     compileSdk 34
 
     defaultConfig {
@@ -28,7 +30,6 @@ android {
 }
 
 dependencies {
-
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
