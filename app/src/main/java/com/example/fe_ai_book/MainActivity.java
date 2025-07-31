@@ -15,7 +15,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button signup = findViewById(R.id.signup_view);
-        Button userInfo = findViewById(R.id.btn_user_info);  // ← 추가된 부분
+        Button userInfo = findViewById(R.id.btn_user_info);
+        Button mybookRecent = findViewById(R.id.btn_mybook_recent);
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -25,10 +26,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        userInfo.setOnClickListener(new View.OnClickListener() {  // ← 추가된 부분
+        userInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), UserInfoActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mybookRecent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MyBookRecentActivity.class);
                 startActivity(intent);
             }
         });

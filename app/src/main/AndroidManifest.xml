@@ -29,12 +29,18 @@
         </activity>
         <activity
             android:name=".UserInfoActivity"
-            android:exported="true">   <!-- ← 이 속성 추가 -->
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".MyBookRecentActivity"
+            android:exported="true"
+            android:label="책장 페이지" />
+
     </application>
 
 </manifest>
