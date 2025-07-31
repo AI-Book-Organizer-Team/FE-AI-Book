@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MemberSignUp"
+            android:name=".MemberSignUpActivity"
             android:exported="true"
             android:label="@string/sign_up">
             <intent-filter>
@@ -38,6 +38,11 @@
 
         <activity
             android:name=".MyBookRecentActivity"
+            android:exported="true"
+            android:label="책장 페이지" />
+
+        <activity
+            android:name=".HomeActivity"
             android:exported="true"
             android:label="책장 페이지" />
 
