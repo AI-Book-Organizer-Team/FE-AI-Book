@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="17dp"
-    android:background="#F7F2EE"
+    android:background="#FAF6F3"
     tools:context=".MainActivity">
 
     <ScrollView
@@ -14,6 +14,7 @@
         android:fillViewport="true"
         android:scrollbars="none">
 
+<!--    전체화면    -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -32,7 +33,8 @@
                     android:id="@+id/email"
                     android:background="@drawable/input_box"
                     android:layout_marginBottom="20dp"
-                    android:hint="이메일 주소"/>
+                    android:hint="이메일 주소"
+                    android:paddingHorizontal="24dp"/>
                 <Button
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
@@ -65,8 +67,14 @@
                         android:layout_marginLeft="10dp"
                         android:background="@drawable/input_button"
                         android:id="@+id/emailverify_btn"/>
-
                 </LinearLayout>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="인증이 완료되었습니다."
+                        android:layout_marginBottom="20dp"
+                        android:id="@+id/emailverify_str"
+                        android:visibility="gone"/>
             </LinearLayout>
 
             <!--  비밀번호  -->
@@ -82,14 +90,16 @@
                     android:id="@+id/password1"
                     android:background="@drawable/input_box"
                     android:hint="비밀번호"
-                    android:layout_marginBottom="10dp"/>
+                    android:layout_marginBottom="10dp"
+                    android:paddingHorizontal="24dp"/>
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:id="@+id/password2"
                     android:background="@drawable/input_box"
                     android:hint="비밀번호 확인"
-                    android:layout_marginBottom="5dp"/>
+                    android:layout_marginBottom="5dp"
+                    android:paddingHorizontal="24dp"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -110,7 +120,8 @@
                     android:id="@+id/nickname"
                     android:hint="닉네임"
                     android:background="@drawable/input_box"
-                    android:layout_marginBottom="5dp"/>
+                    android:layout_marginBottom="5dp"
+                    android:paddingHorizontal="24dp"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -149,7 +160,8 @@
                     android:layout_width="90dp"
                     android:layout_height="wrap_content"
                     android:text="성별"
-                    android:layout_margin="5dp"/>
+                    android:layout_margin="5dp"
+                    android:paddingHorizontal="24dp"/>
                 <RadioGroup
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -182,10 +194,11 @@
                     android:gravity="center"
                     android:background="@drawable/input_box">
                     <TextView
-                        android:layout_width="90dp"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="생년월일"
-                        android:layout_margin="5dp"/>
+                        android:layout_margin="5dp"
+                        android:paddingHorizontal="24dp"/>
                     <TextView
                         android:layout_width="190dp"
                         android:layout_height="wrap_content"
