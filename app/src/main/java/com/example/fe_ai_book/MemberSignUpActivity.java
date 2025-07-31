@@ -19,20 +19,20 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class MemberSignUp extends AppCompatActivity implements SlideDatePickerDialogCallback {
+public class MemberSignUpActivity extends AppCompatActivity implements SlideDatePickerDialogCallback {
 
     EditText email, emailcode, password1, password2, nickname;
     Button emailsend_btn, emailverify_btn, setdate_btn, signup_btn;
     RadioGroup gender;
     RadioButton man, woman;
     LinearLayout emailcodelayout;
-    TextView date_view;
+    TextView date_view, emailverify_str;
 
     String str_email, str_emailcode, str_password1, str_password2, str_nickname, str_gender;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sign_up);
+        setContentView(R.layout.activity_signup);
 
         email = (EditText) findViewById(R.id.email);
         emailcode = (EditText) findViewById(R.id.emailcode);
@@ -48,6 +48,7 @@ public class MemberSignUp extends AppCompatActivity implements SlideDatePickerDi
         woman = (RadioButton) findViewById(R.id.woman);
         emailcodelayout = (LinearLayout) findViewById(R.id.emailcodelayout);
         date_view = (TextView) findViewById(R.id.date_view);
+        emailverify_str = (TextView) findViewById(R.id.emailverify_str);
 
         signup_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +72,13 @@ public class MemberSignUp extends AppCompatActivity implements SlideDatePickerDi
             public void onClick(View view) {
                 emailcodelayout.setVisibility(View.VISIBLE);
                 emailsend_btn.setVisibility(View.GONE);
+
+                emailverify_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        emailverify_str.setVisibility(View.VISIBLE);
+                    }
+                }); // 이메일 인증
             }
         }); // 이메일 인증
 
