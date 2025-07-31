@@ -14,12 +14,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button signup = (Button) findViewById(R.id.signup_view);
+        Button signup = findViewById(R.id.signup_view);
+        Button userInfo = findViewById(R.id.btn_user_info);  // ← 추가된 부분
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), MemberSignUp.class);
+                startActivity(intent);
+            }
+        });
+
+        userInfo.setOnClickListener(new View.OnClickListener() {  // ← 추가된 부분
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), UserInfoActivity.class);
                 startActivity(intent);
             }
         });
