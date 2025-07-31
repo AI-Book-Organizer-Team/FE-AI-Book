@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#FAF6F3"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 상단 바 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#FFFFFF"
+        android:paddingHorizontal="16dp"
+        android:elevation="4dp">
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_arrow_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="나의 서재"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"
+            android:textColor="#000000"/>
+    </RelativeLayout>
+
+    <!-- 검색창 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:layout_margin="16dp"
+        android:background="@drawable/bg_searchbox"
+        android:gravity="center_vertical">
+
+        <EditText
+            android:id="@+id/search_box"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="책 이름으로 입력하여 검색"
+            android:padding="8dp"
+            android:background="@android:color/transparent"
+            android:textSize="14sp"/>
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_search"
+            android:layout_marginEnd="8dp"/>
+    </LinearLayout>
+
+    <!-- 탭 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:id="@+id/tab_recent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="최근 저장"
+            android:textStyle="bold"
+            android:layout_margin="8dp"
+            android:textColor="#000000"/>
+
+        <TextView
+            android:id="@+id/tab_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="카테고리별"
+            android:layout_margin="8dp"
+            android:textColor="#999999"/>
+
+        <TextView
+            android:id="@+id/tab_favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="관심도서"
+            android:layout_margin="8dp"
+            android:textColor="#999999"/>
+    </LinearLayout>
+
+    <!-- 도서 목록 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingHorizontal="16dp" />
+
+</LinearLayout>
