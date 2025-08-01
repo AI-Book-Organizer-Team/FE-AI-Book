@@ -51,6 +51,15 @@
             android:exported="true"
             android:label="책장 페이지" />
 
+        <activity
+            android:name=".HomeActivity"
+            android:exported="true"
+            android:label="@string/main" />
+
+        <activity
+            android:name=".SearchActivity"
+            android:exported="true"
+            android:label="도서 검색" />
     </application>
 
 </manifest>

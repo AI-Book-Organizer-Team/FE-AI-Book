@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F7F2EE"
+    tools:context=".SearchActivity">
+
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="나의 서재"
+        android:textAppearance="@style/FigmaTitleStyle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewTitle" />
+
+    <EditText
+        android:id="@+id/editTextSearchQuery"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/figma_search_input"
+        android:hint="책 이름으로 입력하여 검색"
+        android:inputType="text"
+        android:maxLines="1"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonSearch"
+        app:layout_constraintEnd_toStartOf="@+id/buttonSearch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/buttonSearch" />
+
+    <ImageButton
+        android:id="@+id/buttonSearch"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="21dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_search_button"
+        android:src="@drawable/ic_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider" />
+
+    <LinearLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonSearch">
+
+        <TextView
+            android:id="@+id/textViewRecent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="최근 저장"
+            android:textAppearance="@style/FigmaTabStyle"
+            android:layout_marginEnd="16dp" />
+
+        <TextView
+            android:id="@+id/textViewCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="카테고리별"
+            android:textAppearance="@style/FigmaTabStyle"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"/>
+
+        <TextView
+            android:id="@+id/textViewInterest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="관심도서"
+            android:textAppearance="@style/FigmaTabStyle"
+            android:layout_marginStart="16dp"/>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewSearchResults"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tabLayout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
