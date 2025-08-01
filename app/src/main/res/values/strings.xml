@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">FE-AI-Book</string>
-    <string name="sign_up">회원가입</string>
+    <string name="signup">회원가입</string>
+    <string name="main">LOGO</string>
 </resources>

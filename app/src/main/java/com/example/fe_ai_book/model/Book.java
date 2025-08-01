@@ -15,6 +15,13 @@ public class Book {
         this.imageResId = imageResId;
     }
 
+    public Book(String title, String author, int imageResId) {
+        this.title = title;
+        this.author = author;
+        this.dateSaved = null;
+        this.imageResId = imageResId;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -31,3 +38,6 @@ public class Book {
         return imageResId;
     }
 }
+
+
+

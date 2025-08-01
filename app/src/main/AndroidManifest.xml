@@ -11,6 +11,15 @@
         android:theme="@style/Theme.FEAIBook">
 
         <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
@@ -20,18 +29,9 @@
         </activity>
 
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".MemberSignUpActivity"
             android:exported="true"
-            android:label="@string/sign_up">
+            android:label="@string/signup">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -54,8 +54,7 @@
         <activity
             android:name=".HomeActivity"
             android:exported="true"
-            android:label="책장 페이지" />
-
+            android:label="@string/main" />
     </application>
 
 </manifest>
