@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         textViewRegister.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, MemberSignUp.class);
+            Intent intent = new Intent(LoginActivity.this, MemberSignUpActivity.class);
             startActivity(intent);
         });
 
