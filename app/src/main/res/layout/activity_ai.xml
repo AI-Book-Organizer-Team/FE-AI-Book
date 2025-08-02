@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="#FAF6F3"
+    tools:context=".MainActivity">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+            <!--      전체      -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="13sp"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:text="선아 님이 저장한 도서를 기반으로 AI가 책을 추천해 드릴게요!"
+                    android:background="@drawable/ai_curation_box"
+                    android:padding="5dp"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/ai_curating"/>
+
+                <!--  배너  -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fillViewport="true"
+                    android:scrollbars="none"
+                    android:layout_marginTop="30dp">
+                <!--          배너 샘플 이미지          -->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/main_home_ai_banner_sample"
+                        android:textSize="23sp"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:padding="10dp"
+                        android:gravity="bottom|right"
+                        android:text="5월에 읽기 좋은 \n AI 추천 에세이 모음"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_centerInParent="true"
+                    android:background="#BFBFBF"
+                    android:layout_marginTop="30dp"/>
+
+                <!--  AI 추천 도서1  -->
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginTop="30dp">
+
+                <!--          title          -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:id="@+id/ai_booklist1">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="19sp"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:text="AI 추천 도서1"
+                            android:id="@+id/ai_recs1"/>
+
+                        <ImageView
+                            android:layout_width="17dp"
+                            android:layout_height="17dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_arrow_back"
+                            android:rotation="180" />
+                    </LinearLayout>
+
+                    <!--          큐레이션 문구          -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:text="큐레이션 문구1"
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/book_curating1"/>
+
+                    <!--          도서 추천 상자          -->
+                    <HorizontalScrollView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="10dp"
+                        android:scrollbars="none">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@drawable/main_home_booklist_box"
+                            android:padding="20dp">
+                            <!--          책 정보              -->
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/recycler_view1" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </HorizontalScrollView>
+
+
+
+                </LinearLayout>
+
+                <!--  AI 추천 도서2  -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp">
+
+                <!--          title          -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:id="@+id/ai_booklist2">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="19sp"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:text="AI 추천 도서2"
+                            android:id="@+id/ai_recs2"/>
+
+                        <ImageView
+                            android:layout_width="17dp"
+                            android:layout_height="17dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_arrow_back"
+                            android:rotation="180" />
+                    </LinearLayout>
+
+                    <!--          큐레이팅 문구          -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:text="큐레이션 문구2"
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/book_curating2"/>
+
+                    <!--          도서 추천 상자          -->
+                    <HorizontalScrollView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="10dp"
+                        android:scrollbars="none">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@drawable/main_home_booklist_box"
+                            android:padding="20dp">
+                            <!--          책 정보              -->
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/recycler_view2" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </HorizontalScrollView>
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+
+
+    </LinearLayout>
