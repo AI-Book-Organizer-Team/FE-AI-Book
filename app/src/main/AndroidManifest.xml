@@ -65,7 +65,15 @@
         <activity
             android:name=".AiActivity"
             android:exported="true"
-            android:label="직접 입력하여 찾기" />
+            android:label="AI 추천" />
+
+        <activity
+            android:name=".MyBookCategoryActivity"
+            android:exported="false"
+            android:label="카테고리별 보기"
+            />
+
+
     </application>
 
 </manifest>
