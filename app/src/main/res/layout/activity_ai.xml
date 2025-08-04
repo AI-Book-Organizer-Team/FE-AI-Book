@@ -27,7 +27,7 @@
                     android:textSize="13sp"
                     android:textColor="@color/black"
                     android:gravity="center"
-                    android:text="선아 님이 저장한 도서를 기반으로 AI가 책을 추천해 드릴게요!"
+                    android:text="User 님이 저장한 도서를 기반으로 AI가 책을 추천해 드릴게요!"
                     android:background="@drawable/ai_curation_box"
                     android:padding="5dp"
                     android:layout_marginTop="10dp"
@@ -118,7 +118,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:background="@drawable/main_home_booklist_box"
                             android:padding="20dp">
                             <!--          책 정보              -->
                             <LinearLayout
@@ -193,7 +192,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:background="@drawable/main_home_booklist_box"
                             android:padding="20dp">
                             <!--          책 정보              -->
                             <LinearLayout

@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
         Button userInfo = findViewById(R.id.btn_user_info);
         Button mybookRecent = findViewById(R.id.btn_mybook_recent);
         Button btn_home = findViewById(R.id.btn_home);
+        Button btn_ai = findViewById(R.id.btn_ai);
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +48,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btn_ai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), AiActivity.class);
                 startActivity(intent);
             }
         });
