@@ -61,6 +61,8 @@
             android:name=".DirectSearchActivity"
             android:exported="true"
             android:label="직접 입력하여 찾기" />
+
+
     </application>
 
 </manifest>
