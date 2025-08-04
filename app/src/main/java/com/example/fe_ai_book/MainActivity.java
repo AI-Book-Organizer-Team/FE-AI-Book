@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         Button mybookRecent = findViewById(R.id.btn_mybook_recent);
         Button btnSearch = findViewById(R.id.btn_search);
         Button btnDirectSearch = findViewById(R.id.btn_direct_search);
+        Button btn_ai = findViewById(R.id.btn_ai);
 
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +67,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), DirectSearchActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btn_ai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), AiActivity.class);
                 startActivity(intent);
             }
         });
