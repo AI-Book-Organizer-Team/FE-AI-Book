@@ -51,9 +51,9 @@ public class BookCardAdapter extends RecyclerView.Adapter<BookCardAdapter.BookCa
 
         public BookCardViewHolder(@NonNull View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.tv_book_title);
-            author = itemView.findViewById(R.id.tv_book_author);
-            image = itemView.findViewById(R.id.iv_book_cover);
+            title = itemView.findViewById(R.id.textBookTitle);      // 수정됨
+            author = itemView.findViewById(R.id.textBookAuthor);    // 수정됨
+            image = itemView.findViewById(R.id.imageBookCover);     // 수정됨
         }
     }
 }
