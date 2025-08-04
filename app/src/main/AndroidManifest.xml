@@ -55,6 +55,11 @@
             android:name=".HomeActivity"
             android:exported="true"
             android:label="@string/main" />
+
+        <activity
+            android:name=".AiActivity"
+            android:exported="true"
+            android:label="@string/ai" />
     </application>
 
 </manifest>
