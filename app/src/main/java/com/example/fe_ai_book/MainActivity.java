@@ -14,12 +14,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Button btnLogin = findViewById(R.id.btn_login);
         Button signup = findViewById(R.id.signup_view);
         Button userInfo = findViewById(R.id.btn_user_info);
         Button mybookRecent = findViewById(R.id.btn_mybook_recent);
         Button btnSearch = findViewById(R.id.btn_search);
         Button btnDirectSearch = findViewById(R.id.btn_direct_search);
-        // Button btn_home = findViewById(R.id.btn_home); // 제거됨
+
+
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +70,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Home 버튼 기능 제거됨 - HomeActivity가 존재하지 않음
+
     }
 }

@@ -16,6 +16,13 @@
     android:text="메인화면" />
 
     <Button
+    android:id="@+id/btn_login"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="로그인"
+    android:layout_marginTop="16dp" />
+
+    <Button
     android:id="@+id/signup_view"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
