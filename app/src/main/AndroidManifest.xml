@@ -29,9 +29,9 @@
         </activity>
 
         <activity
-            android:name=".MemberSignUp"
+            android:name=".MemberSignUpActivity"
             android:exported="true"
-            android:label="@string/sign_up">
+            android:label="@string/signup">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
