@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/imageBookCover"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:scaleType="centerCrop"
+        android:background="#E0E0E0" />
+
+    <TextView
+        android:id="@+id/textBookTitle"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="책 제목"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="#000000" />
+
+    <TextView
+        android:id="@+id/textBookAuthor"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="작가명"
+        android:textSize="12sp"
+        android:textColor="#666666"
+        android:ellipsize="end"
+        android:maxLines="1" />
+</LinearLayout>
