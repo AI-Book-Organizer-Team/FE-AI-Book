@@ -26,14 +26,14 @@ public class MyBookAdapter extends RecyclerView.Adapter<MyBookAdapter.BookViewHo
 
     public static class BookViewHolder extends RecyclerView.ViewHolder {
         ImageView ivCover;
-        TextView tvTitle, tvAuthor, tvDate;
+        TextView tvTitle, tvAuthor, tvPublisher;
 
         public BookViewHolder(View itemView) {
             super(itemView);
-            ivCover = itemView.findViewById(R.id.iv_book_cover);
-            tvTitle = itemView.findViewById(R.id.tv_book_title);
-            tvAuthor = itemView.findViewById(R.id.tv_book_author);
-            tvDate = itemView.findViewById(R.id.tv_book_date);
+            ivCover = itemView.findViewById(R.id.imageViewCover);
+            tvTitle = itemView.findViewById(R.id.textViewTitle);
+            tvAuthor = itemView.findViewById(R.id.textViewAuthor);
+            tvPublisher = itemView.findViewById(R.id.textViewPublisher);
         }
     }
 
@@ -49,7 +49,9 @@ public class MyBookAdapter extends RecyclerView.Adapter<MyBookAdapter.BookViewHo
         holder.ivCover.setImageResource(book.getImageResId()); // drawable 리소스
         holder.tvTitle.setText(book.getTitle());
         holder.tvAuthor.setText(book.getAuthor());
-        holder.tvDate.setText(book.getDateSaved());
+        if (book.getDateSaved() != null) {
+            holder.tvPublisher.setText(book.getDateSaved());
+        }
     }
 
     @Override
