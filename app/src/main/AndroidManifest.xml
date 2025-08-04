@@ -37,6 +37,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".UserInfoActivity"
             android:exported="true">
@@ -52,14 +53,14 @@
             android:label="책장 페이지" />
 
         <activity
-            android:name=".HomeActivity"
+            android:name=".SearchActivity"
             android:exported="true"
-            android:label="@string/main" />
-
+            android:label="도서 검색" />
+        
         <activity
-            android:name=".AiActivity"
+            android:name=".DirectSearchActivity"
             android:exported="true"
-            android:label="@string/ai" />
+            android:label="직접 입력하여 찾기" />
     </application>
 
 </manifest>

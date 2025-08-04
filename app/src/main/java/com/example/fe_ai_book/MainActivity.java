@@ -14,11 +14,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Button btnLogin = findViewById(R.id.btn_login);
         Button signup = findViewById(R.id.signup_view);
         Button userInfo = findViewById(R.id.btn_user_info);
         Button mybookRecent = findViewById(R.id.btn_mybook_recent);
-        Button btn_home = findViewById(R.id.btn_home);
-        Button btn_ai = findViewById(R.id.btn_ai);
+        Button btnSearch = findViewById(R.id.btn_search);
+        Button btnDirectSearch = findViewById(R.id.btn_direct_search);
+
+
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,18 +54,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btn_home.setOnClickListener(new View.OnClickListener() {
+        btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
                 startActivity(intent);
             }
         });
 
-        btn_ai.setOnClickListener(new View.OnClickListener() {
+        btnDirectSearch.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), AiActivity.class);
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), DirectSearchActivity.class);
                 startActivity(intent);
             }
         });
