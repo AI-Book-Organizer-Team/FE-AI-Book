@@ -68,4 +68,12 @@
         android:layout_height="wrap_content"
         android:text="@string/ai" />
 
-    </LinearLayout>
+    <Button
+        android:id="@+id/btn_category_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="카테고리별 보기"
+        android:layout_marginTop="16dp" />
+
+
+</LinearLayout>

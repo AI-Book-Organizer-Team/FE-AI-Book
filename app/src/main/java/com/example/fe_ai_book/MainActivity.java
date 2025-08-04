@@ -21,6 +21,9 @@ public class MainActivity extends AppCompatActivity {
         Button btnSearch = findViewById(R.id.btn_search);
         Button btnDirectSearch = findViewById(R.id.btn_direct_search);
         Button btn_ai = findViewById(R.id.btn_ai);
+        Button categoryViewBtn = findViewById(R.id.btn_category_view);
+
+
 
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -78,5 +81,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        categoryViewBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), MyBookCategoryActivity.class);
+            startActivity(intent);
+        });
+
     }
 }
