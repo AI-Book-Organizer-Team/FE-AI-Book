@@ -29,14 +29,15 @@
         </activity>
 
         <activity
-            android:name=".MemberSignUpActivity"
+            android:name=".MemberSignUp"
             android:exported="true"
-            android:label="@string/signup">
+            android:label="@string/sign_up">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".UserInfoActivity"
             android:exported="true">
@@ -52,9 +53,14 @@
             android:label="책장 페이지" />
 
         <activity
-            android:name=".HomeActivity"
+            android:name=".SearchActivity"
             android:exported="true"
-            android:label="@string/main" />
+            android:label="도서 검색" />
+        
+        <activity
+            android:name=".DirectSearchActivity"
+            android:exported="true"
+            android:label="직접 입력하여 찾기" />
     </application>
 
 </manifest>
