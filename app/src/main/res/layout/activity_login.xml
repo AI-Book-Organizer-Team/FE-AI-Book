@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24dp"
-    android:background="#F7F2EE"
+    android:padding="17dp"
+    android:background="#FAF6F3"
     android:gravity="center_horizontal">
 
     <TextView

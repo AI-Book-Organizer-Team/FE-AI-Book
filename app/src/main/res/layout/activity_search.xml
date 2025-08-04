@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F7F2EE"
+    android:padding="17dp"
+    android:background="#FAF6F3"
     tools:context=".SearchActivity">
 
     <TextView

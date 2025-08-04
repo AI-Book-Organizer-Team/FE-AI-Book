@@ -56,6 +56,11 @@
             android:name=".SearchActivity"
             android:exported="true"
             android:label="도서 검색" />
+        
+        <activity
+            android:name=".DirectSearchActivity"
+            android:exported="true"
+            android:label="직접 입력하여 찾기" />
     </application>
 
 </manifest>

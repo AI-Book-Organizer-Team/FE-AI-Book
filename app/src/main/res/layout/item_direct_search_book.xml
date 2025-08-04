@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/book_item_background"
+    android:elevation="1dp">
+
+    <!-- 책 표지 이미지 -->
+    <ImageView
+        android:id="@+id/imageViewBookCover"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/book_placeholder_background"
+        android:layout_marginEnd="12dp" />
+
+    <!-- 책 정보 영역 -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical">
+
+        <!-- 책 제목 -->
+        <TextView
+            android:id="@+id/textViewBookTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="블루온 검은 피"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:lineSpacingExtra="2dp"
+            android:layout_marginBottom="4dp" />
+
+        <!-- 작가 -->
+        <TextView
+            android:id="@+id/textViewAuthor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="작가: 하원"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            android:layout_marginBottom="2dp" />
+
+        <!-- 발행 연도 -->
+        <TextView
+            android:id="@+id/textViewPublishDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="발행 연도: 14.04.28"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            android:layout_marginBottom="2dp" />
+
+        <!-- 출판사 -->
+        <TextView
+            android:id="@+id/textViewPublisher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="출판사: 민음사"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            android:layout_marginBottom="2dp" />
+
+        <!-- ISBN -->
+        <TextView
+            android:id="@+id/textViewISBN"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ISBN: 9788932468910S"
+            android:textSize="11sp"
+            android:textColor="#999999"
+            android:fontFamily="monospace" />
+
+    </LinearLayout>
+
+    <!-- 선택 체크박스 -->
+    <CheckBox
+        android:id="@+id/checkBoxSelectBook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="8dp"
+        android:buttonTint="#629FED" />
+
+</LinearLayout>
