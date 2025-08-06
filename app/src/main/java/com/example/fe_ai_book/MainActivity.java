@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnDirectSearch = findViewById(R.id.btn_direct_search);
         Button btn_ai = findViewById(R.id.btn_ai);
         Button categoryViewBtn = findViewById(R.id.btn_category_view);
+        Button btnBookDetail = findViewById(R.id.btn_book_detail);
 
 
 
@@ -85,6 +86,17 @@ public class MainActivity extends AppCompatActivity {
         categoryViewBtn.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), MyBookCategoryActivity.class);
             startActivity(intent);
+        });
+
+        btnBookDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), BookDetailActivity.class);
+                intent.putExtra("book_title", "자유론");
+                intent.putExtra("book_author", "존 스튜어트 밀");
+                intent.putExtra("book_image", R.drawable.sample_cover_backducksu);
+                startActivity(intent);
+            }
         });
 
     }
