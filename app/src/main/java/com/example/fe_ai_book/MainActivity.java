@@ -23,9 +23,7 @@ public class MainActivity extends AppCompatActivity {
         Button btn_ai = findViewById(R.id.btn_ai);
         Button categoryViewBtn = findViewById(R.id.btn_category_view);
         Button btnBookDetail = findViewById(R.id.btn_book_detail);
-
-
-
+        Button btn_book_shelf = findViewById(R.id.btn_book_shelf);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +77,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), AiActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btn_book_shelf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), BookShelfActivity.class);
                 startActivity(intent);
             }
         });
