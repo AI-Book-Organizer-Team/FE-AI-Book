@@ -25,7 +25,8 @@ public class BookDetailActivity extends AppCompatActivity {
     private TextView isbnTextView;
     private TextView tagsTextView;
     private ImageView editLocationIcon;
-    private EditText locationEditText;
+    private TextView locationTextView;
+    private ImageView bookmarkButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,8 @@ public class BookDetailActivity extends AppCompatActivity {
         isbnTextView = findViewById(R.id.isbnTextView);
         tagsTextView = findViewById(R.id.tagsTextView);
         editLocationIcon = findViewById(R.id.editLocationIcon);
-        locationEditText = findViewById(R.id.locationEditText);
+        locationTextView = findViewById(R.id.locationTextView);
+        bookmarkButton = findViewById(R.id.bookmarkButton);
     }
 
     private void setupClickListeners() {
@@ -84,8 +86,15 @@ public class BookDetailActivity extends AppCompatActivity {
         editLocationIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                locationEditText.requestFocus();
-                Toast.makeText(BookDetailActivity.this, "위치를 수정할 수 있습니다", Toast.LENGTH_SHORT).show();
+                Toast.makeText(BookDetailActivity.this, "위치 수정 기능", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // 책갈피 버튼
+        bookmarkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(BookDetailActivity.this, "책갈피에 추가되었습니다!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -110,6 +119,6 @@ public class BookDetailActivity extends AppCompatActivity {
         bookReleaseDateTextView.setText("18.06.01");
         isbnTextView.setText("9791187142447");
         tagsTextView.setText("#국내도서 #인문 #철학 #자유 개념 #자유론");
-        locationEditText.setHint("책장 3번째 칸 왼쪽에 있는 책");
+        locationTextView.setText("책장 3번째 칸 왼쪽에 있는 책");
     }
 }
