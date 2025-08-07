@@ -5,36 +5,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="17dp"
         android:background="#FAF6F3"
-        android:gravity="center"
         tools:context=".MainActivity">
-
-    <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="메인화면" />
 
     <Button
     android:id="@+id/btn_login"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="로그인"
-    android:layout_marginTop="16dp" />
+    android:text="로그인"/>
 
     <Button
     android:id="@+id/signup_view"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="회원가입"
-    android:layout_marginTop="16dp" />
+    android:text="회원가입"/>
 
     <Button
     android:id="@+id/btn_user_info"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="내 정보 보기"
-    android:layout_marginTop="16dp" /> <!-- 추가된 버튼 -->
+    android:text="내 정보 보기"/> <!-- 추가된 버튼 -->
 
     <Button
         android:id="@+id/btn_mybook_recent"
@@ -46,15 +36,13 @@
         android:id="@+id/btn_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="도서 검색하기"
-        android:layout_marginTop="16dp" />
+        android:text="도서 검색하기"/>
 
     <Button
         android:id="@+id/btn_direct_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="직접 입력하여 찾기"
-        android:layout_marginTop="16dp" />
+        android:text="직접 입력하여 찾기"/>
 
     <Button
         android:id="@+id/btn_home"
@@ -72,14 +60,17 @@
         android:id="@+id/btn_category_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="카테고리별 보기"
-        android:layout_marginTop="16dp" />
+        android:text="카테고리별 보기"/>
 
     <Button
         android:id="@+id/btn_book_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="상세화면 보기"
-        android:layout_marginTop="16dp" />
+        android:text="상세화면 보기"/>
+    <Button
+        android:id="@+id/btn_book_shelf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="상세화면 보기"/>
 
 </LinearLayout>
