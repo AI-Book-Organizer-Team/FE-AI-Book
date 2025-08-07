@@ -73,6 +73,10 @@
             android:label="카테고리별 보기"
             />
 
+        <activity
+            android:name=".BookDetailActivity"
+            android:exported="false"
+            android:label="도서 상세정보" />
 
     </application>
 
