@@ -1,6 +1,7 @@
 package com.example.fe_ai_book.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fe_ai_book.BookDetailActivity;
 import com.example.fe_ai_book.R;
 import com.example.fe_ai_book.model.Book;
 
@@ -49,6 +51,16 @@ public class HomeBookAdapter extends RecyclerView.Adapter<HomeBookAdapter.BookVi
         holder.ivCover.setImageResource(book.getImageResId()); // drawable 리소스
         holder.tvTitle.setText(book.getTitle());
         holder.tvAuthor.setText(book.getAuthor());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, BookDetailActivity.class);
+                intent.putExtra("book_title", book.getTitle());
+                intent.putExtra("book_author", book.getAuthor());
+                intent.putExtra("book_image", book.getImageResId());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
