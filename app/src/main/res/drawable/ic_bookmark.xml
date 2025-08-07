@@ -5,7 +5,8 @@
     android:viewportWidth="24"
     android:viewportHeight="24">
     
+    <!-- 책갈피 아이콘 (노란색) -->
     <path
-        android:fillColor="#333333"
-        android:pathData="M15.41,7.41L14,6l-6,6 6,6 1.41,-1.41L10.83,12z"/>
+        android:fillColor="#FFD700"
+        android:pathData="M17,3H7c-1.1,0 -1.99,0.9 -1.99,2L5,21l7,-3 7,3V5c0,-1.1 -0.9,-2 -2,-2z"/>
 </vector>
