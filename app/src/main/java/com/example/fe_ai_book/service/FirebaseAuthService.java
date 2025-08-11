@@ -32,67 +32,45 @@ public class FirebaseAuthService implements AuthApiService {
 
     @Override
     public void sendEmailVerification(String email, EmailVerificationCallback callback) {
-        // Firebase Functions를 통한 실제 이메일 인증번호 전송
+        // 개발용 Mock 이메일 인증 (실제 이메일 발송 없음)
         if (!isValidEmail(email)) {
             callback.onFailure("올바른 이메일 형식이 아닙니다.");
             return;
         }
         
-        // Functions 호출을 위한 데이터 준비
-        Map<String, Object> data = new HashMap<>();
-        data.put("email", email);
+        // 2초 지연 후 성공 응답 (실제 이메일 발송 시뮬레이션)
+        android.os.Handler handler = new android.os.Handler(android.os.Looper.getMainLooper());
+        handler.postDelayed(() -> {
+            Log.d(TAG, "Mock: " + email + "로 인증번호 123456 발송 완료");
+            callback.onSuccess();
+        }, 2000);
         
-        // sendEmailVerification 함수 호출
-        mFunctions.getHttpsCallable("sendEmailVerification")
-            .call(data)
-            .addOnSuccessListener(httpsCallableResult -> {
-                // 성공 응답 처리
-                @SuppressWarnings("unchecked")
-                Map<String, Object> result = (Map<String, Object>) httpsCallableResult.getData();
-                if (result != null && Boolean.TRUE.equals(result.get("success"))) {
-                    callback.onSuccess();
-                } else {
-                    String message = result != null ? (String) result.get("message") : "알 수 없는 오류가 발생했습니다.";
-                    callback.onFailure(message);
-                }
-            })
-            .addOnFailureListener(e -> {
-                Log.e(TAG, "이메일 인증번호 전송 실패", e);
-                callback.onFailure("이메일 전송에 실패했습니다: " + e.getMessage());
-            });
+        // 실제 Firebase Functions 사용 시:
+        // mFunctions.getHttpsCallable("sendEmailVerification").call(data)
     }
 
     @Override
     public void verifyEmail(String email, String code, EmailVerificationCallback callback) {
-        // Firebase Functions를 통한 실제 인증번호 검증
+        // 개발용 Mock 인증번호
         if (email == null || code == null) {
             callback.onFailure("이메일과 인증번호가 필요합니다.");
             return;
         }
         
-        // Functions 호출을 위한 데이터 준비
-        Map<String, Object> data = new HashMap<>();
-        data.put("email", email);
-        data.put("code", code);
+        android.os.Handler handler = new android.os.Handler(android.os.Looper.getMainLooper());
+        handler.postDelayed(() -> {
+            // "123456" 입력 시 성공, 그 외에는 실패
+            if ("123456".equals(code.trim())) {
+                Log.d(TAG, "Mock: " + email + " 인증번호 검증 성공");
+                callback.onSuccess();
+            } else {
+                Log.d(TAG, "Mock: " + email + " 인증번호 검증 실패 - 입력값: " + code);
+                callback.onFailure("인증번호가 올바르지 않습니다. (Mock: 123456 입력 해주세요)");
+            }
+        }, 1000);
         
-        // verifyEmailCode 함수 호출
-        mFunctions.getHttpsCallable("verifyEmailCode")
-            .call(data)
-            .addOnSuccessListener(httpsCallableResult -> {
-                // 성공 응답 처리
-                @SuppressWarnings("unchecked")
-                Map<String, Object> result = (Map<String, Object>) httpsCallableResult.getData();
-                if (result != null && Boolean.TRUE.equals(result.get("success"))) {
-                    callback.onSuccess();
-                } else {
-                    String message = result != null ? (String) result.get("message") : "인증번호 확인에 실패했습니다.";
-                    callback.onFailure(message);
-                }
-            })
-            .addOnFailureListener(e -> {
-                Log.e(TAG, "인증번호 확인 실패", e);
-                callback.onFailure("인증번호 확인 중 오류가 발생했습니다: " + e.getMessage());
-            });
+        // 실제 Firebase Functions 사용 시:
+        // mFunctions.getHttpsCallable("verifyEmailCode").call(data)
     }
 
     @Override
