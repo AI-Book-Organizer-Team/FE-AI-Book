@@ -3,6 +3,7 @@ package com.example.fe_ai_book.model;
 import java.util.Date;
 
 public class User {
+    private String uid; // Firebase UID
     private String email;
     private String password;
     private String nickname;
@@ -25,6 +26,10 @@ public class User {
     }
 
     // Getter 메서드들
+    public String getUid() {
+        return uid;
+    }
+    
     public String getEmail() {
         return email;
     }
@@ -54,6 +59,10 @@ public class User {
     }
 
     // Setter 메서드들
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+    
     public void setEmail(String email) {
         this.email = email;
     }

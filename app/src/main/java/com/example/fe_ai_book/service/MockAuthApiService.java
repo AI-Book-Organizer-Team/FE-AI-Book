@@ -13,7 +13,7 @@ import java.util.Set;
  * 테스트용 목업 AuthApiService 클래스
  * 실제 서버 연결 없이 회원가입 기능을 테스트할 수 있습니다.
  */
-public class MockAuthApiService extends AuthApiService {
+public class MockAuthApiService implements AuthApiService {
     private static final String TAG = "MockAuthApiService";
     private Handler mainHandler;
     
@@ -112,8 +112,8 @@ public class MockAuthApiService extends AuthApiService {
     }
 
     @Override
-    public void login(String email, String password, SignUpCallback callback) {
-        // 1-2초 지연 시뮬레이션
+    public void signIn(String email, String password, SignInCallback callback) {
+        // 1-2초 지연 시뮤레이션
         mainHandler.postDelayed(() -> {
             if (registeredEmails.contains(email)) {
                 // 테스트용으로 모든 비밀번호를 유효한 것으로 간주
