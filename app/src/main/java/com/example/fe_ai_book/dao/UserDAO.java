@@ -8,7 +8,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class UserDao {
+public class UserDAO {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final String TAG = "UserDao";
 
