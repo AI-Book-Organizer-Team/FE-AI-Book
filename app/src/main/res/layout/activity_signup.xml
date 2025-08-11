@@ -228,7 +228,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1.2"
                         android:id="@+id/date_view"
-                        android:text="yyyy년 mm월 dd일"
+                        android:text="yyyy-mm-dd"
                         android:textSize="17sp"/>
                 </LinearLayout>
                 <Button
