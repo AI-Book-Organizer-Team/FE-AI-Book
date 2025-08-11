@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1068277255922",
+    "project_id": "dream-up-31460",
+    "storage_bucket": "dream-up-31460.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1068277255922:android:81450fed0b7d4981d68a6b",
+        "android_client_info": {
+          "package_name": "com.example.fe_ai_book"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgbjRwrW3gKYEU0zzrWrtHEAf5VWTEgD8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
