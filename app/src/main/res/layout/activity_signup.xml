@@ -63,12 +63,21 @@
                         android:hint="인증번호" />
                     <Button
                         android:layout_width="70dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="48dp"
+                        android:minHeight="48dp"
+                        android:maxHeight="48dp"
                         android:text="인증"
                         android:layout_gravity="center"
                         android:layout_marginLeft="10dp"
                         android:background="@drawable/input_button"
-                        android:id="@+id/emailverify_btn"/>
+                        android:id="@+id/emailverify_btn"
+                        android:includeFontPadding="false"
+                        android:paddingTop="0dp"
+                        android:paddingBottom="0dp"
+                        android:textSize="14sp"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:maxLines="1"/>
                 </LinearLayout>
                 <TextView
                         android:layout_width="match_parent"
