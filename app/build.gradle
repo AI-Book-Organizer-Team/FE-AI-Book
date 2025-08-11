@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'com.example.fe_ai_book' // 
+    namespace 'com.example.fe_ai_book' //
 
     compileSdk 34
 
