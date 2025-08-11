@@ -8,22 +8,37 @@ import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.fe_ai_book.model.User;
+import com.example.fe_ai_book.service.AuthApiService;
+import com.example.fe_ai_book.service.FirebaseAuthService;
+import com.example.fe_ai_book.service.MockAuthApiService;
+
 public class LoginActivity extends AppCompatActivity {
 
     private EditText editEmail, editPassword;
     private Button buttonLogin;
     private TextView textViewRegister, textViewFindPassword;
+    
+    private AuthApiService authApiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        authApiService = new FirebaseAuthService();
+        
         editEmail = findViewById(R.id.editTextEmail);
         editPassword = findViewById(R.id.editTextPassword);
         buttonLogin = findViewById(R.id.buttonLogin);
         textViewRegister = findViewById(R.id.textViewRegister);
         textViewFindPassword = findViewById(R.id.textViewFindPassword);
+        
+        // 회원가입에서 전달받은 이메일이 있다면 자동 입력
+        String emailFromSignUp = getIntent().getStringExtra("email");
+        if (emailFromSignUp != null) {
+            editEmail.setText(emailFromSignUp);
+        }
 
 
         buttonLogin.setOnClickListener(v -> {
@@ -35,12 +50,30 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-
-            Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show();
-
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            // 로그인 버튼 비활성화 및 로딩 상태
+            buttonLogin.setEnabled(false);
+            buttonLogin.setText("로그인 중...");
+            
+            // Firebase 로그인 시도
+            authApiService.signIn(email, password, new AuthApiService.SignInCallback() {
+                @Override
+                public void onSuccess(User user) {
+                    Toast.makeText(LoginActivity.this, user.getNickname() + "님, 환영합니다!", Toast.LENGTH_SHORT).show();
+                    
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    // 사용자 정보를 전달할 수 있음
+                    intent.putExtra("userNickname", user.getNickname());
+                    startActivity(intent);
+                    finish();
+                }
+                
+                @Override
+                public void onFailure(String errorMessage) {
+                    buttonLogin.setEnabled(true);
+                    buttonLogin.setText("로그인");
+                    Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
 
