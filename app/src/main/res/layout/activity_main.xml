@@ -71,7 +71,7 @@
         android:id="@+id/btn_book_shelf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="상세화면 보기"/>
+        android:text="책장"/>
 
     <Button
         android:id="@+id/btnShowBottomSheet"
