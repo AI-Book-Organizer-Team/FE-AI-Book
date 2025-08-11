@@ -2,13 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.fe_ai_book">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="로그인"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.FEAIBook">
+        android:theme="@style/Theme.FE_AI_Book">
 
         <activity
             android:name=".MainActivity"
@@ -21,31 +24,16 @@
 
         <activity
             android:name=".LoginActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true" />
 
         <activity
             android:name=".MemberSignUpActivity"
             android:exported="true"
-            android:label="@string/signup">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:label="@string/signup" />
 
         <activity
             android:name=".UserInfoActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true" />
 
         <activity
             android:name=".MyBookRecentActivity"
@@ -56,7 +44,7 @@
             android:name=".SearchActivity"
             android:exported="true"
             android:label="도서 검색" />
-        
+
         <activity
             android:name=".DirectSearchActivity"
             android:exported="true"
@@ -70,8 +58,7 @@
         <activity
             android:name=".MyBookCategoryActivity"
             android:exported="false"
-            android:label="카테고리별 보기"
-            />
+            android:label="카테고리별 보기" />
 
         <activity
             android:name=".BookDetailActivity"
@@ -79,10 +66,12 @@
             android:label="도서 상세정보" />
 
         <activity
-            android:name=".BookShelfActivity"
-            android:exported="false"
-            android:label="책장" />
+            android:name=".BarcodeScanActivity"
+            android:exported="true" />
 
+
+<!--        !!!!!!!!!! 임시-->
+        <activity android:name=".BarcodeImageTestActivity" />
 
     </application>
 

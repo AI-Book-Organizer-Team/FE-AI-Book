@@ -73,4 +73,16 @@
         android:layout_height="wrap_content"
         android:text="상세화면 보기"/>
 
+    <Button
+        android:id="@+id/btnShowBottomSheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="카메라 연동"/>
+
+<!--    임시!!!!!!!!!-->
+    <Button
+        android:id="@+id/btn_image_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="바코드 이미지 테스트"/>
 </LinearLayout>
