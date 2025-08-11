@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.fe_ai_book.model.User;
 import com.example.fe_ai_book.service.AuthApiService;
 import com.example.fe_ai_book.service.MockAuthApiService;
+import com.example.fe_ai_book.service.FirebaseAuthService;
 import com.example.fe_ai_book.utils.ValidationUtils;
 import com.niwattep.materialslidedatepicker.SlideDatePickerDialog;
 import com.niwattep.materialslidedatepicker.SlideDatePickerDialogCallback;
@@ -75,11 +76,9 @@ public class MemberSignUpActivity extends AppCompatActivity implements SlideDate
     }
     
     private void initApiService() {
-        // 테스트용 목업 서비스 사용 (실제 서버 연결 없이 테스트 가능)
-        authApiService = new MockAuthApiService();
-        
-        // 실제 서버를 사용하려면 아래 주석을 해제하고 위의 코드를 주석처리
-        // authApiService = new AuthApiService();
+        // Firebase Authentication + Firestore 사용 
+        // 이메일 발송은 Mock (123456 입력하면 인증 통과)
+        authApiService = new FirebaseAuthService();
     }
     
     private void setupListeners() {
