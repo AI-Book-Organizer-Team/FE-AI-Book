@@ -163,7 +163,7 @@ public class MemberSignUpActivity extends AppCompatActivity implements SlideDate
         
         // 버튼 비활성화 및 로딩 상태
         emailverify_btn.setEnabled(false);
-        emailverify_btn.setText("확인 중...");
+        emailverify_btn.setText("확인");
         
         authApiService.verifyEmail(emailText, codeText, new AuthApiService.EmailVerificationCallback() {
             @Override
@@ -172,6 +172,7 @@ public class MemberSignUpActivity extends AppCompatActivity implements SlideDate
                 emailverify_str.setText("인증이 완료되었습니다.");
                 emailverify_str.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
                 emailverify_str.setVisibility(View.VISIBLE);
+                emailverify_btn.setText("완료");
                 emailverify_btn.setEnabled(false);
                 emailcode.setEnabled(false);
                 Toast.makeText(MemberSignUpActivity.this, "이메일 인증이 완료되었습니다.", Toast.LENGTH_SHORT).show();
@@ -361,7 +362,7 @@ public class MemberSignUpActivity extends AppCompatActivity implements SlideDate
     }
 
     public void onPositiveClick(int day, int month, int year, Calendar calendar){
-        SimpleDateFormat format = new SimpleDateFormat("yyyy년 MMM dd일", Locale.KOREAN);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.KOREAN);
         
         // 선택된 날짜를 변수에 저장
         selectedBirthDate = calendar.getTime();
