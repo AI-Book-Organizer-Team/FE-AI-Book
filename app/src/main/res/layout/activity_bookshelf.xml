@@ -131,7 +131,7 @@
                         android:ellipsize="end"
                         android:textSize="16sp"
                         android:textColor="#000000"
-                        android:text="데뷔 못하면 죽는 병 걸림"
+                        android:text="데\n뷔\n못\n하\n면\n죽\n는\n병\n걸\n림\n"
                         android:layout_marginLeft="10dp"/>
                     <TextView
                         android:layout_width="30dp"
