@@ -1,47 +1,53 @@
 package com.example.fe_ai_book;
 
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
 import android.widget.ImageView;
-import androidx.appcompat.app.AppCompatActivity;
 import android.widget.Button;
+import android.widget.TextView;
 import android.content.SharedPreferences;
 import android.content.Intent;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class UserInfoActivity extends AppCompatActivity {
+
+    private TextView tvNickname, tvBookCount;
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_info);
 
-        ImageView btnBack = findViewById(R.id.btn_back);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        // UI 연결
+        tvNickname = findViewById(R.id.tv_nickname);
+        tvBookCount = findViewById(R.id.tv_book_count);
 
-//        Button logout = findViewById(R.id.btn_logout);
-//        logout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // 자동 로그인 정보 삭제
-//                SharedPreferences prefs = getSharedPreferences("autoLogin", MODE_PRIVATE);
-//                SharedPreferences.Editor editor = prefs.edit();
-//                editor.clear();  // or editor.remove("key")
-//                editor.apply();
-//
-//                // 로그인 화면으로 이동
-//                Intent intent = new Intent(UserInfoActivity.this, LoginActivity.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                startActivity(intent);
-//
-//                // 현재 액티비티 종료
-//                finish();
-//            }
-//        });
+        // Firebase 초기화
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
+        String uid = mAuth.getCurrentUser().getUid();
+
+        // Firestore에서 데이터 읽기
+        db.collection("users").document(uid).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String nickname = documentSnapshot.getString("nickname");
+                        Long bookCountValue = documentSnapshot.getLong("bookCount");
+                        long bookCount = (bookCountValue != null) ? bookCountValue : 0;
+
+                        tvNickname.setText(nickname);
+                        tvBookCount.setText("나의 모든 도서\n" + bookCount + "권");
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("UserInfo", "데이터 불러오기 실패", e);
+                });
     }
 }
