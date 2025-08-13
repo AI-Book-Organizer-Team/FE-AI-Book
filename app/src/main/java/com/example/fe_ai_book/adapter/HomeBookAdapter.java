@@ -41,7 +41,7 @@ public class HomeBookAdapter extends RecyclerView.Adapter<HomeBookAdapter.BookVi
 
     @Override
     public BookViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.main_home_book_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_main_home_book, parent, false);
         return new BookViewHolder(view);
     }
 

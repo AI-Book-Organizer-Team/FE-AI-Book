@@ -10,9 +10,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -82,12 +79,6 @@
         <activity
             android:name=".BarcodeScanActivity"
             android:exported="true" />
-
-        <activity
-            android:name=".BookDetailEXActivity"
-            android:label="책장"
-            android:exported="true" />
-
 
 <!--        !!!!!!!!!! 임시-->
         <activity android:name=".BarcodeImageTestActivity" />

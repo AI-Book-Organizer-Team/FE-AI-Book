@@ -1,4 +1,4 @@
-package com.example.fe_ai_book;
+package com.example.fe_ai_book.service;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

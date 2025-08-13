@@ -1,4 +1,4 @@
-package com.example.fe_ai_book;
+package com.example.fe_ai_book.service;
 
 import com.example.fe_ai_book.model.BookDetailEnvelope;
 
@@ -17,6 +17,7 @@ public interface DataLibraryApi {
             @Query("format") String format
     );
 
+    // 디버깅용
     @GET("srchDtlList?format=json")
     Call<okhttp3.ResponseBody> debugBookDetail(
             @Query("authKey") String authKey,
