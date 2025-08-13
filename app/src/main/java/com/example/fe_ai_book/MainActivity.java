@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         Button btnSearch = findViewById(R.id.btn_search);
         Button btnDirectSearch = findViewById(R.id.btn_direct_search);
         Button btn_ai = findViewById(R.id.btn_ai);
-        Button btnapi = findViewById(R.id.btnapi);
         Button categoryViewBtn = findViewById(R.id.btn_category_view);
         Button btnBookDetail = findViewById(R.id.btn_book_detail);
         btnShowBottomSheet = findViewById(R.id.btnShowBottomSheet);
@@ -54,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
         btnDirectSearch.setOnClickListener(v -> startActivity(new Intent(this, DirectSearchActivity.class)));
         btn_ai.setOnClickListener(v -> startActivity(new Intent(this, AiActivity.class)));
         categoryViewBtn.setOnClickListener(v -> startActivity(new Intent(this, MyBookCategoryActivity.class)));
-        btnapi.setOnClickListener(v -> startActivity(new Intent(this, BookDetailEXActivity.class)));
 
         btnBookDetail.setOnClickListener(v -> {
             Intent intent = new Intent(this, BookDetailActivity.class);
