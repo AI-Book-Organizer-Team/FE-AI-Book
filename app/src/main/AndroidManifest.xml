@@ -80,6 +80,11 @@
             android:name=".BarcodeScanActivity"
             android:exported="true" />
 
+        <activity
+            android:name=".HomeActivity"
+            android:exported="true"
+            android:label="MAIN"/>
+
 <!--        !!!!!!!!!! 임시-->
         <activity android:name=".BarcodeImageTestActivity" />
 
