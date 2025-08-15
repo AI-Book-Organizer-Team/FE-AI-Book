@@ -85,4 +85,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="바코드 이미지 테스트"/>
+    
+    <!-- 도서 저장 테스트 버튼 -->
+    <Button
+        android:id="@+id/btn_book_save_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="도서 저장 테스트"
+        android:background="#4CAF50"
+        android:textColor="#FFFFFF"/>
 </LinearLayout>

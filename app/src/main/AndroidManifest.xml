@@ -87,6 +87,12 @@
 
 <!--        !!!!!!!!!! 임시-->
         <activity android:name=".BarcodeImageTestActivity" />
+        
+        <!-- 도서 저장 테스트 액티비티 -->
+        <activity 
+            android:name=".BookSaveTestActivity"
+            android:exported="true"
+            android:label="도서 저장 테스트" />
 
     </application>
 

@@ -15,8 +15,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fe_ai_book.adapter.DirectSearchBookAdapter;
+import com.example.fe_ai_book.entity.BookEntity;
+import com.example.fe_ai_book.mapper.BookApiMapper;
 import com.example.fe_ai_book.model.Book;
 import com.example.fe_ai_book.model.BookDetailEnvelope;
+import com.example.fe_ai_book.repository.BookRepository;
 import com.example.fe_ai_book.service.ApiClient;
 import com.example.fe_ai_book.service.DataLibraryApi;
 
@@ -205,11 +208,67 @@ public class DirectSearchActivity extends AppCompatActivity {
             return;
         }
 
-        // TODO: 실제 책 추가 로직 구현
-        Toast.makeText(this, selectedBooks.size() + "권의 책이 추가되었습니다.", Toast.LENGTH_SHORT).show();
+        // 실제 책 저장 로직 구현
+        saveSelectedBooksToDatabase();
+    }
+    
+    private void saveSelectedBooksToDatabase() {
+        BookRepository bookRepository = new BookRepository(this);
+        int totalBooks = selectedBooks.size();
+        final int[] savedCount = {0};
+        final int[] errorCount = {0};
         
-        // 선택된 책들을 결과로 반환하고 액티비티 종료
-        finish();
+        // Show progress message
+        Toast.makeText(this, "책 저장 중... (" + totalBooks + "권)", Toast.LENGTH_SHORT).show();
+        
+        // Save each selected book
+        for (Book book : selectedBooks) {
+            try {
+                // Convert Book to BookEntity
+                BookEntity bookEntity = BookApiMapper.toEntity(book);
+                
+                // Save using BookRepository (saves to both local and cloud)
+                bookRepository.saveBook(bookEntity, new BookRepository.OperationCallback() {
+                    @Override
+                    public void onSuccess() {
+                        savedCount[0]++;
+                        checkSaveCompletion(savedCount[0], errorCount[0], totalBooks);
+                    }
+                    
+                    @Override
+                    public void onFailure(String error) {
+                        errorCount[0]++;
+                        android.util.Log.e("DirectSearchActivity", "Book save error: " + error);
+                        checkSaveCompletion(savedCount[0], errorCount[0], totalBooks);
+                    }
+                });
+                
+            } catch (Exception e) {
+                errorCount[0]++;
+                android.util.Log.e("DirectSearchActivity", "Book conversion error: " + e.getMessage());
+                checkSaveCompletion(savedCount[0], errorCount[0], totalBooks);
+            }
+        }
+    }
+    
+    private void checkSaveCompletion(int savedCount, int errorCount, int totalBooks) {
+        if (savedCount + errorCount >= totalBooks) {
+            // All books processed
+            runOnUiThread(() -> {
+                if (errorCount == 0) {
+                    Toast.makeText(this, savedCount + "권의 책이 성공적으로 저장되었습니다!", Toast.LENGTH_LONG).show();
+                } else if (savedCount == 0) {
+                    Toast.makeText(this, "책 저장에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this, savedCount + "권 저장 완료, " + errorCount + "권 실패", Toast.LENGTH_LONG).show();
+                }
+                
+                // Clear selection and finish activity
+                selectedBooks.clear();
+                updateAddButtonState();
+                finish();
+            });
+        }
     }
 
     private void updateAddButtonState() {

@@ -42,6 +42,13 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, BarcodeImageTestActivity.class);
             startActivityForResult(intent, BARCODE_IMAGE_TEST_REQUEST_CODE);
         });
+        
+        // 도서 저장 테스트 버튼
+        Button btnBookSaveTest = findViewById(R.id.btn_book_save_test);
+        btnBookSaveTest.setOnClickListener(v -> {
+            Intent intent = new Intent(this, BookSaveTestActivity.class);
+            startActivity(intent);
+        });
         // ============================================================================================
 
         // 로그인/회원가입/기타 이동 버튼
