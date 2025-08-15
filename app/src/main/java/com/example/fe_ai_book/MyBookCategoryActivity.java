@@ -1,6 +1,9 @@
 package com.example.fe_ai_book;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,15 +11,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.fe_ai_book.adapter.BookCategoryAdapter;
 import com.example.fe_ai_book.model.Book;
 import com.example.fe_ai_book.model.BookCategory;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MyBookCategoryActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private BookCategoryAdapter adapter;
     private List<BookCategory> categoryList;
+
+    private FirebaseFirestore db;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,24 +38,46 @@ public class MyBookCategoryActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         categoryList = new ArrayList<>();
-
-        List<Book> fantasyBooks = new ArrayList<>();
-        fantasyBooks.add(new Book("판타지 책1", "작가A", "2025.08.01", R.drawable.sample_cover_backducksu));
-        fantasyBooks.add(new Book("판타지 책2", "작가B", "2025.07.30", R.drawable.sample_cover_backducksu));
-
-        List<Book> historyBooks = new ArrayList<>();
-        historyBooks.add(new Book("역사 책1", "작가C", "2025.07.28", R.drawable.sample_cover_backducksu));
-        historyBooks.add(new Book("역사 책2", "작가D", "2025.07.26", R.drawable.sample_cover_backducksu));
-
-        List<Book> scienceBooks = new ArrayList<>();
-        scienceBooks.add(new Book("과학 책1", "작가E", "2025.07.25", R.drawable.sample_cover_backducksu));
-        scienceBooks.add(new Book("과학 책2", "작가F", "2025.07.22", R.drawable.sample_cover_backducksu));
-
-        categoryList.add(new BookCategory("판타지", fantasyBooks));
-        categoryList.add(new BookCategory("역사", historyBooks));
-        categoryList.add(new BookCategory("과학", scienceBooks));
-
         adapter = new BookCategoryAdapter(this, categoryList);
         recyclerView.setAdapter(adapter);
+
+        db = FirebaseFirestore.getInstance();
+        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        loadBooksGroupedByCategory();
+    }
+
+    private void loadBooksGroupedByCategory() {
+        db.collection("users")
+                .document(userId)
+                .collection("books")
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    // 카테고리별로 Book 묶기
+                    Map<String, List<Book>> categoryMap = new HashMap<>();
+
+                    for (DocumentSnapshot doc : querySnapshot) {
+                        Book book = doc.toObject(Book.class);
+                        if (book != null) {
+                            String category = book.getCategory() != null ? book.getCategory() : "기타";
+                            if (!categoryMap.containsKey(category)) {
+                                categoryMap.put(category, new ArrayList<>());
+                            }
+                            categoryMap.get(category).add(book);
+                        }
+                    }
+
+                    // categoryMap → categoryList 변환
+                    categoryList.clear();
+                    for (Map.Entry<String, List<Book>> entry : categoryMap.entrySet()) {
+                        categoryList.add(new BookCategory(entry.getKey(), entry.getValue()));
+                    }
+
+                    adapter.notifyDataSetChanged();
+                })
+                .addOnFailureListener(e -> {
+                    Log.w("Firestore", "Error getting category books", e);
+                    Toast.makeText(this, "카테고리별 책 불러오기 실패", Toast.LENGTH_SHORT).show();
+                });
     }
 }
