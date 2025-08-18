@@ -25,7 +25,14 @@ public class Book {
     // 빈 생성자 (Firestore 직렬화/역직렬화용 필수)
     public Book() {}
 
-    // 기본 생성자
+    // 샘플 데이터용 생성자 (title, author, 이미지 리소스만)
+    public Book(String title, String author, int imageResId) {
+        this.title = title;
+        this.author = author;
+        this.imageResId = imageResId;
+    }
+
+    // 기본 생성자 (Firestore 연동 시 주로 사용)
     public Book(String title, String author, String publishDate, String publisher, String isbn) {
         this.title = title;
         this.author = author;
@@ -34,7 +41,7 @@ public class Book {
         this.isbn = isbn;
     }
 
-    // 필요한 경우: 모든 주요 필드를 포함하는 생성자
+    // 필요한 경우: 주요 필드를 포함하는 생성자
     public Book(String title, String author, String dateSaved, String imageUrl,
                 String publishDate, String publisher, String isbn) {
         this.title = title;
