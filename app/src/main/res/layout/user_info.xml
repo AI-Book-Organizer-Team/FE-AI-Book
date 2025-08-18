@@ -65,7 +65,7 @@
             android:gravity="center" />
     </LinearLayout>
 
-    <!-- 버튼: 내 정보 편집 (HEAD에서 가져옴, 필요 없으면 삭제 가능) -->
+    <!-- 버튼: 내 정보 편집 -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_edit_info"
         android:layout_width="match_parent"

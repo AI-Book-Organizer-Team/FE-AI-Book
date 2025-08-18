@@ -11,9 +11,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import com.bumptech.glide.Glide;
 >>>>>>> 5e7144d9bf40bbc30208eed98208c31d0daffa14
+=======
+import com.bumptech.glide.Glide;
+>>>>>>> seonah
 import com.example.fe_ai_book.R;
 import com.example.fe_ai_book.model.Book;
 
@@ -74,8 +78,11 @@ public class DirectSearchBookAdapter extends RecyclerView.Adapter<DirectSearchBo
 
         public void bind(final Book book) {
 <<<<<<< HEAD
+<<<<<<< HEAD
             imageViewBookCover.setImageResource(R.drawable.book_placeholder_background); // 임시 설정
 =======
+=======
+>>>>>>> seonah
 //            imageViewBookCover.setImageResource(R.drawable.book_placeholder_background); // 임시 설정
             String url = book.getImageUrl();
             if (url != null && !url.trim().isEmpty()) {
@@ -95,7 +102,10 @@ public class DirectSearchBookAdapter extends RecyclerView.Adapter<DirectSearchBo
             }
 
 
+<<<<<<< HEAD
 >>>>>>> 5e7144d9bf40bbc30208eed98208c31d0daffa14
+=======
+>>>>>>> seonah
             textViewBookTitle.setText(book.getTitle());
             textViewAuthor.setText("작가: " + book.getAuthor());
             textViewPublishDate.setText("발행 연도: " + book.getPublishDate());

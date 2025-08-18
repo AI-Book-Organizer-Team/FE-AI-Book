@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp"
+    android:padding="17dp"
     android:background="#FAF6F3"
     android:orientation="vertical"
     tools:context=".MainActivity">
@@ -228,7 +228,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1.2"
                         android:id="@+id/date_view"
-                        android:text="yyyy년 mm월 dd일"
+                        android:text="yyyy-mm-dd"
                         android:textSize="17sp"/>
                 </LinearLayout>
                 <Button

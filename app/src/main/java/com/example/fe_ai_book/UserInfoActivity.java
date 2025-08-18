@@ -1,18 +1,5 @@
 package com.example.fe_ai_book;
 
-<<<<<<< HEAD
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
-import androidx.appcompat.app.AppCompatActivity;
-import android.widget.Button;
-import android.content.SharedPreferences;
-import android.content.Intent;
-
-
-public class UserInfoActivity extends AppCompatActivity {
-
-=======
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -34,41 +21,11 @@ public class UserInfoActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
->>>>>>> 5e7144d9bf40bbc30208eed98208c31d0daffa14
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_info);
 
-<<<<<<< HEAD
-        ImageView btnBack = findViewById(R.id.btn_back);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
-//        Button logout = findViewById(R.id.btn_logout);
-//        logout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // 자동 로그인 정보 삭제
-//                SharedPreferences prefs = getSharedPreferences("autoLogin", MODE_PRIVATE);
-//                SharedPreferences.Editor editor = prefs.edit();
-//                editor.clear();  // or editor.remove("key")
-//                editor.apply();
-//
-//                // 로그인 화면으로 이동
-//                Intent intent = new Intent(UserInfoActivity.this, LoginActivity.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                startActivity(intent);
-//
-//                // 현재 액티비티 종료
-//                finish();
-//            }
-//        });
-=======
         // UI 연결
         tvNickname = findViewById(R.id.tv_nickname);
         tvBookCount = findViewById(R.id.tv_book_count);
@@ -122,9 +79,9 @@ public class UserInfoActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // 설정 버튼 클릭
+        // 설정 버튼 클릭 (추후 구현)
         btnSettings.setOnClickListener(v -> {
-            // 설정 화면으로 이동하는 코드 넣으면 됨
+            // TODO: 설정 화면 이동 로직
         });
 
         // 뒤로가기 버튼 클릭
@@ -145,6 +102,5 @@ public class UserInfoActivity extends AppCompatActivity {
             }
             return false;
         });
->>>>>>> 5e7144d9bf40bbc30208eed98208c31d0daffa14
     }
 }
