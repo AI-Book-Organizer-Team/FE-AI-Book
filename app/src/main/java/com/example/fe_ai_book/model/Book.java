@@ -7,20 +7,9 @@ public class Book {
     private String id;
     private String title;
     private String author;
-<<<<<<< HEAD
-    private String dateSaved;
-    private int imageResId; // drawable resource id
-<<<<<<< HEAD
-=======
-
-    private String imageUrl;
->>>>>>> 5e7144d9bf40bbc30208eed98208c31d0daffa14
-=======
-    private String dateSaved;   // 앱에서 추가한 필드
-    private int imageResId;     // 로컬 이미지 리소스 id (Firestore에는 저장 X)
-
-    private String imageUrl;
->>>>>>> seonah
+    private String dateSaved;    // 앱에서 저장한 날짜
+    private int imageResId;      // drawable 리소스 ID (Firestore에는 저장 X)
+    private String imageUrl;     // 온라인 이미지 URL
     private String publishDate;
     private String publisher;
     private String isbn;
@@ -36,7 +25,7 @@ public class Book {
     // 빈 생성자 (Firestore 직렬화/역직렬화용 필수)
     public Book() {}
 
-    // 생성자 오버로드
+    // 기본 생성자
     public Book(String title, String author, String publishDate, String publisher, String isbn) {
         this.title = title;
         this.author = author;
@@ -45,10 +34,7 @@ public class Book {
         this.isbn = isbn;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    // 모든 필드를 포함하는 생성자
+    // 필요한 경우: 모든 주요 필드를 포함하는 생성자
     public Book(String title, String author, String dateSaved, String imageUrl,
                 String publishDate, String publisher, String isbn) {
         this.title = title;
@@ -60,78 +46,6 @@ public class Book {
         this.isbn = isbn;
     }
 
->>>>>>> 5e7144d9bf40bbc30208eed98208c31d0daffa14
-    // Getters
-    public String getTitle() {
-        return title;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public String getDateSaved() {
-        return dateSaved;
-    }
-
-    public int getImageResId() {
-        return imageResId;
-    }
-
-<<<<<<< HEAD
-=======
-    public String getImageUrl() {
-        return imageUrl;
-    }
->>>>>>> 5e7144d9bf40bbc30208eed98208c31d0daffa14
-    public String getPublishDate() {
-        return publishDate;
-    }
-
-    public String getPublisher() {
-        return publisher;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    // Setters
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public void setDateSaved(String dateSaved) {
-        this.dateSaved = dateSaved;
-    }
-
-    public void setImageResId(int imageResId) {
-        this.imageResId = imageResId;
-    }
-
-    public void setPublishDate(String publishDate) {
-        this.publishDate = publishDate;
-    }
-
-<<<<<<< HEAD
-=======
-    public void setImageUrl (String ImageUrl) {
-        this.imageUrl = ImageUrl;
-    }
-
->>>>>>> 5e7144d9bf40bbc30208eed98208c31d0daffa14
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-=======
     // --- Getters ---
     public String getId() { return id; }
     public String getTitle() { return title; }
@@ -169,5 +83,4 @@ public class Book {
     public void setUserId(String userId) { this.userId = userId; }
     public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
     public void setUpdatedAt(Timestamp updatedAt) { this.updatedAt = updatedAt; }
->>>>>>> seonah
 }

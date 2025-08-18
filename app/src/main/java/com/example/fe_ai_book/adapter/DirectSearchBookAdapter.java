@@ -10,14 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 import com.bumptech.glide.Glide;
->>>>>>> 5e7144d9bf40bbc30208eed98208c31d0daffa14
-=======
-import com.bumptech.glide.Glide;
->>>>>>> seonah
 import com.example.fe_ai_book.R;
 import com.example.fe_ai_book.model.Book;
 
@@ -40,7 +33,8 @@ public class DirectSearchBookAdapter extends RecyclerView.Adapter<DirectSearchBo
     @NonNull
     @Override
     public BookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_direct_search_book, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_direct_search_book, parent, false);
         return new BookViewHolder(view);
     }
 
@@ -77,16 +71,9 @@ public class DirectSearchBookAdapter extends RecyclerView.Adapter<DirectSearchBo
         }
 
         public void bind(final Book book) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            imageViewBookCover.setImageResource(R.drawable.book_placeholder_background); // 임시 설정
-=======
-=======
->>>>>>> seonah
-//            imageViewBookCover.setImageResource(R.drawable.book_placeholder_background); // 임시 설정
             String url = book.getImageUrl();
             if (url != null && !url.trim().isEmpty()) {
-                // http → https 강제 (가능한 경우). 서버가 https 미지원이면 아래 5) 참고
+                // http → https 강제 변환
                 if (url.startsWith("http://")) {
                     url = url.replaceFirst("http://", "https://");
                 }
@@ -101,11 +88,6 @@ public class DirectSearchBookAdapter extends RecyclerView.Adapter<DirectSearchBo
                 imageViewBookCover.setImageResource(R.drawable.book_placeholder_background);
             }
 
-
-<<<<<<< HEAD
->>>>>>> 5e7144d9bf40bbc30208eed98208c31d0daffa14
-=======
->>>>>>> seonah
             textViewBookTitle.setText(book.getTitle());
             textViewAuthor.setText("작가: " + book.getAuthor());
             textViewPublishDate.setText("발행 연도: " + book.getPublishDate());
@@ -113,8 +95,8 @@ public class DirectSearchBookAdapter extends RecyclerView.Adapter<DirectSearchBo
             textViewISBN.setText("ISBN: " + book.getIsbn());
 
             checkBoxSelectBook.setChecked(false);
-            checkBoxSelectBook.setOnCheckedChangeListener((buttonView, isChecked) -> listener.onBookSelected(book, isChecked));
+            checkBoxSelectBook.setOnCheckedChangeListener(
+                    (buttonView, isChecked) -> listener.onBookSelected(book, isChecked));
         }
     }
 }
-
