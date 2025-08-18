@@ -1,10 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-<<<<<<< HEAD
-<<<<<<< HEAD
     <style name="Theme.FE_AI_Book" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-=======
-    <style name="Theme.FE_AI_Book" parent="Theme.MaterialComponents.Light.DarkActionBar">
->>>>>>> seonah
         <!-- 앱 색상 -->
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryVariant">@color/color_primary_variant</item>
@@ -22,40 +17,11 @@
         <!-- 바텀시트 -->
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.MaterialComponents.BottomSheetDialog</item>
 
-<<<<<<< HEAD
-        <!-- 상태바 색 (옵션) -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-=======
-    <style name="Theme.FE_AI_Book" parent="Theme.MaterialComponents.Light.DarkActionBar">
-        <!-- 앱 색상 -->
-        <item name="colorPrimary">@color/color_primary</item>
-        <item name="colorPrimaryVariant">@color/color_primary_variant</item>
-        <item name="colorOnPrimary">@color/color_on_primary</item>
-
-        <item name="colorSecondary">@color/color_secondary</item>
-        <item name="colorSecondaryVariant">@color/color_secondary_variant</item>
-        <item name="colorOnSecondary">@color/color_on_secondary</item>
-
-        <!-- 머티리얼 2 배경/표면 색 -->
-        <item name="android:colorBackground">@color/color_background</item>
-        <item name="colorSurface">@color/color_surface</item>
-        <item name="colorOnSurface">@color/color_on_surface</item>
-
-        <!-- 바텀시트 -->
-        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.MaterialComponents.BottomSheetDialog</item>
-
-=======
->>>>>>> seonah
         <!-- 상태바 색 -->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/color_primary_variant</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
 
-
+        <!-- 버튼 스타일 -->
         <item name="colorButtonNormal">@android:color/transparent</item>
         <item name="android:buttonStyle">@style/Widget.AppCompat.Button</item>
-
-<<<<<<< HEAD
->>>>>>> 5e7144d9bf40bbc30208eed98208c31d0daffa14
-=======
->>>>>>> seonah
     </style>
 </resources>
