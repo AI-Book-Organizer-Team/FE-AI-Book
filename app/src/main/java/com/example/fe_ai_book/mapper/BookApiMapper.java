@@ -11,7 +11,7 @@ public final class BookApiMapper {
 
     @NonNull
     public static Book toUi(@NonNull BookDetailEnvelope.Book api) {
-        com.example.fe_ai_book.model.Book b = new com.example.fe_ai_book.model.Book();
+        Book b = new Book();
         b.setTitle(nullToEmpty(api.bookname));
         b.setAuthor(nullToEmpty(api.authors));
         b.setPublisher(nullToEmpty(api.publisher));
@@ -20,10 +20,23 @@ public final class BookApiMapper {
         b.setIsbn(firstNonEmpty(api.isbn13, api.isbn));
         b.setImageUrl(api.bookImageURL);
         b.setImageResId(0);
+
         // dateSaved는 더미만 쓰던 필드니까 비워둠
         b.setDateSaved(null);
+
+        // 카테고리 매핑
+        String rawCategory = api.class_nm;
+        if (rawCategory != null && !rawCategory.isBlank()) {
+            // " > " 구분자로 잘라서 첫 부분만 사용
+            String majorCategory = rawCategory.split(">")[0].trim();
+            b.setCategory(majorCategory);
+        } else {
+            b.setCategory("기타");
+        }
+
         return b;
     }
+
 
     // Convert UI Book model to BookEntity for database storage
     @NonNull

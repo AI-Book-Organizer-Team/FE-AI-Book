@@ -51,5 +51,8 @@
             android:exported="true"
             android:label="도서 저장 테스트" />
 
+        <!-- 내 서재 화면 Activity 등록 -->
+        <activity android:name=".MyBookActivity" />
+
     </application>
 </manifest>

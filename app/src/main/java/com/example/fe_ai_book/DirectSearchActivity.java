@@ -27,6 +27,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import com.example.fe_ai_book.service.BookFirebaseService;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class DirectSearchActivity extends AppCompatActivity {
 
     private EditText editTextDirectSearch;
@@ -39,6 +42,8 @@ public class DirectSearchActivity extends AppCompatActivity {
     private List<Book> searchResults;
     private List<Book> selectedBooks;
     private Call<BookDetailEnvelope> inFlight;
+    private BookFirebaseService bookService;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,8 @@ public class DirectSearchActivity extends AppCompatActivity {
         initializeViews();
         setupRecyclerView();
         setupListeners();
+        bookService = new BookFirebaseService();
+        auth = FirebaseAuth.getInstance();
 
         // 초기 빈 리스트
         loadSampleData();
@@ -182,9 +189,13 @@ public class DirectSearchActivity extends AppCompatActivity {
             return;
         }
 
-        // TODO: 실제 책 추가 로직 구현
-        Toast.makeText(this, selectedBooks.size() + "권의 책이 추가되었습니다.", Toast.LENGTH_SHORT).show();
+        String userId = auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : "guest";
 
+        for (Book book : selectedBooks) {
+            bookService.saveOrUpdateBook(book, userId);
+        }
+
+        Toast.makeText(this, selectedBooks.size() + "권이 내 서재에 추가되었습니다.", Toast.LENGTH_SHORT).show();
         finish();
     }
 

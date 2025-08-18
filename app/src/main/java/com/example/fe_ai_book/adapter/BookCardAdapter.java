@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.fe_ai_book.R;
 import com.example.fe_ai_book.model.Book;
 
@@ -37,7 +38,17 @@ public class BookCardAdapter extends RecyclerView.Adapter<BookCardAdapter.BookCa
         Book book = bookList.get(position);
         holder.title.setText(book.getTitle());
         holder.author.setText(book.getAuthor());
-        holder.image.setImageResource(book.getImageResId());
+
+        // Firestore 이미지 URL 있으면 Glide로 로드, 아니면 로컬 리소스 표시
+        if (book.getImageUrl() != null && !book.getImageUrl().isEmpty()) {
+            Glide.with(context)
+                    .load(book.getImageUrl())
+                    .placeholder(R.drawable.ic_launcher_background)
+                    .error(R.drawable.ic_launcher_foreground)
+                    .into(holder.image);
+        } else {
+            holder.image.setImageResource(book.getImageResId());
+        }
     }
 
     @Override
@@ -51,9 +62,9 @@ public class BookCardAdapter extends RecyclerView.Adapter<BookCardAdapter.BookCa
 
         public BookCardViewHolder(@NonNull View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.textBookTitle);      // 수정됨
-            author = itemView.findViewById(R.id.textBookAuthor);    // 수정됨
-            image = itemView.findViewById(R.id.imageBookCover);     // 수정됨
+            title = itemView.findViewById(R.id.textBookTitle);
+            author = itemView.findViewById(R.id.textBookAuthor);
+            image = itemView.findViewById(R.id.imageBookCover);
         }
     }
 }

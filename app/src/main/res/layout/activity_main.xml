@@ -1,104 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="17dp"
     android:background="#FAF6F3"
-    android:gravity="center"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/btn_login"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="로그인"
-        android:layout_marginTop="16dp"/>
+        android:orientation="vertical"
+        android:padding="17dp">
 
-    <Button
-        android:id="@+id/signup_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="회원가입"
-        android:layout_marginTop="16dp"/>
+        <!-- 1줄 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
 
-    <Button
-        android:id="@+id/btn_user_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="내 정보 보기"
-        android:layout_marginTop="16dp"/>
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="로그인" />
 
-    <Button
-        android:id="@+id/btn_mybook_recent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="최신순 책장 보기"
-        android:layout_marginTop="16dp"/>
+            <Button
+                android:id="@+id/signup_view"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="회원가입" />
+        </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="도서 검색하기"
-        android:layout_marginTop="16dp"/>
+        <!-- 2줄 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
 
-    <Button
-        android:id="@+id/btn_direct_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="직접 입력하여 찾기"
-        android:layout_marginTop="16dp"/>
+            <Button
+                android:id="@+id/btn_user_info"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="내 정보 보기" />
 
-    <Button
-        android:id="@+id/btn_home"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="home"
-        android:layout_marginTop="16dp"/>
+            <Button
+                android:id="@+id/btn_mybook_recent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="최신순 책장 보기" />
+        </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_ai"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/ai"
-        android:layout_marginTop="16dp"/>
+        <!-- 3줄 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
 
-    <Button
-        android:id="@+id/btn_category_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="카테고리별 보기"
-        android:layout_marginTop="16dp"/>
+            <Button
+                android:id="@+id/btn_search"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="도서 검색하기" />
 
-    <Button
-        android:id="@+id/btn_book_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="상세화면 보기"
-        android:layout_marginTop="16dp"/>
+            <Button
+                android:id="@+id/btn_direct_search"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="직접 입력하여 찾기" />
+        </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_book_shelf"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="책장"
-        android:layout_marginTop="16dp"/>
+        <!-- 4줄 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
 
-    <Button
-        android:id="@+id/btnShowBottomSheet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="카메라 연동"
-        android:layout_marginTop="16dp"/>
+            <Button
+                android:id="@+id/btn_home"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="home" />
 
-    <!-- 임시 버튼 -->
-    <Button
-        android:id="@+id/btn_image_test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="바코드 이미지 테스트"
-        android:layout_marginTop="16dp"/>
-</LinearLayout>
+            <Button
+                android:id="@+id/btn_ai"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/ai" />
+        </LinearLayout>
+
+        <!-- 5줄 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
+
+            <Button
+                android:id="@+id/btn_category_view"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="카테고리별 보기" />
+
+            <Button
+                android:id="@+id/btn_book_detail"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="상세화면 보기" />
+        </LinearLayout>
+
+        <!-- 6줄 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
+
+            <Button
+                android:id="@+id/btn_book_shelf"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="책장" />
+
+            <Button
+                android:id="@+id/btnShowBottomSheet"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="카메라 연동" />
+        </LinearLayout>
+
+        <!-- 7줄 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
+
+            <Button
+                android:id="@+id/btn_image_test"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="바코드 이미지 테스트" />
+
+            <Button
+                android:id="@+id/btn_book_save_test"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="도서 저장 테스트" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_mybook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="내 서재 보기"
+            android:layout_marginTop="16dp"/>
+    </LinearLayout>
+</ScrollView>

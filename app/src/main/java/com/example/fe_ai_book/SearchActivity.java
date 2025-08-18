@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fe_ai_book.adapter.BookListAdapter;
+import com.example.fe_ai_book.model.Book;
 
 import java.util.ArrayList;
 import java.util.List;

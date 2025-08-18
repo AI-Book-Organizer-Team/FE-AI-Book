@@ -25,7 +25,14 @@ public class BookFirebaseService {
         data.put("publisher", book.getPublisher());
         data.put("publishDate", book.getPublishDate());
         data.put("isbn", book.getIsbn());
-        data.put("category", book.getCategory());
+
+        // ✅ category null 방지
+        data.put("category",
+                (book.getCategory() != null && !book.getCategory().isEmpty())
+                        ? book.getCategory()
+                        : "기타"
+        );
+
         data.put("description", book.getDescription());
         data.put("imageUrl", book.getImageUrl());
         data.put("notes", book.getNotes());
@@ -33,7 +40,6 @@ public class BookFirebaseService {
         data.put("rating", book.getRating());
         data.put("userId", userId);
 
-        // createdAt은 새 문서일 때만 넣음
         if (book.getCreatedAt() == null) {
             data.put("createdAt", FieldValue.serverTimestamp());
         }
@@ -42,11 +48,12 @@ public class BookFirebaseService {
         db.collection("users")
                 .document(userId)
                 .collection("books")
-                .document(book.getIsbn())  // ISBN을 문서 ID로
+                .document(book.getIsbn())
                 .set(data)
                 .addOnSuccessListener(aVoid -> Log.d(TAG, "Book saved/updated: " + book.getTitle()))
                 .addOnFailureListener(e -> Log.w(TAG, "Error saving/updating book", e));
     }
+
 
     // 삭제
     public void deleteBook(@NonNull String isbn, @NonNull String userId) {
