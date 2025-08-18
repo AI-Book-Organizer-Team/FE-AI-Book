@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:gravity="center_vertical">
+
+    <!-- 책 이미지 -->
+    <ImageView
+        android:id="@+id/imageBookCover"
+        android:layout_width="70dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        android:background="#E0E0E0"
+        android:layout_marginEnd="12dp"/>
+
+    <!-- 책 텍스트 정보 -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <!-- 제목 (최대 2줄, 말줄임 처리) -->
+        <TextView
+            android:id="@+id/textBookTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="책 제목"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:textColor="#000000"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:lineSpacingExtra="2dp"/>
+
+        <!-- 저자 -->
+        <TextView
+            android:id="@+id/textBookAuthor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="저자명"
+            android:textSize="13sp"
+            android:textColor="#444444"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:singleLine="true"/>
+
+        <!-- 출판일 -->
+        <TextView
+            android:id="@+id/textBookPublishDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2025.03.04"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            android:layout_marginTop="2dp"/>
+
+        <!-- 저장일 -->
+        <TextView
+            android:id="@+id/textBookSavedDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2025.03.04 저장"
+            android:textSize="12sp"
+            android:textColor="#777777"
+            android:layout_marginTop="2dp"/>
+    </LinearLayout>
+
+</LinearLayout>
