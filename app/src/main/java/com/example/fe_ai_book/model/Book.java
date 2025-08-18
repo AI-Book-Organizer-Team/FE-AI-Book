@@ -7,6 +7,11 @@ public class Book {
     private String author;
     private String dateSaved;
     private int imageResId; // drawable resource id
+<<<<<<< HEAD
+=======
+
+    private String imageUrl;
+>>>>>>> 5e7144d9bf40bbc30208eed98208c31d0daffa14
     private String publishDate;
     private String publisher;
     private String isbn;
@@ -43,6 +48,21 @@ public class Book {
         this.isbn = isbn;
     }
 
+<<<<<<< HEAD
+=======
+    // 모든 필드를 포함하는 생성자
+    public Book(String title, String author, String dateSaved, String imageUrl,
+                String publishDate, String publisher, String isbn) {
+        this.title = title;
+        this.author = author;
+        this.dateSaved = dateSaved;
+        this.imageUrl = imageUrl;
+        this.publishDate = publishDate;
+        this.publisher = publisher;
+        this.isbn = isbn;
+    }
+
+>>>>>>> 5e7144d9bf40bbc30208eed98208c31d0daffa14
     // Getters
     public String getTitle() {
         return title;
@@ -60,6 +80,12 @@ public class Book {
         return imageResId;
     }
 
+<<<<<<< HEAD
+=======
+    public String getImageUrl() {
+        return imageUrl;
+    }
+>>>>>>> 5e7144d9bf40bbc30208eed98208c31d0daffa14
     public String getPublishDate() {
         return publishDate;
     }
@@ -93,6 +119,13 @@ public class Book {
         this.publishDate = publishDate;
     }
 
+<<<<<<< HEAD
+=======
+    public void setImageUrl (String ImageUrl) {
+        this.imageUrl = ImageUrl;
+    }
+
+>>>>>>> 5e7144d9bf40bbc30208eed98208c31d0daffa14
     public void setPublisher(String publisher) {
         this.publisher = publisher;
     }

@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="17dp"
-        android:background="#FAF6F3"
-        android:gravity="center"
-        tools:context=".MainActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="17dp"
+    android:background="#FAF6F3"
+    android:gravity="center"
+    tools:context=".MainActivity">
 
     <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="메인화면" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="메인화면" />
 
     <Button
-    android:id="@+id/btn_login"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="로그인"
-    android:layout_marginTop="16dp" />
+        android:id="@+id/btn_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="로그인"
+        android:layout_marginTop="16dp" />
 
     <Button
-    android:id="@+id/signup_view"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="회원가입"
-    android:layout_marginTop="16dp" />
+        android:id="@+id/signup_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="회원가입"
+        android:layout_marginTop="16dp" />
 
     <Button
-    android:id="@+id/btn_user_info"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="내 정보 보기"
-    android:layout_marginTop="16dp" /> <!-- 추가된 버튼 -->
+        android:id="@+id/btn_user_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="내 정보 보기"
+        android:layout_marginTop="16dp" />
 
     <Button
         android:id="@+id/btn_mybook_recent"
@@ -83,12 +83,18 @@
         android:layout_marginTop="16dp" />
 
     <Button
+        android:id="@+id/btn_book_shelf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="책장" />
+
+    <Button
         android:id="@+id/btnShowBottomSheet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="카메라 연동"/>
 
-<!--    임시!!!!!!!!!-->
+    <!-- 임시 버튼 -->
     <Button
         android:id="@+id/btn_image_test"
         android:layout_width="wrap_content"

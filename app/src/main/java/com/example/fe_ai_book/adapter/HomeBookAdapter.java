@@ -41,7 +41,11 @@ public class HomeBookAdapter extends RecyclerView.Adapter<HomeBookAdapter.BookVi
 
     @Override
     public BookViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+<<<<<<< HEAD
         View view = LayoutInflater.from(context).inflate(R.layout.main_home_book_item, parent, false);
+=======
+        View view = LayoutInflater.from(context).inflate(R.layout.item_main_home_book, parent, false);
+>>>>>>> 5e7144d9bf40bbc30208eed98208c31d0daffa14
         return new BookViewHolder(view);
     }
 

@@ -5,7 +5,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+<<<<<<< HEAD
 import android.widget.CheckBox;
+=======
+>>>>>>> 5e7144d9bf40bbc30208eed98208c31d0daffa14
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -17,10 +20,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fe_ai_book.adapter.DirectSearchBookAdapter;
 import com.example.fe_ai_book.model.Book;
+<<<<<<< HEAD
+=======
+import com.example.fe_ai_book.model.BookDetailEnvelope;
+import com.example.fe_ai_book.service.ApiClient;
+import com.example.fe_ai_book.service.DataLibraryApi;
+>>>>>>> 5e7144d9bf40bbc30208eed98208c31d0daffa14
 
 import java.util.ArrayList;
 import java.util.List;
 
+<<<<<<< HEAD
+=======
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+>>>>>>> 5e7144d9bf40bbc30208eed98208c31d0daffa14
 public class DirectSearchActivity extends AppCompatActivity {
 
     private EditText editTextDirectSearch;
@@ -32,6 +48,10 @@ public class DirectSearchActivity extends AppCompatActivity {
     private DirectSearchBookAdapter adapter;
     private List<Book> searchResults;
     private List<Book> selectedBooks;
+<<<<<<< HEAD
+=======
+    private Call<BookDetailEnvelope> inFlight;
+>>>>>>> 5e7144d9bf40bbc30208eed98208c31d0daffa14
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +140,7 @@ public class DirectSearchActivity extends AppCompatActivity {
 
     private void performSearch() {
         String query = editTextDirectSearch.getText().toString().trim();
+<<<<<<< HEAD
         
         if (query.isEmpty()) {
             Toast.makeText(this, "검색어를 입력해주세요.", Toast.LENGTH_SHORT).show();
@@ -151,6 +172,71 @@ public class DirectSearchActivity extends AppCompatActivity {
         
         selectedBooks.clear();
         updateAddButtonState();
+=======
+
+        if (query.isEmpty()) {
+            Toast.makeText(this, "isbn13을 입력해주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        loadBook(BuildConfig.DATA4LIB_AUTH_KEY, query);
+        Toast.makeText(this, "\"" + query + "\" 검색 중...", Toast.LENGTH_SHORT).show();
+    }
+
+    private void loadBook(String authKey, String isbn13) {
+        DataLibraryApi api = ApiClient.get();
+        inFlight = api.getBookDetail(authKey, isbn13, "Y", "age", "json");
+
+        inFlight.enqueue(new Callback<BookDetailEnvelope>() {
+            @Override
+            public void onResponse(Call<BookDetailEnvelope> call,
+                                   Response<BookDetailEnvelope> res) {
+                if (!res.isSuccessful() || res.body()==null || res.body().response==null) {
+                    Toast.makeText(DirectSearchActivity.this, "응답 오류: " + res.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                BookDetailEnvelope.Inner r = res.body().response;
+
+                // 서버가 보낸 에러 문자열 우선 처리
+                if (r.error != null && !r.error.isEmpty()) {
+                    Toast.makeText(DirectSearchActivity.this, r.error, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // detail 배열 확인
+                if (r.detail == null || r.detail.isEmpty() || r.detail.get(0).book == null) {
+                    Toast.makeText(DirectSearchActivity.this, "도서 상세가 없습니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // API → 기존 Book으로 변환 후 목록에 반영
+                BookDetailEnvelope.Book apiBook = r.detail.get(0).book;
+                Book uiBook = com.example.fe_ai_book.mapper.BookApiMapper.toUi(apiBook);
+
+                searchResults.clear();
+                for (BookDetailEnvelope.Detail d : r.detail) {
+                    if (d.book != null) {
+                        Book ui = com.example.fe_ai_book.mapper.BookApiMapper.toUi(d.book);
+                        searchResults.add(ui);
+                    }
+                }
+                adapter.notifyDataSetChanged();
+
+                selectedBooks.clear();
+                updateAddButtonState();
+            }
+
+            @Override
+            public void onFailure(Call<BookDetailEnvelope> call, Throwable t) {
+                if (call.isCanceled()) return;
+                Toast.makeText(DirectSearchActivity.this, "네트워크 오류: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override protected void onDestroy() {
+        if (inFlight != null) inFlight.cancel(); // 생명주기에서 취소(메모리 누수/콜백 크래시 방지)
+        super.onDestroy();
+>>>>>>> 5e7144d9bf40bbc30208eed98208c31d0daffa14
     }
 
     private void clearSearchResults() {
@@ -186,6 +272,7 @@ public class DirectSearchActivity extends AppCompatActivity {
         updateAddButtonState();
     }
 
+<<<<<<< HEAD
     // 샘플 데이터 생성
     private List<Book> getSampleBooks() {
         List<Book> sampleBooks = new ArrayList<>();
@@ -224,4 +311,6 @@ public class DirectSearchActivity extends AppCompatActivity {
         
         return sampleBooks;
     }
+=======
+>>>>>>> 5e7144d9bf40bbc30208eed98208c31d0daffa14
 }

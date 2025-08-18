@@ -45,4 +45,8 @@
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="cornerRadius">12dp</item>
     </style>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5e7144d9bf40bbc30208eed98208c31d0daffa14
 </resources>

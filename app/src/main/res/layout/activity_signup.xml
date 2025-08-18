@@ -16,7 +16,7 @@
         android:fillViewport="true"
         android:scrollbars="none">
 
-<!--    전체화면    -->
+        <!--    전체화면    -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,20 +63,29 @@
                         android:hint="인증번호" />
                     <Button
                         android:layout_width="70dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="48dp"
+                        android:minHeight="48dp"
+                        android:maxHeight="48dp"
                         android:text="인증"
                         android:layout_gravity="center"
                         android:layout_marginLeft="10dp"
                         android:background="@drawable/input_button"
-                        android:id="@+id/emailverify_btn"/>
+                        android:id="@+id/emailverify_btn"
+                        android:includeFontPadding="false"
+                        android:paddingTop="0dp"
+                        android:paddingBottom="0dp"
+                        android:textSize="14sp"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:maxLines="1"/>
                 </LinearLayout>
                 <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="인증이 완료되었습니다."
-                        android:layout_marginBottom="20dp"
-                        android:id="@+id/emailverify_str"
-                        android:visibility="gone"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="인증이 완료되었습니다."
+                    android:layout_marginBottom="20dp"
+                    android:id="@+id/emailverify_str"
+                    android:visibility="gone"/>
             </LinearLayout>
 
             <!--  비밀번호  -->
@@ -93,7 +102,8 @@
                     android:hint="비밀번호"
                     android:layout_marginBottom="10dp"
                     android:textSize="17sp"
-                    android:paddingHorizontal="24dp"/>
+                    android:paddingHorizontal="24dp"
+                    android:inputType="textPassword"/>
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -102,7 +112,8 @@
                     android:hint="비밀번호 확인"
                     android:layout_marginBottom="5dp"
                     android:textSize="17sp"
-                    android:paddingHorizontal="24dp"/>
+                    android:paddingHorizontal="24dp"
+                    android:inputType="textPassword"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -236,7 +247,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
-
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:text="회원가입"
