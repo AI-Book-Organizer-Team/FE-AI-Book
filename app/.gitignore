@@ -1,1 +1,35 @@
-/build
+# Gradle
+.gradle/
+build/
+**/build/
+
+# Local configuration
+local.properties
+/.idea
+.DS_Store
+
+# Log / dump files
+*.log
+*.hprof
+
+# Android Studio
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Keystore files
+*.jks
+*.keystore
+
+# Google Services
+google-services.json
+
+# Kotlin/Java class files
+*.class
+
+# Generated files
+bin/
+gen/
+
+# Misc
+out/
