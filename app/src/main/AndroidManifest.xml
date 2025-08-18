@@ -5,8 +5,8 @@
     <!-- 카메라 및 미디어 권한 -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    
-    <!-- 네트워크 권한 (Firebase 용) -->
+
+    <!-- 네트워크 권한 (Firebase / Retrofit 용) -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -28,66 +28,31 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".LoginActivity"
-            android:exported="true" />
+        <activity android:name=".LoginActivity" android:exported="true" />
+        <activity android:name=".MemberSignUpActivity" android:exported="true" android:label="@string/signup" />
+        <activity android:name=".UserInfoActivity" android:exported="true" />
+        <activity android:name=".MyBookRecentActivity" android:exported="true" android:label="책장 페이지" />
+        <activity android:name=".SearchActivity" android:exported="true" android:label="도서 검색" />
+        <activity android:name=".DirectSearchActivity" android:exported="true" android:label="직접 입력하여 찾기" />
+        <activity android:name=".AiActivity" android:exported="true" android:label="AI 추천" />
+        <activity android:name=".MyBookCategoryActivity" android:exported="false" android:label="카테고리별 보기" />
+        <activity android:name=".BookDetailActivity" android:exported="false" android:label="도서 상세정보" />
 
-        <activity
-            android:name=".MemberSignUpActivity"
-            android:exported="true"
-            android:label="@string/signup" />
+        <activity android:name=".BookShelfActivity" android:exported="false" android:label="책장" />
+        <activity android:name=".BarcodeScanActivity" android:exported="true" />
+        <activity android:name=".HomeActivity" android:exported="true" android:label="MAIN" />
 
-        <activity
-            android:name=".UserInfoActivity"
-            android:exported="true" />
-
-        <activity
-            android:name=".MyBookRecentActivity"
-            android:exported="true"
-            android:label="책장 페이지" />
-
-        <activity
-            android:name=".SearchActivity"
-            android:exported="true"
-            android:label="도서 검색" />
-
-        <activity
-            android:name=".DirectSearchActivity"
-            android:exported="true"
-            android:label="직접 입력하여 찾기" />
-
-        <activity
-            android:name=".AiActivity"
-            android:exported="true"
-            android:label="AI 추천" />
-
-        <activity
-            android:name=".MyBookCategoryActivity"
-            android:exported="false"
-            android:label="카테고리별 보기" />
-
-        <activity
-            android:name=".BookDetailActivity"
-            android:exported="false"
-            android:label="도서 상세정보" />
-
-        <activity
-            android:name=".BookShelfActivity"
-            android:exported="false"
-            android:label="책장" />
-
-        <activity
-            android:name=".BarcodeScanActivity"
-            android:exported="true" />
-
-        <activity
-            android:name=".HomeActivity"
-            android:exported="true"
-            android:label="MAIN"/>
-
-<!--        !!!!!!!!!! 임시-->
+        <!-- !!!!!!!!!! 임시 -->
         <activity android:name=".BarcodeImageTestActivity" />
+        
+        <!-- 도서 저장 테스트 액티비티 -->
+        <activity 
+            android:name=".BookSaveTestActivity"
+            android:exported="true"
+            android:label="도서 저장 테스트" />
+
+        <!-- 내 서재 화면 Activity 등록 -->
+        <activity android:name=".MyBookActivity" />
 
     </application>
-
 </manifest>

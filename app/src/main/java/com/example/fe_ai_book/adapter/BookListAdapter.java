@@ -8,8 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
-import com.example.fe_ai_book.Book;
 import com.example.fe_ai_book.R;
+import com.example.fe_ai_book.model.Book;
 
 import java.util.List;
 
@@ -36,8 +36,8 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
         holder.textViewPublisher.setText(book.getPublisher());
 
         Glide.with(holder.itemView.getContext())
-             .load(book.getCoverImageUrl())
-             .placeholder(R.drawable.ic_launcher_background)
+                .load(book.getImageUrl())
+                .placeholder(R.drawable.ic_launcher_background)
              .error(R.drawable.ic_launcher_foreground)
              .into(holder.imageViewCover);
     }

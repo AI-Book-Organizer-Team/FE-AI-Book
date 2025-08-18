@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         Button categoryViewBtn = findViewById(R.id.btn_category_view);
         Button btnBookDetail = findViewById(R.id.btn_book_detail);
         btnShowBottomSheet = findViewById(R.id.btnShowBottomSheet);
+        Button btnMyBook = findViewById(R.id.btn_mybook);
 
         // ====================== 📌 테스트 모드 버튼 (Drawable 이미지로 바코드 인식) ======================
         // 나중에 실제 배포 시 이 버튼과 관련 코드는 삭제하면 됨
@@ -41,6 +42,13 @@ public class MainActivity extends AppCompatActivity {
         btnImageTest.setOnClickListener(v -> {
             Intent intent = new Intent(this, BarcodeImageTestActivity.class);
             startActivityForResult(intent, BARCODE_IMAGE_TEST_REQUEST_CODE);
+        });
+        
+        // 도서 저장 테스트 버튼
+        Button btnBookSaveTest = findViewById(R.id.btn_book_save_test);
+        btnBookSaveTest.setOnClickListener(v -> {
+            Intent intent = new Intent(this, BookSaveTestActivity.class);
+            startActivity(intent);
         });
         // ============================================================================================
 
@@ -53,6 +61,12 @@ public class MainActivity extends AppCompatActivity {
         btnDirectSearch.setOnClickListener(v -> startActivity(new Intent(this, DirectSearchActivity.class)));
         btn_ai.setOnClickListener(v -> startActivity(new Intent(this, AiActivity.class)));
         categoryViewBtn.setOnClickListener(v -> startActivity(new Intent(this, MyBookCategoryActivity.class)));
+
+        // 내 서재 (Fragment 3개 탭 포함된 Activity)
+        btnMyBook.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, MyBookActivity.class);
+            startActivity(intent);
+        });
 
         btnBookDetail.setOnClickListener(v -> {
             Intent intent = new Intent(this, BookDetailActivity.class);
@@ -70,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         });
         // ================================================================
     }
+
 
     // 카메라/이미지 테스트 결과 받아서 바텀시트 표시
     @Override

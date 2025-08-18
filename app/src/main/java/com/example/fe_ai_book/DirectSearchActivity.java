@@ -1,6 +1,5 @@
 package com.example.fe_ai_book;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -28,6 +27,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import com.example.fe_ai_book.service.BookFirebaseService;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class DirectSearchActivity extends AppCompatActivity {
 
     private EditText editTextDirectSearch;
@@ -40,8 +42,8 @@ public class DirectSearchActivity extends AppCompatActivity {
     private List<Book> searchResults;
     private List<Book> selectedBooks;
     private Call<BookDetailEnvelope> inFlight;
-
-
+    private BookFirebaseService bookService;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +53,10 @@ public class DirectSearchActivity extends AppCompatActivity {
         initializeViews();
         setupRecyclerView();
         setupListeners();
-        
-        // 임시 테스트 데이터 추가
+        bookService = new BookFirebaseService();
+        auth = FirebaseAuth.getInstance();
+
+        // 초기 빈 리스트
         loadSampleData();
     }
 
@@ -84,50 +88,20 @@ public class DirectSearchActivity extends AppCompatActivity {
 
         recyclerViewDirectSearchResults.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewDirectSearchResults.setAdapter(adapter);
-
-        adapter.setOnItemClickListener(new DirectSearchBookAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Book book, int position, View imageView) {
-                Intent i = new Intent(DirectSearchActivity.this, BookDetailActivity.class);
-
-                // 책 데이터 전달
-                i.putExtra("isbn13", book.getIsbn());
-//                i.putExtra("book_title",  book.getTitle());
-//                i.putExtra("book_author", book.getAuthor());
-
-                startActivity(i);
-            }
-        });
     }
-
 
     private void setupListeners() {
         // 뒤로가기 버튼
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        btnBack.setOnClickListener(v -> finish());
 
         // 검색 버튼
-        buttonDirectSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                performSearch();
-            }
-        });
+        buttonDirectSearch.setOnClickListener(v -> performSearch());
 
         // 검색창 텍스트 변경 리스너
         editTextDirectSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
-            @Override
-            public void afterTextChanged(Editable s) {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override public void afterTextChanged(Editable s) {
                 if (s.toString().trim().isEmpty()) {
                     clearSearchResults();
                 }
@@ -135,15 +109,8 @@ public class DirectSearchActivity extends AppCompatActivity {
         });
 
         // 추가하기 버튼
-        btnAddBook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addSelectedBooks();
-            }
-        });
+        btnAddBook.setOnClickListener(v -> addSelectedBooks());
     }
-
-
 
     private void performSearch() {
         String query = editTextDirectSearch.getText().toString().trim();
@@ -170,7 +137,7 @@ public class DirectSearchActivity extends AppCompatActivity {
                 }
                 BookDetailEnvelope.Inner r = res.body().response;
 
-                // 서버가 보낸 에러 문자열 우선 처리
+                // 서버 에러 문자열 처리
                 if (r.error != null && !r.error.isEmpty()) {
                     Toast.makeText(DirectSearchActivity.this, r.error, Toast.LENGTH_SHORT).show();
                     return;
@@ -182,10 +149,7 @@ public class DirectSearchActivity extends AppCompatActivity {
                     return;
                 }
 
-                // API → 기존 Book으로 변환 후 목록에 반영
-                BookDetailEnvelope.Book apiBook = r.detail.get(0).book;
-                Book uiBook = com.example.fe_ai_book.mapper.BookApiMapper.toUi(apiBook);
-
+                // API → UI용 Book 변환
                 searchResults.clear();
                 for (BookDetailEnvelope.Detail d : r.detail) {
                     if (d.book != null) {
@@ -208,7 +172,7 @@ public class DirectSearchActivity extends AppCompatActivity {
     }
 
     @Override protected void onDestroy() {
-        if (inFlight != null) inFlight.cancel(); // 생명주기에서 취소(메모리 누수/콜백 크래시 방지)
+        if (inFlight != null) inFlight.cancel(); // 생명주기에서 취소
         super.onDestroy();
     }
 
@@ -225,10 +189,13 @@ public class DirectSearchActivity extends AppCompatActivity {
             return;
         }
 
-        // TODO: 실제 책 추가 로직 구현
-        Toast.makeText(this, selectedBooks.size() + "권의 책이 추가되었습니다.", Toast.LENGTH_SHORT).show();
-        
-        // 선택된 책들을 결과로 반환하고 액티비티 종료
+        String userId = auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : "guest";
+
+        for (Book book : selectedBooks) {
+            bookService.saveOrUpdateBook(book, userId);
+        }
+
+        Toast.makeText(this, selectedBooks.size() + "권이 내 서재에 추가되었습니다.", Toast.LENGTH_SHORT).show();
         finish();
     }
 
@@ -237,14 +204,10 @@ public class DirectSearchActivity extends AppCompatActivity {
         btnAddBook.setText("추가하기 (" + selectedBooks.size() + ")");
     }
 
-    // 임시 샘플 데이터 로드
+    // 초기 샘플 데이터 (현재는 빈 리스트로 시작)
     private void loadSampleData() {
-        // 초기에는 빈 리스트로 시작
         searchResults.clear();
         adapter.notifyDataSetChanged();
         updateAddButtonState();
     }
-
-
-
 }

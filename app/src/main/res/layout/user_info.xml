@@ -65,6 +65,20 @@
             android:gravity="center" />
     </LinearLayout>
 
+    <!-- 버튼: 내 정보 편집 -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_edit_info"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginHorizontal="24dp"
+        android:text="내 정보 편집"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:background="@drawable/bg_btn_outline_to_blue"
+        android:textColor="#000000"
+        android:stateListAnimator="@null"/>
+
     <!-- 버튼: 내 서재 -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_my_library"
@@ -92,7 +106,8 @@
         android:background="@drawable/bg_btn_outline_to_blue"
         android:textColor="#000000"
         android:stateListAnimator="@null"/>
-    <!-- 버튼: 로그아웃 (파란 필) -->
+
+    <!-- 버튼: 로그아웃 -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_logout"
         android:layout_width="match_parent"
@@ -105,5 +120,4 @@
         android:background="@drawable/bg_btn_outline_to_blue"
         android:textColor="#000000"
         android:stateListAnimator="@null"/>
-
 </LinearLayout>
