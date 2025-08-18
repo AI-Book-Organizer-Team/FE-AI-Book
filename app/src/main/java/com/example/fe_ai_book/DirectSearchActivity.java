@@ -1,5 +1,6 @@
 package com.example.fe_ai_book;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -39,6 +40,8 @@ public class DirectSearchActivity extends AppCompatActivity {
     private List<Book> searchResults;
     private List<Book> selectedBooks;
     private Call<BookDetailEnvelope> inFlight;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +84,22 @@ public class DirectSearchActivity extends AppCompatActivity {
 
         recyclerViewDirectSearchResults.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewDirectSearchResults.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new DirectSearchBookAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Book book, int position, View imageView) {
+                Intent i = new Intent(DirectSearchActivity.this, BookDetailActivity.class);
+
+                // 책 데이터 전달
+                i.putExtra("isbn13", book.getIsbn());
+//                i.putExtra("book_title",  book.getTitle());
+//                i.putExtra("book_author", book.getAuthor());
+
+                startActivity(i);
+            }
+        });
     }
+
 
     private void setupListeners() {
         // 뒤로가기 버튼
@@ -124,6 +142,8 @@ public class DirectSearchActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     private void performSearch() {
         String query = editTextDirectSearch.getText().toString().trim();
@@ -224,5 +244,7 @@ public class DirectSearchActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
         updateAddButtonState();
     }
+
+
 
 }
