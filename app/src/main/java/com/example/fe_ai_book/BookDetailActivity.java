@@ -1,6 +1,7 @@
 package com.example.fe_ai_book;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -162,8 +163,13 @@ public class BookDetailActivity extends AppCompatActivity {
                 bookPagesTextView.setText("-");
 
                 // 설명
-                String desc = apiBook.description;
-                bookDescriptionTextView.setText(emptyToDash(desc));
+                String rawDescription = apiBook.description;
+                if (rawDescription != null && !rawDescription.isEmpty()) {
+                    // HTML 엔티티(&lt; &gt;) 문자로 변환
+                    bookDescriptionTextView.setText(Html.fromHtml(rawDescription, Html.FROM_HTML_MODE_LEGACY));
+                } else {
+                    bookDescriptionTextView.setText("책 소개가 없습니다.");
+                }
 
                 // ISBN
                 isbnTextView.setText(emptyToDash(ui.getIsbn()));
@@ -180,6 +186,8 @@ public class BookDetailActivity extends AppCompatActivity {
                     // 이미지 URL 없으면 기본 리소스
                     bookCoverImageView.setImageResource(R.drawable.ic_launcher_background);
                 }
+
+
             } // onResponse
 
             @Override
