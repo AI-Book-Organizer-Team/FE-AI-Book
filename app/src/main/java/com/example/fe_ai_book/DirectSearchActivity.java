@@ -1,5 +1,6 @@
 package com.example.fe_ai_book;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -88,6 +89,18 @@ public class DirectSearchActivity extends AppCompatActivity {
 
         recyclerViewDirectSearchResults.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewDirectSearchResults.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new DirectSearchBookAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Book book, int position, View imageView) {
+                Intent i = new Intent(DirectSearchActivity.this, BookDetailActivity.class);
+
+                // 책 데이터 전달
+                i.putExtra("isbn13", book.getIsbn());
+
+                startActivity(i);
+            }
+        });
     }
 
     private void setupListeners() {
