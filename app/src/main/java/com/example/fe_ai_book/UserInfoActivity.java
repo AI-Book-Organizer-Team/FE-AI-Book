@@ -79,9 +79,9 @@ public class UserInfoActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // 설정 버튼 클릭
+        // 설정 버튼 클릭 (추후 구현)
         btnSettings.setOnClickListener(v -> {
-            // 설정 화면으로 이동하는 코드 넣으면 됨
+            // TODO: 설정 화면 이동 로직
         });
 
         // 뒤로가기 버튼 클릭

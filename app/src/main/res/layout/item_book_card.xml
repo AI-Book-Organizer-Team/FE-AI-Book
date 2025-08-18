@@ -8,16 +8,17 @@
 
     <ImageView
         android:id="@+id/imageBookCover"
-        android:layout_width="100dp"
-        android:layout_height="140dp"
+        android:layout_width="120dp"
+        android:layout_height="160dp"
         android:scaleType="centerCrop"
-        android:background="#E0E0E0" />
+        android:background="#E0E0E0"
+        android:contentDescription="책 표지" />
 
     <TextView
         android:id="@+id/textBookTitle"
-        android:layout_width="100dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="6dp"
         android:text="책 제목"
         android:textSize="14sp"
         android:textStyle="bold"
@@ -27,7 +28,7 @@
 
     <TextView
         android:id="@+id/textBookAuthor"
-        android:layout_width="100dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:text="작가명"
         android:textSize="12sp"

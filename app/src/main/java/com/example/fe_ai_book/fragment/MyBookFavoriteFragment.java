@@ -1,62 +1,58 @@
-package com.example.fe_ai_book;
+package com.example.fe_ai_book.fragment;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ImageView;
-import android.widget.Toast;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fe_ai_book.R;
 import com.example.fe_ai_book.adapter.MyBookAdapter;
 import com.example.fe_ai_book.model.Book;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyBookRecentActivity extends AppCompatActivity {
-
+public class MyBookFavoriteFragment extends Fragment {
     private RecyclerView recyclerView;
     private MyBookAdapter adapter;
-    private List<Book> bookList;
+    private List<Book> bookList = new ArrayList<>();
     private FirebaseFirestore db;
     private String userId;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.mybook_recent);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_mybook_favorite, container, false);
 
-        // 뒤로가기 버튼
-        ImageView btnBack = findViewById(R.id.btn_back);
-        btnBack.setOnClickListener(v -> finish());
-
-        // RecyclerView 초기화
-        recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        bookList = new ArrayList<>();
-        adapter = new MyBookAdapter(this, bookList);
+        recyclerView = view.findViewById(R.id.recycler_view_favorite);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new MyBookAdapter(getContext(), bookList);
         recyclerView.setAdapter(adapter);
 
-        // Firebase 초기화
         db = FirebaseFirestore.getInstance();
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        // 책 불러오기
-        loadRecentBooks();
+        loadFavoriteBooks();
+
+        return view;
     }
 
-    private void loadRecentBooks() {
+    private void loadFavoriteBooks() {
         db.collection("users")
                 .document(userId)
                 .collection("books")
-                .orderBy("createdAt", Query.Direction.DESCENDING) // 최신순 정렬
+                .whereEqualTo("favorite", true)  // Firestore 필드 조건
                 .get()
                 .addOnSuccessListener(querySnapshot -> {
                     bookList.clear();
@@ -66,9 +62,6 @@ public class MyBookRecentActivity extends AppCompatActivity {
                     }
                     adapter.notifyDataSetChanged();
                 })
-                .addOnFailureListener(e -> {
-                    Log.w("Firestore", "Error getting books", e);
-                    Toast.makeText(this, "책 불러오기 실패", Toast.LENGTH_SHORT).show();
-                });
+                .addOnFailureListener(e -> Log.w("Firestore", "Error getting books", e));
     }
 }

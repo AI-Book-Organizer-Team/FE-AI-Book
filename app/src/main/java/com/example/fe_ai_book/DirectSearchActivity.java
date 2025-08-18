@@ -1,5 +1,6 @@
 package com.example.fe_ai_book;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,11 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fe_ai_book.adapter.DirectSearchBookAdapter;
-import com.example.fe_ai_book.entity.BookEntity;
-import com.example.fe_ai_book.mapper.BookApiMapper;
 import com.example.fe_ai_book.model.Book;
 import com.example.fe_ai_book.model.BookDetailEnvelope;
-import com.example.fe_ai_book.repository.BookRepository;
 import com.example.fe_ai_book.service.ApiClient;
 import com.example.fe_ai_book.service.DataLibraryApi;
 
@@ -29,6 +27,9 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import com.example.fe_ai_book.service.BookFirebaseService;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class DirectSearchActivity extends AppCompatActivity {
 
@@ -42,6 +43,8 @@ public class DirectSearchActivity extends AppCompatActivity {
     private List<Book> searchResults;
     private List<Book> selectedBooks;
     private Call<BookDetailEnvelope> inFlight;
+    private BookFirebaseService bookService;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +54,10 @@ public class DirectSearchActivity extends AppCompatActivity {
         initializeViews();
         setupRecyclerView();
         setupListeners();
-        
-        // 임시 테스트 데이터 추가
+        bookService = new BookFirebaseService();
+        auth = FirebaseAuth.getInstance();
+
+        // 초기 빈 리스트
         loadSampleData();
     }
 
@@ -84,35 +89,32 @@ public class DirectSearchActivity extends AppCompatActivity {
 
         recyclerViewDirectSearchResults.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewDirectSearchResults.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new DirectSearchBookAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Book book, int position, View imageView) {
+                Intent i = new Intent(DirectSearchActivity.this, BookDetailActivity.class);
+
+                // 책 데이터 전달
+                i.putExtra("isbn13", book.getIsbn());
+
+                startActivity(i);
+            }
+        });
     }
 
     private void setupListeners() {
         // 뒤로가기 버튼
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        btnBack.setOnClickListener(v -> finish());
 
         // 검색 버튼
-        buttonDirectSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                performSearch();
-            }
-        });
+        buttonDirectSearch.setOnClickListener(v -> performSearch());
 
         // 검색창 텍스트 변경 리스너
         editTextDirectSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
-            @Override
-            public void afterTextChanged(Editable s) {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override public void afterTextChanged(Editable s) {
                 if (s.toString().trim().isEmpty()) {
                     clearSearchResults();
                 }
@@ -120,12 +122,7 @@ public class DirectSearchActivity extends AppCompatActivity {
         });
 
         // 추가하기 버튼
-        btnAddBook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addSelectedBooks();
-            }
-        });
+        btnAddBook.setOnClickListener(v -> addSelectedBooks());
     }
 
     private void performSearch() {
@@ -153,7 +150,7 @@ public class DirectSearchActivity extends AppCompatActivity {
                 }
                 BookDetailEnvelope.Inner r = res.body().response;
 
-                // 서버가 보낸 에러 문자열 우선 처리
+                // 서버 에러 문자열 처리
                 if (r.error != null && !r.error.isEmpty()) {
                     Toast.makeText(DirectSearchActivity.this, r.error, Toast.LENGTH_SHORT).show();
                     return;
@@ -165,10 +162,7 @@ public class DirectSearchActivity extends AppCompatActivity {
                     return;
                 }
 
-                // API → 기존 Book으로 변환 후 목록에 반영
-                BookDetailEnvelope.Book apiBook = r.detail.get(0).book;
-                Book uiBook = com.example.fe_ai_book.mapper.BookApiMapper.toUi(apiBook);
-
+                // API → UI용 Book 변환
                 searchResults.clear();
                 for (BookDetailEnvelope.Detail d : r.detail) {
                     if (d.book != null) {
@@ -191,7 +185,7 @@ public class DirectSearchActivity extends AppCompatActivity {
     }
 
     @Override protected void onDestroy() {
-        if (inFlight != null) inFlight.cancel(); // 생명주기에서 취소(메모리 누수/콜백 크래시 방지)
+        if (inFlight != null) inFlight.cancel(); // 생명주기에서 취소
         super.onDestroy();
     }
 
@@ -208,67 +202,14 @@ public class DirectSearchActivity extends AppCompatActivity {
             return;
         }
 
-        // 실제 책 저장 로직 구현
-        saveSelectedBooksToDatabase();
-    }
-    
-    private void saveSelectedBooksToDatabase() {
-        BookRepository bookRepository = new BookRepository(this);
-        int totalBooks = selectedBooks.size();
-        final int[] savedCount = {0};
-        final int[] errorCount = {0};
-        
-        // Show progress message
-        Toast.makeText(this, "책 저장 중... (" + totalBooks + "권)", Toast.LENGTH_SHORT).show();
-        
-        // Save each selected book
+        String userId = auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : "guest";
+
         for (Book book : selectedBooks) {
-            try {
-                // Convert Book to BookEntity
-                BookEntity bookEntity = BookApiMapper.toEntity(book);
-                
-                // Save using BookRepository (saves to both local and cloud)
-                bookRepository.saveBook(bookEntity, new BookRepository.OperationCallback() {
-                    @Override
-                    public void onSuccess() {
-                        savedCount[0]++;
-                        checkSaveCompletion(savedCount[0], errorCount[0], totalBooks);
-                    }
-                    
-                    @Override
-                    public void onFailure(String error) {
-                        errorCount[0]++;
-                        android.util.Log.e("DirectSearchActivity", "Book save error: " + error);
-                        checkSaveCompletion(savedCount[0], errorCount[0], totalBooks);
-                    }
-                });
-                
-            } catch (Exception e) {
-                errorCount[0]++;
-                android.util.Log.e("DirectSearchActivity", "Book conversion error: " + e.getMessage());
-                checkSaveCompletion(savedCount[0], errorCount[0], totalBooks);
-            }
+            bookService.saveOrUpdateBook(book, userId);
         }
-    }
-    
-    private void checkSaveCompletion(int savedCount, int errorCount, int totalBooks) {
-        if (savedCount + errorCount >= totalBooks) {
-            // All books processed
-            runOnUiThread(() -> {
-                if (errorCount == 0) {
-                    Toast.makeText(this, savedCount + "권의 책이 성공적으로 저장되었습니다!", Toast.LENGTH_LONG).show();
-                } else if (savedCount == 0) {
-                    Toast.makeText(this, "책 저장에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(this, savedCount + "권 저장 완료, " + errorCount + "권 실패", Toast.LENGTH_LONG).show();
-                }
-                
-                // Clear selection and finish activity
-                selectedBooks.clear();
-                updateAddButtonState();
-                finish();
-            });
-        }
+
+        Toast.makeText(this, selectedBooks.size() + "권이 내 서재에 추가되었습니다.", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     private void updateAddButtonState() {
@@ -276,12 +217,10 @@ public class DirectSearchActivity extends AppCompatActivity {
         btnAddBook.setText("추가하기 (" + selectedBooks.size() + ")");
     }
 
-    // 임시 샘플 데이터 로드
+    // 초기 샘플 데이터 (현재는 빈 리스트로 시작)
     private void loadSampleData() {
-        // 초기에는 빈 리스트로 시작
         searchResults.clear();
         adapter.notifyDataSetChanged();
         updateAddButtonState();
     }
-
 }
