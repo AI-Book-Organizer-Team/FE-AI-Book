@@ -50,7 +50,7 @@ public class BookCloudDao {
     // Convert BookEntity to Firestore Map
     private Map<String, Object> bookEntityToMap(BookEntity book) {
         Map<String, Object> bookMap = new HashMap<>();
-        bookMap.put("id", book.getId());
+//        bookMap.put("id", book.getId());
         bookMap.put("title", book.getTitle());
         bookMap.put("author", book.getAuthor());
         bookMap.put("publisher", book.getPublisher());
@@ -71,7 +71,7 @@ public class BookCloudDao {
     // Convert Firestore DocumentSnapshot to BookEntity
     private BookEntity documentToBookEntity(DocumentSnapshot document) {
         BookEntity book = new BookEntity();
-        book.setId(document.getString("id"));
+//        book.setId(document.getString("id"));
         book.setTitle(document.getString("title"));
         book.setAuthor(document.getString("author"));
         book.setPublisher(document.getString("publisher"));
@@ -97,7 +97,7 @@ public class BookCloudDao {
     // Save book to Firebase Firestore
     public void saveBook(BookEntity book, OperationCallback callback) {
         String userId = getCurrentUserId();
-        String documentId = userId + "_" + book.getId(); // User-specific document ID
+        String documentId = userId + "_" + book.getIsbn(); // User-specific document ID
         
         Map<String, Object> bookMap = bookEntityToMap(book);
         
@@ -171,7 +171,7 @@ public class BookCloudDao {
     // Update book in Firestore
     public void updateBook(BookEntity book, OperationCallback callback) {
         String userId = getCurrentUserId();
-        String documentId = userId + "_" + book.getId();
+        String documentId = userId + "_" + book.getIsbn();
         
         Map<String, Object> bookMap = bookEntityToMap(book);
         

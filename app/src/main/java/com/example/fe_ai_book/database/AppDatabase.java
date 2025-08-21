@@ -17,7 +17,7 @@ import com.example.fe_ai_book.entity.UserActivity;
 
 @Database(
     entities = {BookEntity.class, UserSettings.class, UserActivity.class},
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 public abstract class AppDatabase extends RoomDatabase {
@@ -40,6 +40,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             AppDatabase.class,
                             DATABASE_NAME
                     )
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                     .fallbackToDestructiveMigration() // 마이그레이션 실패시 데이터베이스 재생성
                     .build();
                 }
@@ -77,6 +78,44 @@ public abstract class AppDatabase extends RoomDatabase {
         public void migrate(SupportSQLiteDatabase database) {
             // 예: 새로운 컬럼 추가
             // database.execSQL("ALTER TABLE books ADD COLUMN new_column TEXT");
+        }
+    };static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            // 1. 새 테이블 생성 (isbn PK + isSyncedToCloud 추가)
+            database.execSQL(
+                    "CREATE TABLE books_new (" +
+                            "isbn TEXT NOT NULL PRIMARY KEY, " +
+                            "title TEXT, " +
+                            "author TEXT, " +
+                            "publisher TEXT, " +
+                            "publishDate TEXT, " +
+                            "description TEXT, " +
+                            "imageUrl TEXT, " +
+                            "category TEXT, " +
+                            "pageCount INTEGER, " +
+                            "rating REAL, " +
+                            "notes TEXT, " +
+                            "createdAt INTEGER, " +
+                            "updatedAt INTEGER, " +
+                            "isSyncedToCloud INTEGER NOT NULL DEFAULT 0" + // ✅ 추가
+                            ")"
+            );
+
+            // 2. 기존 데이터 옮기기 (uuid → isbn 자리)
+            database.execSQL(
+                    "INSERT INTO books_new (isbn, title, author, publisher, publishDate, description, category, " +
+                            "pageCount, rating, notes, createdAt, updatedAt, isSyncedToCloud) " +
+                            "SELECT id, title, author, publisher, publishDate, description, category, " +
+                            "pageCount, rating, notes, createdAt, updatedAt, 0 " + // ✅ 기본값 0으로 채움
+                            "FROM books"
+            );
+
+            // 3. 기존 테이블 삭제
+            database.execSQL("DROP TABLE books");
+
+            // 4. 새 테이블 이름 변경
+            database.execSQL("ALTER TABLE books_new RENAME TO books");
         }
     };
 }

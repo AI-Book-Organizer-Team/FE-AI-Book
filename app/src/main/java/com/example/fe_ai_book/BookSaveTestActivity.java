@@ -15,7 +15,7 @@ import com.example.fe_ai_book.repository.BookRepository;
 public class BookSaveTestActivity extends AppCompatActivity {
     private static final String TAG = "BookSaveTestActivity";
     
-    private EditText etTitle, etAuthor, etPublisher;
+    private EditText etTitle, etAuthor, etPublisher, etIsbn;
     private Button btnSave, btnLoad;
     private BookRepository bookRepository;
     
@@ -71,6 +71,16 @@ public class BookSaveTestActivity extends AppCompatActivity {
         etPublisher = new EditText(this);
         etPublisher.setHint("Enter publisher");
         layout.addView(etPublisher);
+
+        // ISBN input
+        android.widget.TextView lbIsbn = new android.widget.TextView(this);
+        lbIsbn.setText("ISBN:");
+        lbIsbn.setPadding(0, 20, 0, 0);
+        layout.addView(lbIsbn);
+
+        etIsbn = new EditText(this);
+        etIsbn.setHint("Enter ISBN");
+        layout.addView(etIsbn);
         
         // Buttons
         android.widget.LinearLayout buttonLayout = new android.widget.LinearLayout(this);
@@ -110,57 +120,92 @@ public class BookSaveTestActivity extends AppCompatActivity {
         String title = etTitle.getText().toString().trim();
         String author = etAuthor.getText().toString().trim();
         String publisher = etPublisher.getText().toString().trim();
-        
-        if (title.isEmpty()) {
-            Toast.makeText(this, "Please enter a title", Toast.LENGTH_SHORT).show();
+        String isbn = etIsbn.getText().toString().trim();
+
+//        if (title.isEmpty()) {
+//            Toast.makeText(this, "Please enter a title", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+
+        if(isbn == null || isbn.isEmpty()) {
+            Toast.makeText(BookSaveTestActivity.this, "도서를 찾을 수 없어요.", Toast.LENGTH_SHORT).show();
             return;
         }
-        
-        // Create BookEntity
-        BookEntity book = new BookEntity();
-        book.setId(java.util.UUID.randomUUID().toString());
-        book.setTitle(title);
-        book.setAuthor(author.isEmpty() ? "Unknown Author" : author);
-        book.setPublisher(publisher.isEmpty() ? "Unknown Publisher" : publisher);
-        book.setCategory("Test");
-        book.setDescription("Test book created manually");
-        book.setIsbn("TEST-" + System.currentTimeMillis());
-        book.setPublishDate("2024");
-        
-        // Save book
-        btnSave.setEnabled(false);
-        btnSave.setText("Saving...");
-        
-        bookRepository.saveBook(book, new BookRepository.OperationCallback() {
+
+        // 중복 확인
+        bookRepository.findBookIsbn(isbn, new BookRepository.BookCallback() {
             @Override
-            public void onSuccess() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(BookSaveTestActivity.this, 
-                            "Book saved successfully!", Toast.LENGTH_LONG).show();
-                        clearInputs();
-                        btnSave.setEnabled(true);
-                        btnSave.setText("Save Book");
-                        Log.d(TAG, "Book saved: " + title);
-                    }
-                });
+            public void onSuccess(BookEntity existingbook) {
+                if (existingbook != null) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(BookSaveTestActivity.this, "이미 저장된 도서예요.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    // 저장
+                    // Create BookEntity
+                    BookEntity book = new BookEntity();
+//                    book.setId(java.util.UUID.randomUUID().toString());
+                    book.setTitle(title);
+                    book.setAuthor(author.isEmpty() ? "Unknown Author" : author);
+                    book.setPublisher(publisher.isEmpty() ? "Unknown Publisher" : publisher);
+                    book.setCategory("Test");
+                    book.setDescription("Test book created manually");
+                    book.setIsbn(isbn);
+                    book.setPublishDate("2024");
+
+                    // Save book
+                    btnSave.setEnabled(false);
+                    btnSave.setText("Saving...");
+
+                    bookRepository.saveBook(book, new BookRepository.OperationCallback() {
+                        @Override
+                        public void onSuccess() {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(BookSaveTestActivity.this,
+                                            "Book saved successfully!", Toast.LENGTH_LONG).show();
+                                    clearInputs();
+                                    btnSave.setEnabled(true);
+                                    btnSave.setText("Save Book");
+                                    Log.d(TAG, "Book saved: " + title);
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onFailure(String error) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(BookSaveTestActivity.this,
+                                            "Save failed: " + error, Toast.LENGTH_LONG).show();
+                                    btnSave.setEnabled(true);
+                                    btnSave.setText("Save Book");
+                                    Log.e(TAG, "Save failed: " + error);
+                                }
+                            });
+                        }
+                    });
+                }
             }
-            
+
             @Override
             public void onFailure(String error) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(BookSaveTestActivity.this, 
-                            "Save failed: " + error, Toast.LENGTH_LONG).show();
-                        btnSave.setEnabled(true);
-                        btnSave.setText("Save Book");
-                        Log.e(TAG, "Save failed: " + error);
+                        Toast.makeText(BookSaveTestActivity.this, "error: " + error, Toast.LENGTH_SHORT).show();
                     }
                 });
+
             }
         });
+        
+
     }
     
     private void loadAllBooks() {

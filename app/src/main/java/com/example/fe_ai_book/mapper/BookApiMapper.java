@@ -54,7 +54,7 @@ public final class BookApiMapper {
             id = (title + "_" + author).replaceAll("[^a-zA-Z0-9_]", "_");
         }
         
-        entity.setId(id);
+//        entity.setId(id);
         entity.setTitle(nullToEmpty(book.getTitle()));
         entity.setAuthor(nullToEmpty(book.getAuthor()));
         entity.setPublisher(nullToEmpty(book.getPublisher()));

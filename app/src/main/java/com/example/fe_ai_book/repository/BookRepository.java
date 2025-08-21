@@ -39,13 +39,28 @@ public class BookRepository {
         bookDao = database.bookDao();
         cloudDao = new BookCloudDao();
     }
-    
+
+    // 중복 도서 감지
+    public void findBookIsbn(String isbn, BookCallback callback) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    BookEntity book = bookDao.getBookByIsbn(isbn);
+                    callback.onSuccess(book);
+                }catch (Exception e){
+                    callback.onFailure(e.getMessage());
+                }
+            }
+        }).start();
+    }
+
     // Save book (Local + Cloud)
     public void saveBook(BookEntity book, OperationCallback callback) {
         // Generate new UUID if ID is empty
-        if (book.getId() == null || book.getId().isEmpty()) {
-            book.setId(UUID.randomUUID().toString());
-        }
+//        if (book.getId() == null || book.getId().isEmpty()) {
+//            book.setId(UUID.randomUUID().toString());
+//        }
         
         // Step 1: Save to local DB first
         new AsyncTask<Void, Void, String>() {
