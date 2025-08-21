@@ -129,9 +129,16 @@ public class DirectSearchActivity extends AppCompatActivity {
         String query = editTextDirectSearch.getText().toString().trim();
 
         if (query.isEmpty()) {
-            Toast.makeText(this, "isbn13을 입력해주세요.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "ISBN13을 입력해주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
+        
+        // API 키 체크
+        if (BuildConfig.DATA4LIB_AUTH_KEY == null || BuildConfig.DATA4LIB_AUTH_KEY.isEmpty()) {
+            Toast.makeText(this, "API 키가 설정되지 않았습니다. gradle.properties에 DATA4LIB_AUTH_KEY를 설정해주세요.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        
         loadBook(BuildConfig.DATA4LIB_AUTH_KEY, query);
         Toast.makeText(this, "\"" + query + "\" 검색 중...", Toast.LENGTH_SHORT).show();
     }
@@ -152,7 +159,12 @@ public class DirectSearchActivity extends AppCompatActivity {
 
                 // 서버 에러 문자열 처리
                 if (r.error != null && !r.error.isEmpty()) {
-                    Toast.makeText(DirectSearchActivity.this, r.error, Toast.LENGTH_SHORT).show();
+                    String errorMsg = r.error;
+                    if (errorMsg.contains("인증정보가 일치하지 않습니다")) {
+                        errorMsg = "API 인증 오류: 유효한 API 키를 gradle.properties에 설정해주세요.\n" +
+                                  "발급방법: https://www.data4library.kr/api/libSrchApi";
+                    }
+                    Toast.makeText(DirectSearchActivity.this, errorMsg, Toast.LENGTH_LONG).show();
                     return;
                 }
 

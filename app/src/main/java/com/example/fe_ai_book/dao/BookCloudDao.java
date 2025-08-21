@@ -15,7 +15,8 @@ import java.util.Map;
 
 public class BookCloudDao {
     private static final String TAG = "BookCloudDao";
-    private static final String COLLECTION_BOOKS = "books";
+    private static final String COLLECTION_USERS = "users";
+    private static final String SUBCOLLECTION_BOOKS = "books";
     
     private FirebaseFirestore db;
     private FirebaseAuth auth;
@@ -64,7 +65,6 @@ public class BookCloudDao {
         bookMap.put("notes", book.getNotes());
         bookMap.put("createdAt", book.getCreatedAt());
         bookMap.put("updatedAt", book.getUpdatedAt());
-        bookMap.put("userId", getCurrentUserId()); // User isolation
         return bookMap;
     }
     
@@ -97,19 +97,21 @@ public class BookCloudDao {
     // Save book to Firebase Firestore
     public void saveBook(BookEntity book, OperationCallback callback) {
         String userId = getCurrentUserId();
-        String documentId = userId + "_" + book.getIsbn(); // User-specific document ID
+        String bookId = userId + "_" + book.getIsbn(); // User-specific document ID
         
         Map<String, Object> bookMap = bookEntityToMap(book);
         
-        db.collection(COLLECTION_BOOKS)
-            .document(documentId)
+        db.collection(COLLECTION_USERS)
+            .document(userId)
+            .collection(SUBCOLLECTION_BOOKS)
+            .document(bookId)
             .set(bookMap)
             .addOnSuccessListener(aVoid -> {
-                Log.d(TAG, "Book saved to Firestore: " + book.getTitle());
+                Log.d(TAG, "Book saved to Firestore subcollection: " + book.getTitle());
                 callback.onSuccess();
             })
             .addOnFailureListener(e -> {
-                Log.e(TAG, "Failed to save book to Firestore", e);
+                Log.e(TAG, "Failed to save book to Firestore subcollection", e);
                 callback.onFailure("Firestore save failed: " + e.getMessage());
             });
     }
@@ -118,8 +120,9 @@ public class BookCloudDao {
     public void getAllBooks(BooksCallback callback) {
         String userId = getCurrentUserId();
         
-        db.collection(COLLECTION_BOOKS)
-            .whereEqualTo("userId", userId)
+        db.collection(COLLECTION_USERS)
+            .document(userId)
+            .collection(SUBCOLLECTION_BOOKS)
             .get()
             .addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
@@ -133,10 +136,10 @@ public class BookCloudDao {
                         }
                     }
                     
-                    Log.d(TAG, "Loaded " + books.size() + " books from Firestore");
+                    Log.d(TAG, "Loaded " + books.size() + " books from Firestore subcollection");
                     callback.onSuccess(books);
                 } else {
-                    Log.e(TAG, "Failed to load books from Firestore", task.getException());
+                    Log.e(TAG, "Failed to load books from Firestore subcollection", task.getException());
                     callback.onFailure("Failed to load books: " + task.getException().getMessage());
                 }
             });
@@ -145,24 +148,25 @@ public class BookCloudDao {
     // Get specific book by ID
     public void getBook(String bookId, BookCallback callback) {
         String userId = getCurrentUserId();
-        String documentId = userId + "_" + bookId;
         
-        db.collection(COLLECTION_BOOKS)
-            .document(documentId)
+        db.collection(COLLECTION_USERS)
+            .document(userId)
+            .collection(SUBCOLLECTION_BOOKS)
+            .document(bookId)
             .get()
             .addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document != null && document.exists()) {
                         BookEntity book = documentToBookEntity(document);
-                        Log.d(TAG, "Book found in Firestore: " + book.getTitle());
+                        Log.d(TAG, "Book found in Firestore subcollection: " + book.getTitle());
                         callback.onSuccess(book);
                     } else {
-                        Log.d(TAG, "Book not found in Firestore: " + bookId);
+                        Log.d(TAG, "Book not found in Firestore subcollection: " + bookId);
                         callback.onFailure("Book not found");
                     }
                 } else {
-                    Log.e(TAG, "Failed to get book from Firestore", task.getException());
+                    Log.e(TAG, "Failed to get book from Firestore subcollection", task.getException());
                     callback.onFailure("Failed to get book: " + task.getException().getMessage());
                 }
             });
@@ -171,37 +175,40 @@ public class BookCloudDao {
     // Update book in Firestore
     public void updateBook(BookEntity book, OperationCallback callback) {
         String userId = getCurrentUserId();
-        String documentId = userId + "_" + book.getIsbn();
+        String bookId = userId + "_" + book.getIsbn();
         
         Map<String, Object> bookMap = bookEntityToMap(book);
         
-        db.collection(COLLECTION_BOOKS)
-            .document(documentId)
+        db.collection(COLLECTION_USERS)
+            .document(userId)
+            .collection(SUBCOLLECTION_BOOKS)
+            .document(bookId)
             .update(bookMap)
             .addOnSuccessListener(aVoid -> {
-                Log.d(TAG, "Book updated in Firestore: " + book.getTitle());
+                Log.d(TAG, "Book updated in Firestore subcollection: " + book.getTitle());
                 callback.onSuccess();
             })
             .addOnFailureListener(e -> {
-                Log.e(TAG, "Failed to update book in Firestore", e);
+                Log.e(TAG, "Failed to update book in Firestore subcollection", e);
                 callback.onFailure("Firestore update failed: " + e.getMessage());
             });
     }
     
-    // Delete book from Firestore
+    // Delete book from Firestore (subcollection 구조: users/{userId}/books/{bookId})
     public void deleteBook(String bookId, OperationCallback callback) {
         String userId = getCurrentUserId();
-        String documentId = userId + "_" + bookId;
         
-        db.collection(COLLECTION_BOOKS)
-            .document(documentId)
+        db.collection(COLLECTION_USERS)
+            .document(userId)
+            .collection(SUBCOLLECTION_BOOKS)
+            .document(bookId)
             .delete()
             .addOnSuccessListener(aVoid -> {
-                Log.d(TAG, "Book deleted from Firestore: " + bookId);
+                Log.d(TAG, "Book deleted from Firestore subcollection: " + bookId);
                 callback.onSuccess();
             })
             .addOnFailureListener(e -> {
-                Log.e(TAG, "Failed to delete book from Firestore", e);
+                Log.e(TAG, "Failed to delete book from Firestore subcollection", e);
                 callback.onFailure("Firestore delete failed: " + e.getMessage());
             });
     }
