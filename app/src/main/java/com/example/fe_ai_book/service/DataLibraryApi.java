@@ -16,6 +16,29 @@ public interface DataLibraryApi {
             @Query("displayInfo") String displayInfo,
             @Query("format") String format
     );
+    
+    // 도서 검색 (제목/저자/출판사 등으로 검색)
+    @GET("srchBooks?format=json")
+    Call<BookDetailEnvelope> searchBooks(
+            @Query("authKey") String authKey,
+            @Query("title") String title,
+            @Query("author") String author,
+            @Query("publisher") String publisher,
+            @Query("pageNo") int pageNo,
+            @Query("pageSize") int pageSize,
+            @Query("format") String format
+    );
+    
+    // 인기도서 조회
+    @GET("loanItemSrch?format=json")
+    Call<BookDetailEnvelope> getPopularBooks(
+            @Query("authKey") String authKey,
+            @Query("startDt") String startDate,
+            @Query("endDt") String endDate,
+            @Query("pageNo") int pageNo,
+            @Query("pageSize") int pageSize,
+            @Query("format") String format
+    );
 
     // 디버깅용
     @GET("srchDtlList?format=json")

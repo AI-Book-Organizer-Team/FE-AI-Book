@@ -9,7 +9,7 @@ test_isbn = "9788936433598"
 url = "http://data4library.kr/api/srchDtlList"
 
 params = {
-    'authKey': '',  # 빈 키로 테스트
+    'authKey': '85e945dc1a12920335459824e28e050cbda75fe87782b2ed4a6441c728913092',  # 실제 키로 테스트
     'isbn13': test_isbn,
     'loaninfoYN': 'Y',
     'displayInfo': 'age',
