@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import com.example.fe_ai_book.model.Book;
 import com.example.fe_ai_book.model.BookDetailEnvelope;
 import com.example.fe_ai_book.entity.BookEntity;
+import com.example.fe_ai_book.model.BookSearchEnvelope;
 
 public final class BookApiMapper {
     private BookApiMapper(){}
@@ -77,4 +78,18 @@ public final class BookApiMapper {
         for (String s: arr){ if (s != null && !s.isBlank()) return s; }
         return "";
     }
+
+    @NonNull
+    public static Book toUi(@NonNull BookSearchEnvelope.Book api) {
+        Book b = new Book();
+        b.setTitle(nullToEmpty(api.bookname));
+        b.setAuthor(nullToEmpty(api.authors));
+        b.setPublisher(nullToEmpty(api.publisher));
+        b.setPublishDate(nullToEmpty(api.publication_year));
+        b.setIsbn(nullToEmpty(api.isbn13));
+        b.setImageUrl(api.bookImageURL);
+        b.setCategory(api.class_nm != null ? api.class_nm : "기타");
+        return b;
+    }
+
 }

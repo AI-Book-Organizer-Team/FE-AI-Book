@@ -1,6 +1,7 @@
 package com.example.fe_ai_book.service;
 
 import com.example.fe_ai_book.model.BookDetailEnvelope;
+import com.example.fe_ai_book.model.BookSearchEnvelope;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -16,6 +17,17 @@ public interface DataLibraryApi {
             @Query("displayInfo") String displayInfo,
             @Query("format") String format
     );
+
+    // 도서 제목, 키워드, 페이지 수 등 상세정보
+    @GET("srchBooks?format=json")
+    Call<BookSearchEnvelope> searchBooks(
+            @Query("authKey") String authKey,
+            @Query("keyword") String keyword,
+            @Query("searchType") String searchType, // "title" / "author" / "all"
+            @Query("pageNo") int pageNo,
+            @Query("pageSize") int pageSize
+    );
+
 
     // 디버깅용
     @GET("srchDtlList?format=json")
