@@ -7,6 +7,9 @@ import com.example.fe_ai_book.model.BookDetailEnvelope;
 import com.example.fe_ai_book.entity.BookEntity;
 import com.example.fe_ai_book.model.BookSearchEnvelope;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public final class BookApiMapper {
     private BookApiMapper(){}
 
@@ -38,6 +41,49 @@ public final class BookApiMapper {
         return b;
     }
 
+    /**
+     * API 응답에서 Book 리스트로 변환 - 두 가지 응답 구조 지원
+     */
+    @NonNull
+    public static List<Book> mapToBookList(@NonNull BookDetailEnvelope envelope) {
+        List<Book> books = new ArrayList<>();
+        
+        if (envelope.response != null) {
+            // 1. srchDtlList API 응답 구조: detail -> book
+            if (envelope.response.detail != null && !envelope.response.detail.isEmpty()) {
+                android.util.Log.d("BookApiMapper", "Processing detail structure, count: " + envelope.response.detail.size());
+                for (BookDetailEnvelope.Detail detail : envelope.response.detail) {
+                    if (detail.book != null) {
+                        try {
+                            Book book = toUi(detail.book);
+                            books.add(book);
+                        } catch (Exception e) {
+                            android.util.Log.w("BookApiMapper", "Failed to convert detail book: " + e.getMessage());
+                        }
+                    }
+                }
+            }
+            // 2. srchBooks/loanItemSrch API 응답 구조: docs -> doc
+            else if (envelope.response.docs != null && !envelope.response.docs.isEmpty()) {
+                android.util.Log.d("BookApiMapper", "Processing docs structure, count: " + envelope.response.docs.size());
+                for (BookDetailEnvelope.Doc doc : envelope.response.docs) {
+                    if (doc.doc != null) {
+                        try {
+                            Book book = toUi(doc.doc);
+                            books.add(book);
+                        } catch (Exception e) {
+                            android.util.Log.w("BookApiMapper", "Failed to convert doc book: " + e.getMessage());
+                        }
+                    }
+                }
+            } else {
+                android.util.Log.d("BookApiMapper", "No books found in API response");
+            }
+        }
+        
+        android.util.Log.d("BookApiMapper", "Successfully mapped " + books.size() + " books");
+        return books;
+    }
 
     // Convert UI Book model to BookEntity for database storage
     @NonNull

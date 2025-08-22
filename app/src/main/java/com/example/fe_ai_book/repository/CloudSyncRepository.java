@@ -243,17 +243,88 @@ public class CloudSyncRepository {
         });
     }
     
-    // Sync books from cloud to local (using existing BookRepository logic)
+    // Sync books from cloud to local
     private void syncBooksFromCloud(String userId, SyncCallback callback) {
-        // For now, books are already being synced through BookRepository
-        // This could be enhanced to pull all user's books from cloud
-        callback.onSyncComplete();
+        bookCloudDao.getAllBooks(new BookCloudDao.BooksCallback() {
+            @Override
+            public void onSuccess(List<BookEntity> cloudBooks) {
+                executorService.execute(() -> {
+                    try {
+                        List<BookEntity> localBooks = bookDao.getAllBooks();
+                        
+                        // Merge logic: update local books with newer cloud data
+                        for (BookEntity cloudBook : cloudBooks) {
+                            BookEntity localBook = findBookById(localBooks, cloudBook.getId());
+                            
+                            if (localBook == null) {
+                                // New book from cloud - add to local
+                                cloudBook.setSyncedToCloud(true);
+                                bookDao.insertBook(cloudBook);
+                                Log.d(TAG, "New book added from cloud: " + cloudBook.getTitle());
+                            } else if (cloudBook.getUpdatedAt() > localBook.getUpdatedAt()) {
+                                // Cloud version is newer - update local
+                                cloudBook.setSyncedToCloud(true);
+                                bookDao.updateBook(cloudBook);
+                                Log.d(TAG, "Book updated from cloud: " + cloudBook.getTitle());
+                            }
+                        }
+                        
+                        Log.d(TAG, "Books synchronized from cloud: " + cloudBooks.size() + " books processed");
+                        callback.onSyncComplete();
+                    } catch (Exception e) {
+                        Log.e(TAG, "Error syncing books from cloud", e);
+                        callback.onSyncError(e.getMessage());
+                    }
+                });
+            }
+            
+            @Override
+            public void onFailure(String error) {
+                Log.d(TAG, "No books found in cloud or error: " + error);
+                callback.onSyncComplete(); // Continue sync even if no books
+            }
+        });
+    }
+    
+    // Helper method to find book by ID in local list
+    private BookEntity findBookById(List<BookEntity> books, String bookId) {
+        for (BookEntity book : books) {
+            if (book.getId().equals(bookId)) {
+                return book;
+            }
+        }
+        return null;
     }
     
     // Push any local changes to cloud
     private void pushLocalChangesToCloud(String userId, SyncCallback callback) {
         executorService.execute(() -> {
             try {
+                // Push local books that are not synced to cloud
+                List<BookEntity> unsyncedBooks = bookDao.getUnsyncedBooks();
+                for (BookEntity book : unsyncedBooks) {
+                    bookCloudDao.saveBook(book, new BookCloudDao.OperationCallback() {
+                        @Override
+                        public void onSuccess() {
+                            // Mark book as synced in local database
+                            executorService.execute(() -> {
+                                try {
+                                    book.setSyncedToCloud(true);
+                                    bookDao.updateBook(book);
+                                    Log.d(TAG, "Book synced to cloud: " + book.getTitle());
+                                } catch (Exception e) {
+                                    Log.e(TAG, "Error updating book sync status", e);
+                                }
+                            });
+                        }
+                        
+                        @Override
+                        public void onFailure(String error) {
+                            Log.e(TAG, "Error pushing book to cloud: " + error);
+                        }
+                    });
+                }
+                
                 // Push local user settings to cloud
                 UserSettings localSettings = userSettingsDao.getUserSettings(userId);
                 if (localSettings != null) {

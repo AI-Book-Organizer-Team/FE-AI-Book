@@ -132,6 +132,12 @@ public class DirectSearchActivity extends AppCompatActivity {
     private void performSearch() {
         String query = editTextDirectSearch.getText().toString().trim();
 
+        // API 키 체크
+        if (BuildConfig.DATA4LIB_AUTH_KEY == null || BuildConfig.DATA4LIB_AUTH_KEY.isEmpty()) {
+            Toast.makeText(this, "API 키가 설정되지 않았습니다. gradle.properties에 DATA4LIB_AUTH_KEY를 설정해주세요.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         loadBook(BuildConfig.DATA4LIB_AUTH_KEY, query);
         Toast.makeText(this, "\"" + query + "\" 검색 중...", Toast.LENGTH_SHORT).show();
     }
