@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fe_ai_book.adapter.DirectSearchBookAdapter;
+import com.example.fe_ai_book.entity.BookEntity;
 import com.example.fe_ai_book.model.Book;
 import com.example.fe_ai_book.model.BookDetailEnvelope;
 import com.example.fe_ai_book.service.ApiClient;
@@ -96,7 +97,7 @@ public class DirectSearchActivity extends AppCompatActivity {
                 Intent i = new Intent(DirectSearchActivity.this, BookDetailActivity.class);
 
                 // 책 데이터 전달
-                i.putExtra("isbn13", book.getIsbn());
+                i.putExtra("book_isbn", book.getIsbn());
 
                 startActivity(i);
             }

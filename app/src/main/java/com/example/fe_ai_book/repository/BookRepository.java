@@ -2,6 +2,8 @@ package com.example.fe_ai_book.repository;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import com.example.fe_ai_book.dao.BookDao;
@@ -47,9 +49,19 @@ public class BookRepository {
             public void run() {
                 try {
                     BookEntity book = bookDao.getBookByIsbn(isbn);
-                    callback.onSuccess(book);
-                }catch (Exception e){
-                    callback.onFailure(e.getMessage());
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onSuccess(book);
+                        }
+                    });
+                } catch (Exception e) {
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onFailure(e.getMessage());
+                        }
+                    });
                 }
             }
         }).start();
