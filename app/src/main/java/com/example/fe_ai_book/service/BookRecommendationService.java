@@ -101,12 +101,12 @@ public class BookRecommendationService {
      */
     private void generateGenreBasedRecommendations(String userId, UserReadingPattern pattern, List<BookRecommendation> recommendations) {
         List<BookEntity> userBooks = bookDao.getAllBooks(); // 실제로는 사용자별 필터링 필요
-        Set<String> userBookIds = userBooks.stream().map(BookEntity::getId).collect(Collectors.toSet());
+        Set<String> userBookIds = userBooks.stream().map(BookEntity::getIsbn).collect(Collectors.toSet());
         
         for (String favoriteGenre : pattern.getFavoriteGenres()) {
             List<BookEntity> genreBooks = bookDao.getBooksByCategory(favoriteGenre)
                     .stream()
-                    .filter(book -> !userBookIds.contains(book.getId())) // 이미 읽은 책 제외
+                    .filter(book -> !userBookIds.contains(book.getIsbn())) // 이미 읽은 책 제외
                     .filter(book -> book.getRating() == null || book.getRating() >= 3.5) // 낮은 평점 책 제외
                     .limit(3)
                     .collect(Collectors.toList());
@@ -128,12 +128,12 @@ public class BookRecommendationService {
      */
     private void generateAuthorBasedRecommendations(String userId, UserReadingPattern pattern, List<BookRecommendation> recommendations) {
         List<BookEntity> userBooks = bookDao.getAllBooks();
-        Set<String> userBookIds = userBooks.stream().map(BookEntity::getId).collect(Collectors.toSet());
+        Set<String> userBookIds = userBooks.stream().map(BookEntity::getIsbn).collect(Collectors.toSet());
         
         for (String favoriteAuthor : pattern.getFavoriteAuthors()) {
             List<BookEntity> authorBooks = bookDao.searchBooksByAuthor(favoriteAuthor)
                     .stream()
-                    .filter(book -> !userBookIds.contains(book.getId()))
+                    .filter(book -> !userBookIds.contains(book.getIsbn()))
                     .filter(book -> book.getRating() == null || book.getRating() >= 3.5)
                     .limit(2)
                     .collect(Collectors.toList());
@@ -155,12 +155,12 @@ public class BookRecommendationService {
      */
     private void generatePublisherBasedRecommendations(String userId, UserReadingPattern pattern, List<BookRecommendation> recommendations) {
         List<BookEntity> userBooks = bookDao.getAllBooks();
-        Set<String> userBookIds = userBooks.stream().map(BookEntity::getId).collect(Collectors.toSet());
+        Set<String> userBookIds = userBooks.stream().map(BookEntity::getIsbn).collect(Collectors.toSet());
         
         for (String favoritePublisher : pattern.getFavoritePublishers()) {
             List<BookEntity> publisherBooks = bookDao.getBooksByPublisher(favoritePublisher)
                     .stream()
-                    .filter(book -> !userBookIds.contains(book.getId()))
+                    .filter(book -> !userBookIds.contains(book.getIsbn()))
                     .filter(book -> book.getRating() == null || book.getRating() >= 4.0) // 출판사 기반은 더 높은 기준
                     .limit(2)
                     .collect(Collectors.toList());
@@ -183,12 +183,12 @@ public class BookRecommendationService {
      */
     private void generateCollaborativeRecommendations(String userId, UserReadingPattern pattern, List<BookRecommendation> recommendations) {
         List<BookEntity> userBooks = bookDao.getAllBooks();
-        Set<String> userBookIds = userBooks.stream().map(BookEntity::getId).collect(Collectors.toSet());
+        Set<String> userBookIds = userBooks.stream().map(BookEntity::getIsbn).collect(Collectors.toSet());
         
         // 평점 4.0 이상인 인기 도서들 추천
         List<BookEntity> popularBooks = bookDao.getBooksByRating(4.0)
                 .stream()
-                .filter(book -> !userBookIds.contains(book.getId()))
+                .filter(book -> !userBookIds.contains(book.getIsbn()))
                 .limit(3)
                 .collect(Collectors.toList());
         
