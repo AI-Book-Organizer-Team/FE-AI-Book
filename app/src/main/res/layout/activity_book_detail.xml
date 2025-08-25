@@ -50,13 +50,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:layout_gravity="start">
+                    android:layout_gravity="center">
 
                     <ImageView
                         android:id="@+id/bookCoverImageView"
                         android:layout_width="160dp"
                         android:layout_height="240dp"
-                        android:layout_marginStart="100dp"
+                        android:layout_marginStart="0dp"
                         android:elevation="4dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_launcher_background"
@@ -258,7 +258,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="출시일"
+                        android:text="출시 연도"
                         android:textSize="13sp"
                         android:textColor="#666666" />
                     <TextView
@@ -266,7 +266,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:text="18.06.01"
+                        android:text="2018"
                         android:textStyle="bold"
                         android:textSize="15sp"
                         android:textColor="#222222" />
