@@ -64,11 +64,18 @@ public class AiActivity extends AppCompatActivity {
         adapter1 = new HomeBookAdapter(this, bookList1);
         adapter2 = new HomeBookAdapter(this, bookList2);
         
-        recyclerView1.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
-        recyclerView2.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
+        
+        recyclerView1.setLayoutManager(layoutManager1);
+        recyclerView2.setLayoutManager(layoutManager2);
         
         recyclerView1.setAdapter(adapter1);
         recyclerView2.setAdapter(adapter2);
+        
+        // 스크롤을 처음 위치로 설정
+        recyclerView1.scrollToPosition(0);
+        recyclerView2.scrollToPosition(0);
     }
     
     private void initializeServices() {
@@ -232,13 +239,32 @@ public class AiActivity extends AppCompatActivity {
     
     private void showDefaultRecommendations() {
         Log.d(TAG, "showDefaultRecommendations() called");
-        aiCurating.setText("더 정확한 추천을 위해 도서를 추가하고 별점을 매겨보세요!");
-        aiRecs1.setText("인기 도서");
-        aiRecs2.setText("최신 도서");
         
-        // 기본 문구 설정 (나중에 사용자 데이터로 덮어쓰기)
-        bookCurating1.setText("많은 사람들이 좋아하는 인기 도서에요!");
-        bookCurating2.setText("최근 출간된 신간 도서들입니다!");
+        // 사용자 이름 가져오기
+        String userName = "";
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser != null && currentUser.getDisplayName() != null && !currentUser.getDisplayName().trim().isEmpty()) {
+            userName = currentUser.getDisplayName();
+        }
+        
+        // 상단 배너 문구
+        if (!userName.isEmpty()) {
+            aiCurating.setText(userName + "님이 저장한 도서를 기반으로 AI가 책을 추천해 드릴게요!");
+        } else {
+            aiCurating.setText("저장한 도서를 기반으로 AI가 책을 추천해 드릴게요!");
+        }
+        
+        aiRecs1.setText("취향 맞춤 추천");
+        aiRecs2.setText("좋아하는 작가");
+        
+        // 기본 문구 설정 - 바로 새로운 형식으로
+        if (!userName.isEmpty()) {
+            bookCurating1.setText("사회과학 장르를 좋아하는 " + userName + "님! 이런 책은 어떠세요?");
+            bookCurating2.setText("처비 출판사의 엄선된 도서들이에요!");
+        } else {
+            bookCurating1.setText("사회과학을 좋아하시는군요! 이런 책은 어떠세요?");
+            bookCurating2.setText("처비 출판사의 엄선된 도서들이에요!");
+        }
         
         // 사용자의 실제 독서 데이터를 가져와서 큐레이팅 문구 생성 (비동기로 덮어쓰기)
         loadUserBooksForCuration();
@@ -336,10 +362,28 @@ public class AiActivity extends AppCompatActivity {
     
     private Book convertToBook(BookRecommendation recommendation) {
         Book book = new Book();
-        book.setTitle(recommendation.getRecommendedBook().getTitle());
-        book.setAuthor(recommendation.getRecommendedBook().getAuthor());
-        book.setImageUrl(recommendation.getRecommendedBook().getImageUrl());
-        // 이미지 URL이 비어있으면 샘플 커버로 폴백 (UI 수정 없이 최소 표시 보장)
+        com.example.fe_ai_book.entity.BookEntity recommendedBook = recommendation.getRecommendedBook();
+        
+        if (recommendedBook == null) {
+            return book;
+        }
+        
+        // BookEntity의 필드를 Book으로 복사
+        book.setTitle(recommendedBook.getTitle());
+        book.setAuthor(recommendedBook.getAuthor());
+        book.setImageUrl(recommendedBook.getImageUrl());
+        book.setPublisher(recommendedBook.getPublisher());
+        book.setPublishDate(recommendedBook.getPublishDate());
+        book.setIsbn(recommendedBook.getIsbn());
+        book.setCategory(recommendedBook.getCategory());
+        book.setDescription(recommendedBook.getDescription());
+        
+        // PageCount가 Integer이므로 null 체크 후 변환
+        if (recommendedBook.getPageCount() != null) {
+            book.setPageCount(recommendedBook.getPageCount());
+        }
+        
+        // 이미지 URL이 비어있으면 샘플 커버로 폴백
         if (book.getImageUrl() == null || book.getImageUrl().trim().isEmpty()) {
             book.setImageResId(R.drawable.sample_cover_backducksu);
         } else {
@@ -369,28 +413,36 @@ public class AiActivity extends AppCompatActivity {
         
         switch (type) {
             case "genre": 
+                // 장르를 좋아하는 xx님! 이런 책은 어떠세요?
                 if (!userName.isEmpty()) {
-                    return reason + " 장르를 좋아하는 " + userName + "님! 이런 책은 어떠세요?";
+                    // reason이 장르명인 경우 (예: "소설", "인문" 등)
+                    return reason + "(을)를 좋아하는 " + userName + "님! 이런 책은 어떠세요?";
                 } else {
-                    return reason + " 장르를 좋아하시는군요! 이런 책은 어떠세요?";
+                    return reason + "(을)를 좋아하시는군요! 이런 책은 어떠세요?";
                 }
             case "author": 
+                // 최근에 읽은 xx 작가의 다른 도서를 찾아봤어요!
+                // reason이 작가명인 경우 (예: "한강", "무라카미 하루키" 등)
                 return "최근에 읽은 " + reason + " 작가의 다른 도서를 찾아봤어요!";
             case "publisher": 
+                // 출판사를 좋아하는 xx님! 이런 책은 어떠세요?
                 if (!userName.isEmpty()) {
-                    return reason + " 출판사를 좋아하는 " + userName + "님을 위한 추천!";
+                    return reason + "(을)를 좋아하는 " + userName + "님! 이런 책은 어떠세요?";
                 } else {
                     return reason + " 출판사의 엄선된 도서들이에요!";
                 }
             case "collaborative": 
+                // xx님과 비슷한 취향의 독자들이 선택한 책이에요!
                 if (!userName.isEmpty()) {
                     return userName + "님과 비슷한 취향의 독자들이 선택한 책이에요!";
                 } else {
                     return "비슷한 취향의 독자들이 선택한 책이에요!";
                 }
             case "popular": 
+                // 많은 사람들이 좋아하는 인기 도서에요!
                 return "많은 사람들이 좋아하는 인기 도서에요!";
             default: 
+                // xx님을 위한 특별한 추천이에요!
                 if (!userName.isEmpty()) {
                     return userName + "님을 위한 특별한 추천이에요!";
                 } else {
@@ -482,19 +534,46 @@ public class AiActivity extends AppCompatActivity {
         // 가장 최근에 저장한 책 (첫 번째)
         Book recentBook = userBooks.get(0);
         
+        // 장르별 분석
+        String favoriteGenre = getMostFrequentGenre(userBooks);
+        
         // 작가별 분석
         String mostFrequentAuthor = getMostFrequentAuthor(userBooks);
+        int authorBookCount = getAuthorBookCount(userBooks, mostFrequentAuthor);
         
-        // 첫 번째 그룹: 최근 저장한 책 기반 추천
-        if (!userName.isEmpty()) {
-            bookCurating1.setText(recentBook.getTitle() + "을 좋아하는 " + userName + "님! 이런 책은 어떠세요?");
-        } else {
-            bookCurating1.setText(recentBook.getTitle() + "과 비슷한 책들을 찾아봤어요!");
+        // 첫 번째 그룹: 장르 기반 추천
+        if (favoriteGenre != null && !favoriteGenre.isEmpty()) {
+            if (!userName.isEmpty()) {
+                // "소설(을)를 좋아하는 xx님! 이런 책은 어떠세요?"
+                bookCurating1.setText(favoriteGenre + "(을)를 좋아하는 " + userName + "님! 이런 책은 어떠세요?");
+            } else {
+                bookCurating1.setText(favoriteGenre + "(을)를 좋아하시는군요! 이런 책은 어떠세요?");
+            }
+        } else if (recentBook != null && recentBook.getTitle() != null) {
+            // 장르 정보가 없으면 최근 책 기반
+            if (!userName.isEmpty()) {
+                bookCurating1.setText(recentBook.getTitle() + "(을)를 좋아하는 " + userName + "님! 이런 책은 어떠세요?");
+            } else {
+                bookCurating1.setText(recentBook.getTitle() + "과 비슷한 책들을 찾아봤어요!");
+            }
         }
         
-        // 두 번째 그룹: 가장 많이 읽은 작가 기반 추천
+        // 두 번째 그룹: 작가 기반 추천 (한강 작가 예시 처럼)
         if (mostFrequentAuthor != null && !mostFrequentAuthor.trim().isEmpty()) {
-            bookCurating2.setText("최근에 읽은 " + mostFrequentAuthor + " 작가의 다른 도서를 찾아봤어요!");
+            if (authorBookCount >= 2) {
+                // 같은 작가의 책을 2권 이상 읽었을 때
+                bookCurating2.setText("최근에 읽은 " + mostFrequentAuthor + " 작가의 다른 도서를 찾아봤어요!");
+            } else {
+                // 작가의 책을 1권만 읽었을 때
+                bookCurating2.setText(mostFrequentAuthor + " 작가의 새로운 작품을 발견해보세요!");
+            }
+        } else {
+            // 작가 정보가 없으면 일반적인 추천 문구
+            if (!userName.isEmpty()) {
+                bookCurating2.setText(userName + "님을 위한 특별한 추천 도서에요!");
+            } else {
+                bookCurating2.setText("새롭게 주목받는 화제의 도서들을 만나보세요!");
+            }
         }
         
         Log.d(TAG, "Generated curation messages based on " + userBooks.size() + " user books");
@@ -523,6 +602,51 @@ public class AiActivity extends AppCompatActivity {
         }
         
         return mostFrequentAuthor;
+    }
+    
+    private String getMostFrequentGenre(List<Book> books) {
+        if (books.isEmpty()) return null;
+        
+        // 장르별 빈도 카운트
+        java.util.Map<String, Integer> genreCount = new java.util.HashMap<>();
+        for (Book book : books) {
+            String category = book.getCategory();
+            if (category != null && !category.trim().isEmpty()) {
+                // 카테고리가 "국내도서>소설" 같은 형태일 수 있으므로 추출
+                String[] parts = category.split("[>/]");
+                if (parts.length > 1) {
+                    // 마지막 부분이 주 장르
+                    String mainGenre = parts[parts.length - 1].trim();
+                    genreCount.put(mainGenre, genreCount.getOrDefault(mainGenre, 0) + 1);
+                } else {
+                    genreCount.put(category.trim(), genreCount.getOrDefault(category.trim(), 0) + 1);
+                }
+            }
+        }
+        
+        // 가장 빈도가 높은 장르 찾기
+        String mostFrequentGenre = null;
+        int maxCount = 0;
+        for (java.util.Map.Entry<String, Integer> entry : genreCount.entrySet()) {
+            if (entry.getValue() > maxCount) {
+                maxCount = entry.getValue();
+                mostFrequentGenre = entry.getKey();
+            }
+        }
+        
+        return mostFrequentGenre;
+    }
+    
+    private int getAuthorBookCount(List<Book> books, String author) {
+        if (books.isEmpty() || author == null || author.isEmpty()) return 0;
+        
+        int count = 0;
+        for (Book book : books) {
+            if (author.equals(book.getAuthor())) {
+                count++;
+            }
+        }
+        return count;
     }
     
     private String getDefaultReason(String type, List<BookRecommendation> recs) {

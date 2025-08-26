@@ -102,7 +102,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
                             android:lineSpacingExtra="4dp"
-                            android:text="자유론"
+                            android:text=""
                             android:textColor="#333333"
                             android:textSize="24sp"
                             android:textStyle="bold" />
@@ -111,7 +111,7 @@
                             android:id="@+id/bookAuthorTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="존 스튜어트 밀"
+                            android:text=""
                             android:textColor="#666666"
                             android:textSize="16sp" />
 
@@ -166,7 +166,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:lineSpacingExtra="3dp"
-                android:text="이 책은 시민과 국가의 관계, 즉 시민의 자유가 어디까지 보장되고, 국가의 간섭은 어디까지 미칠 수 있는지를 다루고 있다."
+                android:text=""
                 android:textColor="#666666"
                 android:textSize="15sp" />
 
@@ -198,7 +198,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:text="현대지성"
+                        android:text=""
                         android:textStyle="bold"
                         android:textSize="15sp"
                         android:textColor="#222222" />
@@ -221,7 +221,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:text="인문"
+                        android:text=""
                         android:textStyle="bold"
                         android:textSize="15sp"
                         android:textColor="#222222" />
@@ -244,7 +244,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:text="256P"
+                        android:text=""
                         android:textStyle="bold"
                         android:textSize="15sp"
                         android:textColor="#222222" />
@@ -267,7 +267,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:text="2018"
+                        android:text=""
                         android:textStyle="bold"
                         android:textSize="15sp"
                         android:textColor="#222222" />
@@ -291,7 +291,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="9791187142447"
+                android:text=""
                 android:textSize="15sp"
                 android:textColor="#444444" />
                 
@@ -311,7 +311,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="#국내도서 #인문 #철학 #자유 개념 #자유론"
+                android:text=""
                 android:textSize="15sp"
                 android:textColor="#444444"
                 android:lineSpacingExtra="3dp" />
@@ -350,7 +350,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="책장 3번째 칸 왼쪽에 있는 책"
+                android:text=""
                 android:textSize="15sp"
                 android:textColor="#333333"
                 android:padding="4dp" />
