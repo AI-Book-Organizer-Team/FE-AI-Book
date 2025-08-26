@@ -204,8 +204,8 @@ public class BookDetailActivity extends AppCompatActivity {
                 bookReleaseDateTextView.setText(emptyToDash(ui.getPublishDate()));
                 bookGenreTextView.setText(emptyToDash(ui.getCategory()));
 
-                // 페이지 수: data4library 상세에 페이지 정보가 없으면 "-" 처리
-                bookPagesTextView.setText("-");
+                // 페이지 수: data4library 상세에 페이지 정보가 없으면 "-" 처리 미작성.
+                bookPagesTextView.setText(emptyToDash("-"));
 
                 // 설명
                 String rawDescription = apiBook.description;
