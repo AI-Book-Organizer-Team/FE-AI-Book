@@ -30,16 +30,16 @@ public interface BookDao {
     @Delete
     void deleteBook(BookEntity book);
     
-    // ID로 도서 삭제
-    @Query("DELETE FROM books WHERE id = :bookId")
+    // Isbn로 도서 삭제
+    @Query("DELETE FROM books WHERE isbn = :bookId")
     void deleteBookById(String bookId);
     
     // 모든 도서 조회
     @Query("SELECT * FROM books ORDER BY createdAt DESC")
     List<BookEntity> getAllBooks();
     
-    // ID로 도서 조회
-    @Query("SELECT * FROM books WHERE id = :bookId")
+    // Isbn로 도서 조회
+    @Query("SELECT * FROM books WHERE isbn = :bookId")
     BookEntity getBookById(String bookId);
     
     // ISBN으로 도서 조회
@@ -94,10 +94,12 @@ public interface BookDao {
     void deleteAllBooks();
     
     // 클라우드 동기화 상태 업데이트
-    @Query("UPDATE books SET isSyncedToCloud = :synced, updatedAt = :updatedAt WHERE id = :bookId")
+    @Query("UPDATE books SET isSyncedToCloud = :synced, updatedAt = :updatedAt WHERE isbn = :bookId")
     void updateSyncStatus(String bookId, boolean synced, long updatedAt);
     
     // 특정 출판사의 도서들 조회
     @Query("SELECT * FROM books WHERE publisher = :publisher ORDER BY createdAt DESC")
     List<BookEntity> getBooksByPublisher(String publisher);
 }
+
+    //

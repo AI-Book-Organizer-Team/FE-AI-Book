@@ -2,6 +2,8 @@ package com.example.fe_ai_book.repository;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import com.example.fe_ai_book.dao.BookDao;
@@ -39,13 +41,38 @@ public class BookRepository {
         bookDao = database.bookDao();
         cloudDao = new BookCloudDao();
     }
-    
+
+    // 중복 도서 감지
+    public void findBookIsbn(String isbn, BookCallback callback) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    BookEntity book = bookDao.getBookByIsbn(isbn);
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onSuccess(book);
+                        }
+                    });
+                } catch (Exception e) {
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onFailure(e.getMessage());
+                        }
+                    });
+                }
+            }
+        }).start();
+    }
+
     // Save book (Local + Cloud)
     public void saveBook(BookEntity book, OperationCallback callback) {
         // Generate new UUID if ID is empty
-        if (book.getId() == null || book.getId().isEmpty()) {
-            book.setId(UUID.randomUUID().toString());
-        }
+//        if (book.getId() == null || book.getId().isEmpty()) {
+//            book.setId(UUID.randomUUID().toString());
+//        }
         
         // Step 1: Save to local DB first
         new AsyncTask<Void, Void, String>() {

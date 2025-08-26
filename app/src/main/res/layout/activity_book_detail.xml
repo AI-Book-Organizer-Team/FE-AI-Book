@@ -132,6 +132,7 @@
                             android:background="?android:attr/selectableItemBackgroundBorderless"
                             android:contentDescription="책장에 추가"
                             android:padding="6dp"
+                            android:visibility="visible"
                             android:src="@drawable/ic_add_button" />
 
                         <ImageView

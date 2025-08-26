@@ -10,13 +10,13 @@ import java.util.Date;
 public class BookEntity {
     @PrimaryKey
     @NonNull
-    private String id;
+    private String isbn;
+//    private String id;
 
     private String title;
     private String author;
     private String publisher;
     private String publishDate;
-    private String isbn;
     private String description;
     private String imageUrl;
     private String category;
@@ -35,10 +35,10 @@ public class BookEntity {
     }
 
     // 전체 생성자
-    public BookEntity(@NonNull String id, String title, String author, String publisher, 
-                     String publishDate, String isbn, String description, String imageUrl, 
+    public BookEntity(@NonNull String isbn, String title, String author, String publisher,
+                     String publishDate, String description, String imageUrl,
                      String category, Integer pageCount, Double rating, String notes) {
-        this.id = id;
+//        this.id = id;
         this.title = title;
         this.author = author;
         this.publisher = publisher;
@@ -56,9 +56,9 @@ public class BookEntity {
     }
 
     // Getter & Setter
-    @NonNull
-    public String getId() { return id; }
-    public void setId(@NonNull String id) { this.id = id; }
+//    @NonNull
+//    public String getId() { return id; }
+//    public void setId(@NonNull String id) { this.id = id; }
 
     public String getTitle() { return title; }
     public void setTitle(String title) { 
@@ -84,8 +84,9 @@ public class BookEntity {
         this.updatedAt = System.currentTimeMillis();
     }
 
+    @NonNull
     public String getIsbn() { return isbn; }
-    public void setIsbn(String isbn) { 
+    public void setIsbn(@NonNull String isbn) {
         this.isbn = isbn; 
         this.updatedAt = System.currentTimeMillis();
     }
@@ -141,7 +142,7 @@ public class BookEntity {
     @Override
     public String toString() {
         return "BookEntity{" +
-                "id='" + id + '\'' +
+//                "id='" + id + '\'' +
                 ", title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", publisher='" + publisher + '\'' +

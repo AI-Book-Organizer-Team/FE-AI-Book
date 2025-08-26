@@ -19,7 +19,7 @@ public class BookFirebaseService {
     // 저장 or 수정
     public void saveOrUpdateBook(@NonNull Book book, @NonNull String userId) {
         Map<String, Object> data = new HashMap<>();
-        data.put("id", book.getId());
+//        data.put("id", book.getId());
         data.put("title", book.getTitle());
         data.put("author", book.getAuthor());
         data.put("publisher", book.getPublisher());

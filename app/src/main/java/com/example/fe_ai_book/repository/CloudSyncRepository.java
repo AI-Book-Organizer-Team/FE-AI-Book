@@ -254,7 +254,7 @@ public class CloudSyncRepository {
                         
                         // Merge logic: update local books with newer cloud data
                         for (BookEntity cloudBook : cloudBooks) {
-                            BookEntity localBook = findBookById(localBooks, cloudBook.getId());
+                            BookEntity localBook = findBookById(localBooks, cloudBook.getIsbn());
                             
                             if (localBook == null) {
                                 // New book from cloud - add to local
@@ -289,7 +289,7 @@ public class CloudSyncRepository {
     // Helper method to find book by ID in local list
     private BookEntity findBookById(List<BookEntity> books, String bookId) {
         for (BookEntity book : books) {
-            if (book.getId().equals(bookId)) {
+            if (book.getIsbn().equals(bookId)) {
                 return book;
             }
         }

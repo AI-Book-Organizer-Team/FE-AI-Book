@@ -16,8 +16,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fe_ai_book.adapter.DirectSearchBookAdapter;
+import com.example.fe_ai_book.entity.BookEntity;
+import com.example.fe_ai_book.mapper.BookApiMapper;
 import com.example.fe_ai_book.model.Book;
 import com.example.fe_ai_book.model.BookDetailEnvelope;
+import com.example.fe_ai_book.model.BookSearchEnvelope;
 import com.example.fe_ai_book.service.ApiClient;
 import com.example.fe_ai_book.service.DataLibraryApi;
 
@@ -42,7 +45,8 @@ public class DirectSearchActivity extends AppCompatActivity {
     private DirectSearchBookAdapter adapter;
     private List<Book> searchResults;
     private List<Book> selectedBooks;
-    private Call<BookDetailEnvelope> inFlight;
+    private Call<BookDetailEnvelope> detailInFlight;
+    private Call<BookSearchEnvelope> searchInFlight;
     private BookFirebaseService bookService;
     private FirebaseAuth auth;
 
@@ -96,7 +100,7 @@ public class DirectSearchActivity extends AppCompatActivity {
                 Intent i = new Intent(DirectSearchActivity.this, BookDetailActivity.class);
 
                 // 책 데이터 전달
-                i.putExtra("isbn13", book.getIsbn());
+                i.putExtra("book_isbn", book.getIsbn());
 
                 startActivity(i);
             }
@@ -128,76 +132,102 @@ public class DirectSearchActivity extends AppCompatActivity {
     private void performSearch() {
         String query = editTextDirectSearch.getText().toString().trim();
 
-        if (query.isEmpty()) {
-            Toast.makeText(this, "ISBN13을 입력해주세요.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        
         // API 키 체크
         if (BuildConfig.DATA4LIB_AUTH_KEY == null || BuildConfig.DATA4LIB_AUTH_KEY.isEmpty()) {
             Toast.makeText(this, "API 키가 설정되지 않았습니다. gradle.properties에 DATA4LIB_AUTH_KEY를 설정해주세요.", Toast.LENGTH_LONG).show();
             return;
         }
-        
+
         loadBook(BuildConfig.DATA4LIB_AUTH_KEY, query);
         Toast.makeText(this, "\"" + query + "\" 검색 중...", Toast.LENGTH_SHORT).show();
     }
 
-    private void loadBook(String authKey, String isbn13) {
+    //검색 로직
+
+    private void loadBook(String authKey, String search ) {
         DataLibraryApi api = ApiClient.get();
-        inFlight = api.getBookDetail(authKey, isbn13, "Y", "age", "json");
 
-        inFlight.enqueue(new Callback<BookDetailEnvelope>() {
-            @Override
-            public void onResponse(Call<BookDetailEnvelope> call,
-                                   Response<BookDetailEnvelope> res) {
-                if (!res.isSuccessful() || res.body()==null || res.body().response==null) {
-                    Toast.makeText(DirectSearchActivity.this, "응답 오류: " + res.code(), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                BookDetailEnvelope.Inner r = res.body().response;
-
-                // 서버 에러 문자열 처리
-                if (r.error != null && !r.error.isEmpty()) {
-                    String errorMsg = r.error;
-                    if (errorMsg.contains("인증정보가 일치하지 않습니다")) {
-                        errorMsg = "API 인증 오류: 유효한 API 키를 gradle.properties에 설정해주세요.\n" +
-                                  "발급방법: https://www.data4library.kr/api/libSrchApi";
+        Call<BookDetailEnvelope> detailInFlight;
+        if (search.matches("\\d{13}")) {
+            detailInFlight = api.getBookDetail(authKey, search, "Y", "age", "json");
+            detailInFlight.enqueue(new Callback<BookDetailEnvelope>() {
+                @Override
+                public void onResponse(Call<BookDetailEnvelope> call, Response<BookDetailEnvelope> res) {
+                    if (!res.isSuccessful() || res.body()==null || res.body().response==null) {
+                        Toast.makeText(DirectSearchActivity.this, "응답 오류: " + res.code(), Toast.LENGTH_SHORT).show();
+                        return;
                     }
-                    Toast.makeText(DirectSearchActivity.this, errorMsg, Toast.LENGTH_LONG).show();
-                    return;
+                    BookDetailEnvelope.Inner r = res.body().response;
+
+                    // 서버 에러 문자열 처리
+                    if (r.error != null && !r.error.isEmpty()) {
+                        Toast.makeText(DirectSearchActivity.this, r.error, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    // detail 배열 확인
+                    if (r.detail == null || r.detail.isEmpty() || r.detail.get(0).book == null) {
+                        Toast.makeText(DirectSearchActivity.this, "도서 상세가 없습니다.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    // API → UI용 Book 변환
+                    searchResults.clear();
+                    for (BookDetailEnvelope.Detail d : r.detail) {
+                        if (d.book != null) {
+                            Book ui = com.example.fe_ai_book.mapper.BookApiMapper.toUi(d.book);
+                            searchResults.add(ui);
+                        }
+                    }
+                    adapter.notifyDataSetChanged();
+                    selectedBooks.clear();
+                    updateAddButtonState();
                 }
 
-                // detail 배열 확인
-                if (r.detail == null || r.detail.isEmpty() || r.detail.get(0).book == null) {
-                    Toast.makeText(DirectSearchActivity.this, "도서 상세가 없습니다.", Toast.LENGTH_SHORT).show();
-                    return;
+                @Override
+                public void onFailure(Call<BookDetailEnvelope> call, Throwable t) {
+                    if (call.isCanceled()) return;
+                    Toast.makeText(DirectSearchActivity.this, "네트워크 오류: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+            });
+        } else {
+            searchInFlight = api.searchBooks(authKey, search, "all", 1, 20);
+            searchInFlight.enqueue(new Callback<BookSearchEnvelope>() {
+                @Override
+                public void onResponse(Call <BookSearchEnvelope> call, Response<BookSearchEnvelope> res) {
+                    if (!res.isSuccessful() || res.body() == null || res.body().response == null) {
+                        Toast.makeText(DirectSearchActivity.this, "응답 오류: " + res.code(), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-                // API → UI용 Book 변환
-                searchResults.clear();
-                for (BookDetailEnvelope.Detail d : r.detail) {
-                    if (d.book != null) {
-                        Book ui = com.example.fe_ai_book.mapper.BookApiMapper.toUi(d.book);
+                    BookSearchEnvelope.Inner r = res.body().response;
+                    if (r.docs == null || r.docs.isEmpty()) {
+                        Toast.makeText(DirectSearchActivity.this, "검색 결과 없음", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    searchResults.clear();
+                    for (BookSearchEnvelope.DocItem d : r.docs) {
+                        Book ui = BookApiMapper.toUi(d.doc);  // 변환
                         searchResults.add(ui);
                     }
+                    adapter.notifyDataSetChanged();
+                    selectedBooks.clear();
+                    updateAddButtonState();
                 }
-                adapter.notifyDataSetChanged();
 
-                selectedBooks.clear();
-                updateAddButtonState();
-            }
-
-            @Override
-            public void onFailure(Call<BookDetailEnvelope> call, Throwable t) {
-                if (call.isCanceled()) return;
-                Toast.makeText(DirectSearchActivity.this, "네트워크 오류: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<BookSearchEnvelope> call, Throwable t) {
+                    if (call.isCanceled()) return;
+                    Toast.makeText(DirectSearchActivity.this, "오류: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     @Override protected void onDestroy() {
-        if (inFlight != null) inFlight.cancel(); // 생명주기에서 취소
+        if (detailInFlight != null) detailInFlight.cancel(); // 생명주기에서 취소
+        if (searchInFlight != null) searchInFlight.cancel(); // 생명주기에서 취소
         super.onDestroy();
     }
 

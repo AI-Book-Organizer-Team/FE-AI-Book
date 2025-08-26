@@ -27,9 +27,9 @@ public class MemberSignUpActivity extends AppCompatActivity implements SlideDate
     EditText email, emailcode, password1, password2, nickname;
     Button emailsend_btn, emailverify_btn, setdate_btn, signup_btn;
     RadioGroup gender;
-    RadioButton man, woman;
+    RadioButton man, woman, none;
     LinearLayout emailcodelayout;
-    TextView date_view, emailverify_str, nicknameT, nicknameF;
+    TextView date_view, emailverify_str, nicknameT, nicknameF, nicknameD;
 
     String str_email, str_password1, str_password2, str_nickname, str_gender;
     Date selectedBirthDate;
@@ -62,11 +62,13 @@ public class MemberSignUpActivity extends AppCompatActivity implements SlideDate
         gender = findViewById(R.id.gender);
         man = findViewById(R.id.man);
         woman = findViewById(R.id.woman);
+        none = findViewById(R.id.none);
         emailcodelayout = findViewById(R.id.emailcodelayout);
         date_view = findViewById(R.id.date_view);
         emailverify_str = findViewById(R.id.emailverify_str);
         nicknameT = findViewById(R.id.nicknameT);
         nicknameF = findViewById(R.id.nicknameF);
+        nicknameD = findViewById(R.id.nicknameD);
     }
 
     private void initApiService() {
@@ -184,12 +186,14 @@ public class MemberSignUpActivity extends AppCompatActivity implements SlideDate
     private void showNicknameAvailable() {
         nicknameT.setVisibility(View.VISIBLE);
         nicknameF.setVisibility(View.GONE);
+        nicknameD.setVisibility(View.GONE);
         nicknameT.setText("사용 가능한 닉네임이에요");
         nicknameT.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
     }
 
     private void showNicknameUnavailable() {
         nicknameT.setVisibility(View.GONE);
+        nicknameD.setVisibility(View.GONE);
         nicknameF.setVisibility(View.VISIBLE);
         nicknameF.setText("이미 사용 중인 닉네임이에요");
         nicknameF.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
@@ -197,6 +201,7 @@ public class MemberSignUpActivity extends AppCompatActivity implements SlideDate
 
     private void showNicknameError(String error) {
         nicknameT.setVisibility(View.GONE);
+        nicknameD.setVisibility(View.GONE);
         nicknameF.setVisibility(View.VISIBLE);
         nicknameF.setText(error);
         nicknameF.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
@@ -230,6 +235,8 @@ public class MemberSignUpActivity extends AppCompatActivity implements SlideDate
             str_gender = "남성";
         } else if (woman.isChecked()) {
             str_gender = "여성";
+        } else if (none.isChecked()) {
+            str_gender = null;
         } else {
             str_gender = null;
         }
@@ -296,7 +303,7 @@ public class MemberSignUpActivity extends AppCompatActivity implements SlideDate
 
     @Override
     public void onPositiveClick(int day, int month, int year, Calendar calendar){
-        SimpleDateFormat format = new SimpleDateFormat("yyyy년 MM월 dd일", Locale.KOREAN);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREAN);
         selectedBirthDate = calendar.getTime();
         date_view.setText(format.format(calendar.getTime()));
     }

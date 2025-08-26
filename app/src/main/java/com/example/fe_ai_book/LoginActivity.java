@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
 
             // 로그인 버튼 비활성화 및 로딩 상태
             buttonLogin.setEnabled(false);
-            buttonLogin.setText("로그인 중...");
+            buttonLogin.setText("로그인 중");
 
             authApiService.signIn(email, password, new AuthApiService.SignInCallback() {
                 @Override

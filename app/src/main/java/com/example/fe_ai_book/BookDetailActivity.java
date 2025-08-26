@@ -2,6 +2,7 @@ package com.example.fe_ai_book;
 
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,12 +11,14 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.fe_ai_book.mapper.BookApiMapper;
 import com.example.fe_ai_book.model.Book;
 import com.example.fe_ai_book.model.BookDetailEnvelope;
 import com.example.fe_ai_book.service.ApiClient;
 import com.example.fe_ai_book.service.BookFirebaseService;
 import com.example.fe_ai_book.service.DataLibraryApi;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -51,6 +54,31 @@ public class BookDetailActivity extends AppCompatActivity {
         return (s == null || s.trim().isEmpty()) ? "-" : s.trim();
     }
 
+    // 중복 도서
+    private void ifAlreadyBook(String isbn, String userId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("users")
+                .document(userId)
+                .collection("books")
+                .document(isbn)
+                .get()
+                .addOnSuccessListener(document -> {
+                    if (document.exists()) {
+                        // 이미 저장된 도서 → 버튼 숨기기
+                        addButton.setVisibility(View.INVISIBLE);
+                    } else {
+                        // 저장되지 않은 도서 → 버튼 보이기
+                        addButton.setVisibility(View.VISIBLE);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.w("BookDetailActivity", "Error checking book existence", e);
+                    // 실패 시 버튼 유지
+                    addButton.setVisibility(View.VISIBLE);
+                });
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +87,7 @@ public class BookDetailActivity extends AppCompatActivity {
 
         bookService = new BookFirebaseService();
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
 
         initViews();
         setupClickListeners();
@@ -116,12 +145,17 @@ public class BookDetailActivity extends AppCompatActivity {
     }
 
     private void loadBookData() {
+        currentBook = new Book();
+        currentBook.setUserId(userId);
+
         // isbn 넘겨받기
-        String isbn13 = getIntent().getStringExtra("isbn13");
+        String isbn13 = getIntent().getStringExtra("book_isbn");
         if (isbn13 == null || isbn13.trim().isEmpty()) {
+            currentBook.setIsbn(isbn13); // null 방지
             Toast.makeText(this, "ISBN13이 없어 상세 정보를 불러올 수 없습니다.", Toast.LENGTH_SHORT).show();
             return;
         }
+        currentBook.setIsbn(isbn13);
 
         // API 호출
         DataLibraryApi api = ApiClient.get();
@@ -150,7 +184,18 @@ public class BookDetailActivity extends AppCompatActivity {
 
                 // 서버 모델 -> UI 모델 변환(Mapper)
                 BookDetailEnvelope.Book apiBook = r.detail.get(0).book;
-                com.example.fe_ai_book.model.Book ui = com.example.fe_ai_book.mapper.BookApiMapper.toUi(apiBook);
+
+                Book ui = BookApiMapper.toUi(apiBook);
+
+                if (ui.getIsbn() != null) {
+                    currentBook.setIsbn(ui.getIsbn());
+                    currentBook.setAuthor(ui.getAuthor());
+                    currentBook.setPublisher(ui.getPublisher());
+                    currentBook.setPublishDate(ui.getPublishDate());
+                    currentBook.setIsbn(ui.getIsbn());
+                    currentBook.setDescription(ui.getDescription());
+                    currentBook.setImageUrl(ui.getImageUrl());
+                }
 
                 // View에 바인딩 (tags, location 제외 모두 API값으로)
                 bookTitleTextView.setText(emptyToDash(ui.getTitle()));          // 제목
@@ -159,8 +204,8 @@ public class BookDetailActivity extends AppCompatActivity {
                 bookReleaseDateTextView.setText(emptyToDash(ui.getPublishDate()));
                 bookGenreTextView.setText(emptyToDash(ui.getCategory()));
 
-                // 페이지 수: data4library 상세에 페이지 정보가 없으면 "-" 처리
-                bookPagesTextView.setText("-");
+                // 페이지 수: data4library 상세에 페이지 정보가 없으면 "-" 처리 미작성.
+                bookPagesTextView.setText(emptyToDash("-"));
 
                 // 설명
                 String rawDescription = apiBook.description;
@@ -187,7 +232,7 @@ public class BookDetailActivity extends AppCompatActivity {
                     bookCoverImageView.setImageResource(R.drawable.ic_launcher_background);
                 }
 
-
+                ifAlreadyBook(currentBook.getIsbn(), userId);
             } // onResponse
 
             @Override
@@ -228,5 +273,9 @@ public class BookDetailActivity extends AppCompatActivity {
 
         // 이미지 로딩 (Glide 같은 라이브러리 쓰면 편함)
         // Glide.with(this).load(imageUrl).into(bookCoverImageView);
+
     }
+
+
+
 }
