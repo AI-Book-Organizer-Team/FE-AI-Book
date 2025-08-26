@@ -41,7 +41,7 @@
                 android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="불온한 검은 피"
+                android:text="도서 정보를 불러오는 중..."
                 android:textStyle="bold"
                 android:textSize="16sp" />
 
@@ -49,28 +49,28 @@
                 android:id="@+id/tvAuthor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="저자: 허연"
+                android:text=""
                 android:paddingTop="4dp" />
 
             <TextView
                 android:id="@+id/tvPubDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="발행 연도: 14.04.28"
+                android:text=""
                 android:paddingTop="2dp" />
 
             <TextView
                 android:id="@+id/tvPub"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="출판사: 민음사"
+                android:text=""
                 android:paddingTop="2dp" />
 
             <TextView
                 android:id="@+id/tvIsbn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ISBN: 9788937489105"
+                android:text=""
                 android:paddingTop="2dp" />
         </LinearLayout>
     </LinearLayout>
