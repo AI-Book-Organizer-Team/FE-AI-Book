@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_main"
+        android:icon="@drawable/home_main"
+        android:title="메인" />
+
+    <item
+        android:id="@+id/nav_mybook"
+        android:icon="@drawable/home_mybook"
+        android:title="내 서재" />
+
+    <item
+        android:id="@+id/nav_addbook"
+        android:icon="@drawable/home_addbook"
+        android:title="도서 추가" />
+
+    <item
+        android:id="@+id/nav_userpage"
+        android:icon="@drawable/home_userpage"
+        android:title="마이페이지" />
+
+</menu>

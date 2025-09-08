@@ -73,6 +73,12 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, BookSaveTestActivity.class);
             startActivity(intent);
         });
+
+        Button btnGoHomebar = findViewById(R.id.btn_home); // 이미 있는 버튼 재활용
+        btnGoHomebar.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, MainHomebarActivity.class);
+            startActivity(intent);
+        });
         // ============================================================================================
 
         // 로그인/회원가입/기타 이동 버튼

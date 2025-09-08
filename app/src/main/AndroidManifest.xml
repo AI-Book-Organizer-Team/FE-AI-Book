@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.fe_ai_book">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- 카메라 및 미디어 권한 -->
     <uses-permission android:name="android.permission.CAMERA" />
@@ -13,20 +12,25 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="로그인"
+        android:label="FE-AI-Book"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.FE_AI_Book">
 
+        <!-- 홈바 메인 화면: 앱 실행 시 바로 뜨게 함 -->
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".MainHomebarActivity"
+            android:exported="true"
+            android:label="홈">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- 기존 MainActivity는 단순 등록만 -->
+        <activity android:name=".MainActivity" android:exported="true" />
 
         <activity android:name=".LoginActivity" android:exported="true" />
         <activity android:name=".MemberSignUpActivity" android:exported="true" android:label="@string/signup" />
@@ -44,9 +48,9 @@
 
         <!-- !!!!!!!!!! 임시 -->
         <activity android:name=".BarcodeImageTestActivity" />
-        
+
         <!-- 도서 저장 테스트 액티비티 -->
-        <activity 
+        <activity
             android:name=".BookSaveTestActivity"
             android:exported="true"
             android:label="도서 저장 테스트" />

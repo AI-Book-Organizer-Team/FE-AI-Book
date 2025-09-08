@@ -54,6 +54,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-functions'
 
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.navigation:navigation-fragment:2.8.1'
+    implementation 'androidx.navigation:navigation-ui:2.8.1'
+
     // Retrofit + Gson + OkHttp Logging
     implementation "com.squareup.retrofit2:retrofit:2.11.0"
     implementation "com.squareup.retrofit2:converter-gson:2.11.0"
