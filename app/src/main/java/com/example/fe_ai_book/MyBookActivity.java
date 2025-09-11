@@ -25,9 +25,10 @@ public class MyBookActivity extends AppCompatActivity {
         tabCategory = findViewById(R.id.tab_category);
         tabFavorite = findViewById(R.id.tab_favorite);
 
-        // 기본: 최근 저장 탭
-        showFragment(new MyBookRecentFragment());
-        highlightTab(tabRecent);
+        if (savedInstanceState == null) {
+            showFragment(new MyBookRecentFragment());
+            highlightTab(tabRecent);
+        }
 
         tabRecent.setOnClickListener(v -> {
             showFragment(new MyBookRecentFragment());
@@ -55,6 +56,10 @@ public class MyBookActivity extends AppCompatActivity {
         tabRecent.setTextColor(Color.parseColor("#999999"));
         tabCategory.setTextColor(Color.parseColor("#999999"));
         tabFavorite.setTextColor(Color.parseColor("#999999"));
+
+        tabRecent.setTypeface(null, Typeface.NORMAL);
+        tabCategory.setTypeface(null, Typeface.NORMAL);
+        tabFavorite.setTypeface(null, Typeface.NORMAL);
 
         selected.setTextColor(Color.parseColor("#000000"));
         selected.setTypeface(null, Typeface.BOLD);

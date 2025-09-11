@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- 카메라 및 미디어 권한 -->
+    <!-- 권한 -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-
-    <!-- 네트워크 권한 (Firebase / Retrofit 용) -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -18,21 +16,26 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.FE_AI_Book">
 
-        <!-- 홈바 메인 화면: 앱 실행 시 바로 뜨게 함 -->
+        <!-- ✅ 앱 시작: 스플래시 -->
         <activity
-            android:name=".MainHomebarActivity"
+            android:name=".SplashActivity"
             android:exported="true"
-            android:label="홈">
+            android:theme="@style/Theme.FE_AI_Book">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- 기존 MainActivity는 단순 등록만 -->
+        <!-- 로그인 화면 -->
+        <activity android:name=".LoginActivity" android:exported="true" />
+
+        <!-- 홈 화면 (BottomNavigationView) -->
+        <activity android:name=".MainHomebarActivity" android:exported="true" android:label="홈" />
+
+        <!-- 기존 MainActivity (필요하면 사용, 아니라면 삭제해도 됨) -->
         <activity android:name=".MainActivity" android:exported="true" />
 
-        <activity android:name=".LoginActivity" android:exported="true" />
         <activity android:name=".MemberSignUpActivity" android:exported="true" android:label="@string/signup" />
         <activity android:name=".UserInfoActivity" android:exported="true" />
         <activity android:name=".MyBookRecentActivity" android:exported="true" android:label="책장 페이지" />
@@ -41,21 +44,11 @@
         <activity android:name=".AiActivity" android:exported="true" android:label="AI 추천" />
         <activity android:name=".MyBookCategoryActivity" android:exported="false" android:label="카테고리별 보기" />
         <activity android:name=".BookDetailActivity" android:exported="false" android:label="도서 상세정보" />
-
         <activity android:name=".BookShelfActivity" android:exported="false" android:label="책장" />
         <activity android:name=".BarcodeScanActivity" android:exported="true" />
         <activity android:name=".HomeActivity" android:exported="true" android:label="MAIN" />
-
-        <!-- !!!!!!!!!! 임시 -->
         <activity android:name=".BarcodeImageTestActivity" />
-
-        <!-- 도서 저장 테스트 액티비티 -->
-        <activity
-            android:name=".BookSaveTestActivity"
-            android:exported="true"
-            android:label="도서 저장 테스트" />
-
-        <!-- 내 서재 화면 Activity 등록 -->
+        <activity android:name=".BookSaveTestActivity" android:exported="true" android:label="도서 저장 테스트" />
         <activity android:name=".MyBookActivity" />
 
     </application>

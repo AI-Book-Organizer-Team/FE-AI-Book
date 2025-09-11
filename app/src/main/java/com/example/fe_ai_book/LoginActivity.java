@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void onSuccess(User user) {
                     Toast.makeText(LoginActivity.this, user.getNickname() + "님, 환영합니다!", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, MainHomebarActivity.class);
                     intent.putExtra("userNickname", user.getNickname());
                     startActivity(intent);
                     finish();

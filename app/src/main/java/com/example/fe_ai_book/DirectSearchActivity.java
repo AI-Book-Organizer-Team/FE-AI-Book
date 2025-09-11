@@ -63,6 +63,13 @@ public class DirectSearchActivity extends AppCompatActivity {
 
         // 초기 빈 리스트
         loadSampleData();
+
+        String initQuery = getIntent().getStringExtra("search_query");
+        if (initQuery != null && !initQuery.isEmpty()) {
+            editTextDirectSearch.setText(initQuery);
+            performSearch(); // 바로 검색 실행
+        }
+
     }
 
     private void initializeViews() {

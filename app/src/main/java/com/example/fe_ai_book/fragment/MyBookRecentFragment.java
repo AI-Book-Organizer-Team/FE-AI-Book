@@ -18,7 +18,6 @@ import com.example.fe_ai_book.model.Book;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +32,10 @@ public class MyBookRecentFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_mybook_recent, container, false);
 
         recyclerView = view.findViewById(R.id.recycler_view_recent);
@@ -43,28 +44,49 @@ public class MyBookRecentFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         db = FirebaseFirestore.getInstance();
-        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            Log.e("MyBook", "로그인 안 됨 → 책 불러오기 불가");
+            return view;
+        }
+
+        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         loadRecentBooks();
 
         return view;
     }
 
     private void loadRecentBooks() {
+        if (userId == null) {
+            Log.e("MyBook", "로그인 안 됨 → 책 불러오기 불가");
+            return;
+        }
+
+        // createdAt이 문자열이라 orderBy 사용 시 오류 발생 → 우선 orderBy 제거
         db.collection("users")
                 .document(userId)
                 .collection("books")
-                .orderBy("createdAt", Query.Direction.DESCENDING)
+                //.orderBy("createdAt", Query.Direction.DESCENDING) // ❌ 문자열이면 사용 불가
                 .get()
                 .addOnSuccessListener(querySnapshot -> {
                     bookList.clear();
-                    for (DocumentSnapshot doc : querySnapshot) {
-                        Book book = doc.toObject(Book.class);
-                        if (book != null) bookList.add(book);
+                    if (querySnapshot.isEmpty()) {
+                        Log.d("MyBook", "책이 없습니다.");
+                    } else {
+                        for (DocumentSnapshot doc : querySnapshot) {
+                            try {
+                                Book book = doc.toObject(Book.class);
+                                if (book != null) {
+                                    bookList.add(book);
+                                    Log.d("MyBook", "불러온 책 = " + book.getTitle());
+                                }
+                            } catch (Exception e) {
+                                Log.e("MyBook", "Book 매핑 실패: " + doc.getData(), e);
+                            }
+                        }
                     }
                     adapter.notifyDataSetChanged();
                 })
-                .addOnFailureListener(e -> Log.w("Firestore", "Error getting books", e));
+                .addOnFailureListener(e -> Log.e("MyBook", "책 불러오기 실패", e));
     }
 }
-
