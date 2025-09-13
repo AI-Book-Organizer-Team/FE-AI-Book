@@ -31,7 +31,7 @@ public class UserInfoActivity extends AppCompatActivity {
         tvBookCount = findViewById(R.id.tv_book_count);
         Button btnLogout = findViewById(R.id.btn_logout);
         Button btnMyLibrary = findViewById(R.id.btn_my_library);
-        Button btnSettings = findViewById(R.id.btn_settings);
+//        Button btnSettings = findViewById(R.id.btn_settings);
         ImageView btnBack = findViewById(R.id.btn_back);
 
         // Firebase 초기화
@@ -41,24 +41,38 @@ public class UserInfoActivity extends AppCompatActivity {
         String uid = mAuth.getCurrentUser().getUid();
 
         // Firestore에서 데이터 읽기
-        db.collection("users").document(uid).get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        String nickname = documentSnapshot.getString("nickname");
-                        Long bookCountValue = documentSnapshot.getLong("bookCount");
-                        long bookCount = (bookCountValue != null) ? bookCountValue : 0;
-
-                        tvNickname.setText(nickname);
-                        tvBookCount.setText("나의 모든 도서\n" + bookCount + "권");
+        db.collection("users").document(uid)
+                .addSnapshotListener((documentSnapshot, e) -> {
+                    if (e != null) {
+                        Log.e("UserInfo", "유저 데이터 실시간 반영 실패", e);
+                        return;
                     }
-                })
-                .addOnFailureListener(e -> {
-                    Log.e("UserInfo", "데이터 불러오기 실패", e);
+
+                    if (documentSnapshot != null && documentSnapshot.exists()) {
+                        // 닉네임 불러오기
+                        String nickname = documentSnapshot.getString("nickname");
+                        tvNickname.setText(nickname);
+
+                        // 책 개수는 서브컬렉션에서 실시간 반영
+                        db.collection("users").document(uid).collection("books")
+                                .addSnapshotListener((querySnapshot, err) -> {
+                                    if (err != null) {
+                                        Log.e("UserInfo", "책 개수 실시간 반영 실패", err);
+                                        return;
+                                    }
+
+                                    if (querySnapshot != null) {
+                                        int bookCount = querySnapshot.size();
+                                        tvBookCount.setText("나의 모든 도서\n" + bookCount + "권");
+                                    }
+                                });
+                    }
                 });
+
 
         // 버튼 클릭 시 글씨색 변경 로직 적용
         setButtonTextColorChange(btnMyLibrary);
-        setButtonTextColorChange(btnSettings);
+//        setButtonTextColorChange(btnSettings);
         setButtonTextColorChange(btnLogout);
 
         // 로그아웃 버튼 클릭
@@ -80,9 +94,9 @@ public class UserInfoActivity extends AppCompatActivity {
         });
 
         // 설정 버튼 클릭 (추후 구현)
-        btnSettings.setOnClickListener(v -> {
-            // TODO: 설정 화면 이동 로직
-        });
+//        btnSettings.setOnClickListener(v -> {
+//            // TODO: 설정 화면 이동 로직
+//        });
 
         // 뒤로가기 버튼 클릭
         btnBack.setOnClickListener(v -> finish());

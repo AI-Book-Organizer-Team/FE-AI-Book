@@ -19,6 +19,8 @@ public class Book {
     private int pageCount;
     private double rating;
     private String userId;
+    private String tags;         // 태그 (예: "#인문 #철학 #자유론")
+    private String location;     // 도서 위치 (예: "책장 3번째 칸")
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
@@ -69,6 +71,8 @@ public class Book {
     public int getPageCount() { return pageCount; }
     public double getRating() { return rating; }
     public String getUserId() { return userId; }
+    public String getTags() { return tags; }
+    public String getLocation() { return location; }
     public Timestamp getCreatedAt() { return createdAt; }
     public Timestamp getUpdatedAt() { return updatedAt; }
 
@@ -88,6 +92,8 @@ public class Book {
     public void setPageCount(int pageCount) { this.pageCount = pageCount; }
     public void setRating(double rating) { this.rating = rating; }
     public void setUserId(String userId) { this.userId = userId; }
+    public void setTags(String tags) { this.tags = tags; }
+    public void setLocation(String location) { this.location = location; }
     public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
     public void setUpdatedAt(Timestamp updatedAt) { this.updatedAt = updatedAt; }
 }

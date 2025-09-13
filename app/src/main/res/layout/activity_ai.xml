@@ -67,15 +67,16 @@
                 <!--  AI 추천 도서1  -->
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:layout_marginTop="30dp">
+                    android:layout_marginTop="30dp"
+                    android:gravity="center_horizontal">
 
                 <!--          title          -->
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
                         android:id="@+id/ai_booklist1">
                         <TextView
@@ -110,17 +111,21 @@
 
                     <!--          도서 추천 상자          -->
                     <HorizontalScrollView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_horizontal"
                         android:layout_marginTop="10dp"
-                        android:scrollbars="none">
+                        android:scrollbars="none"
+                        android:fillViewport="true">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:padding="20dp">
+                            android:paddingTop="20dp"
+                            android:paddingBottom="20dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="20dp">
                             <!--          책 정보              -->
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -130,7 +135,8 @@
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:id="@+id/recycler_view1" />
+                                    android:id="@+id/recycler_view1"
+                                    android:layoutDirection="ltr" />
                             </LinearLayout>
                         </LinearLayout>
                     </HorizontalScrollView>
@@ -141,15 +147,16 @@
 
                 <!--  AI 추천 도서2  -->
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:layout_marginTop="20dp">
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_horizontal">
 
                 <!--          title          -->
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
                         android:id="@+id/ai_booklist2">
                         <TextView
@@ -184,17 +191,21 @@
 
                     <!--          도서 추천 상자          -->
                     <HorizontalScrollView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_horizontal"
                         android:layout_marginTop="10dp"
-                        android:scrollbars="none">
+                        android:scrollbars="none"
+                        android:fillViewport="true">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:padding="20dp">
+                            android:paddingTop="20dp"
+                            android:paddingBottom="20dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="20dp">
                             <!--          책 정보              -->
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -204,7 +215,8 @@
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:id="@+id/recycler_view2" />
+                                    android:id="@+id/recycler_view2"
+                                    android:layoutDirection="ltr" />
                             </LinearLayout>
                         </LinearLayout>
                     </HorizontalScrollView>

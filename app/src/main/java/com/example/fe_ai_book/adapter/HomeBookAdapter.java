@@ -76,7 +76,13 @@ public class HomeBookAdapter extends RecyclerView.Adapter<HomeBookAdapter.BookVi
             Intent intent = new Intent(context, BookDetailActivity.class);
             intent.putExtra("book_title", book.getTitle());
             intent.putExtra("book_author", book.getAuthor());
-            intent.putExtra("book_image_url", book.getImageUrl()); // URL 전달
+            intent.putExtra("book_publisher", book.getPublisher());
+            intent.putExtra("book_publishDate", book.getPublishDate());
+            intent.putExtra("book_isbn", book.getIsbn());
+            intent.putExtra("isbn13", book.getIsbn()); // API 호출용 ISBN13
+            intent.putExtra("book_description", book.getDescription());
+            intent.putExtra("book_imageUrl", book.getImageUrl()); // URL 전달
+            intent.putExtra("book_category", book.getCategory());
             intent.putExtra("book_image_res", book.getImageResId()); // 로컬 리소스 전달
             context.startActivity(intent);
         });
