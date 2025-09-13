@@ -94,9 +94,28 @@ public class FirebaseAuthService implements AuthApiService {
         // Firebase Auth로 이메일/비밀번호 계정 생성
         mAuth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword())
                 .addOnSuccessListener(authResult -> {
-                    // 회원가입 성공 시 사용자 정보를 Firestore에 저장
-                    String uid = authResult.getUser().getUid();
-                    saveUserToFirestore(uid, user, callback);
+                    com.google.firebase.auth.FirebaseUser firebaseUser = authResult.getUser();
+                    if (firebaseUser == null) {
+                        callback.onFailure("사용자 생성에 실패했습니다.");
+                        return;
+                    }
+                    String uid = firebaseUser.getUid();
+
+                    // Firebase Auth 프로필에 DisplayName 설정
+                    com.google.firebase.auth.UserProfileChangeRequest profileUpdates = new com.google.firebase.auth.UserProfileChangeRequest.Builder()
+                            .setDisplayName(user.getNickname())
+                            .build();
+
+                    firebaseUser.updateProfile(profileUpdates)
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    Log.d(TAG, "Firebase Auth 프로필 업데이트 성공 (DisplayName).");
+                                } else {
+                                    Log.w(TAG, "Firebase Auth 프로필 업데이트 실패 (DisplayName).", task.getException());
+                                }
+                                // 프로필 업데이트 성공 여부와 관계없이 Firestore 저장은 진행
+                                saveUserToFirestore(uid, user, callback);
+                            });
                 })
                 .addOnFailureListener(e -> {
                     String errorMessage = getAuthErrorMessage(e);
@@ -158,14 +177,68 @@ public class FirebaseAuthService implements AuthApiService {
     public void signIn(String email, String password, SignInCallback callback) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener(authResult -> {
-                    String uid = authResult.getUser().getUid();
-                    // Firestore에서 사용자 정보 가져오기
-                    getUserFromFirestore(uid, callback);
+                    com.google.firebase.auth.FirebaseUser firebaseUser = authResult.getUser();
+                    if (firebaseUser == null) {
+                        callback.onFailure("로그인에 실패했습니다.");
+                        return;
+                    }
+                    // DisplayName이 설정되지 않은 경우, Firestore에서 가져와 동기화
+                    if (firebaseUser.getDisplayName() == null || firebaseUser.getDisplayName().isEmpty()) {
+                        Log.d(TAG, "DisplayName is not set. Fetching from Firestore to update.");
+                        getUserFromFirestoreAndSyncProfile(firebaseUser, callback);
+                    } else {
+                        Log.d(TAG, "DisplayName is already set.");
+                        getUserFromFirestore(firebaseUser.getUid(), callback); // Original flow
+                    }
                 })
                 .addOnFailureListener(e -> {
                     String errorMessage = getSignInErrorMessage(e);
                     Log.e(TAG, "로그인 실패", e);
                     callback.onFailure(errorMessage);
+                });
+    }
+
+    /**
+     * Firestore에서 사용자 정보를 가져와 Auth 프로필(DisplayName)을 동기화
+     */
+    private void getUserFromFirestoreAndSyncProfile(com.google.firebase.auth.FirebaseUser firebaseUser, SignInCallback callback) {
+        String uid = firebaseUser.getUid();
+        db.collection("users").document(uid)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String nickname = documentSnapshot.getString("nickname");
+
+                        User user = new User();
+                        user.setUid(uid);
+                        user.setEmail(documentSnapshot.getString("email"));
+                        user.setNickname(nickname);
+                        user.setGender(documentSnapshot.getString("gender"));
+
+                        if (nickname != null && !nickname.isEmpty()) {
+                            // Auth 프로필 업데이트
+                            com.google.firebase.auth.UserProfileChangeRequest profileUpdates = new com.google.firebase.auth.UserProfileChangeRequest.Builder()
+                                    .setDisplayName(nickname)
+                                    .build();
+                            firebaseUser.updateProfile(profileUpdates)
+                                    .addOnCompleteListener(task -> {
+                                        if (task.isSuccessful()) {
+                                            Log.d(TAG, "DisplayName synced on login.");
+                                        }
+                                        // 프로필 업데이트 성공 여부와 관계없이 로그인 진행
+                                        callback.onSuccess(user);
+                                    });
+                        } else {
+                            // Firestore에 닉네임이 없으면 그냥 로그인 진행
+                            callback.onSuccess(user);
+                        }
+                    } else {
+                        callback.onFailure("사용자 정보를 찾을 수 없습니다.");
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "사용자 정보 조회 실패", e);
+                    callback.onFailure("사용자 정보 조회 중 오류가 발생했습니다.");
                 });
     }
     
