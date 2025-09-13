@@ -189,6 +189,7 @@ public class BookDetailActivity extends AppCompatActivity {
 
                 if (ui.getIsbn() != null) {
                     currentBook.setIsbn(ui.getIsbn());
+                    currentBook.setTitle(ui.getTitle());
                     currentBook.setAuthor(ui.getAuthor());
                     currentBook.setPublisher(ui.getPublisher());
                     currentBook.setPublishDate(ui.getPublishDate());
