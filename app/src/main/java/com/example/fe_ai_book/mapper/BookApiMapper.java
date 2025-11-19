@@ -23,10 +23,6 @@ public final class BookApiMapper {
         b.setPublishDate(firstNonEmpty(api.publication_date, api.publication_year));
         b.setIsbn(firstNonEmpty(api.isbn13, api.isbn));
         b.setImageUrl(api.bookImageURL);
-        b.setImageResId(0);
-
-        // dateSaved는 더미만 쓰던 필드니까 비워둠
-        b.setDateSaved(null);
 
         // 카테고리 매핑
         String rawCategory = api.class_nm;

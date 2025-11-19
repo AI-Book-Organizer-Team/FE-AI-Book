@@ -47,7 +47,7 @@ public class BookCardAdapter extends RecyclerView.Adapter<BookCardAdapter.BookCa
                     .error(R.drawable.ic_launcher_foreground)
                     .into(holder.image);
         } else {
-            holder.image.setImageResource(book.getImageResId());
+            System.out.println("null");
         }
     }
 
