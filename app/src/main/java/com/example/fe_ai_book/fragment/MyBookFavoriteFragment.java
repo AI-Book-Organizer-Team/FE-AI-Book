@@ -52,7 +52,7 @@ public class MyBookFavoriteFragment extends Fragment {
         db.collection("users")
                 .document(userId)
                 .collection("books")
-                .whereEqualTo("favorite", true)  // Firestore 필드 조건
+                .whereEqualTo("bookmark", true)
                 .get()
                 .addOnSuccessListener(querySnapshot -> {
                     bookList.clear();
