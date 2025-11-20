@@ -22,6 +22,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_home);
 
+/*
         RecyclerView recycler_view1 = findViewById(R.id.recycler_view1);
         RecyclerView recycler_view2 = findViewById(R.id.recycler_view2);
 
@@ -76,6 +77,7 @@ public class HomeActivity extends AppCompatActivity {
                 adapter2.notifyDataSetChanged();
             }
         });
+         */
 
 
     }

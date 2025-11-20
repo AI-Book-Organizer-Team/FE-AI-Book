@@ -22,6 +22,7 @@
 
                 <!--  배너  -->
                 <LinearLayout
+                    android:id="@+id/banner_ai_recommend"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -130,7 +131,7 @@
                         android:textSize="15sp"
                         android:textColor="@color/black"
                         android:gravity="center"
-                        android:text="교양(을)를 좋아하는 USER 님! 이런 책은 어떠세요?"
+                        android:text="AI가 도서를 추천해 드립니다."
                         android:layout_marginTop="10dp"
                         android:id="@+id/book_curating"/>
 
@@ -206,61 +207,6 @@
                             android:orientation="horizontal"
                             android:layout_marginTop="10dp"
                             android:id="@+id/kategorielist_btn">
-                            <RadioButton
-                                android:id="@+id/kategorielist_btn1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:background="@drawable/main_home_kategorie"
-                                android:padding="5dp"
-                                android:text="tag1"
-                                android:layout_marginRight="10dp"
-                                android:button="@null"
-                                android:checked="true"/>
-                            <RadioButton
-                                android:id="@+id/kategorielist_btn2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:background="@drawable/main_home_kategorie"
-                                android:padding="5dp"
-                                android:text="tag2"
-                                android:layout_marginRight="10dp"
-                                android:button="@null"
-                                android:checked="false"/>
-                            <RadioButton
-                                android:id="@+id/kategorielist_btn3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:background="@drawable/main_home_kategorie"
-                                android:padding="5dp"
-                                android:text="tag3"
-                                android:layout_marginRight="10dp"
-                                android:button="@null"
-                                android:checked="false"/>
-                            <RadioButton
-                                android:id="@+id/kategorielist_btn4"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:background="@drawable/main_home_kategorie"
-                                android:padding="5dp"
-                                android:text="tag4"
-                                android:layout_marginRight="10dp"
-                                android:button="@null"
-                                android:checked="false"/>
-                            <RadioButton
-                                android:id="@+id/kategorielist_btn5"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:background="@drawable/main_home_kategorie"
-                                android:padding="5dp"
-                                android:text="tag5"
-                                android:layout_marginRight="10dp"
-                                android:button="@null"
-                                android:checked="false"/>
                         </RadioGroup>
 
                     <!--          도서 추천 상자          -->
