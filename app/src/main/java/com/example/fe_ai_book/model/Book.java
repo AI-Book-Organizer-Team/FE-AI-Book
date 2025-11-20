@@ -3,28 +3,28 @@ package com.example.fe_ai_book.model;
 import com.google.firebase.Timestamp;
 
 // Firestore에 저장할 수 있는 Book 모델
-
 public class Book {
     private String id;
     private String title;
     private String author;
-    private String dateSaved;
-    private Integer imageResId;   // 원시타입 int → Integer
-    private String imageUrl;
+    private String dateSaved;    // 앱에서 저장한 날짜
+    private int imageResId;      // drawable 리소스 ID (Firestore에는 저장 X)
+    private String imageUrl;     // 온라인 이미지 URL
     private String publishDate;
     private String publisher;
     private String isbn;
     private String category;
     private String description;
     private String notes;
-    private Integer pageCount;    // int → Integer
-    private Double rating;        // double → Double
+    private int pageCount;
+    private double rating;
     private String userId;
-    private String tags;
-    private String location;
+    private String tags;         // 태그 (예: "#인문 #철학 #자유론")
+    private String location;     // 도서 위치 (예: "책장 3번째 칸")
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
+    // 빈 생성자 (Firestore 직렬화/역직렬화용 필수)
     public Book() {}
 
     // 샘플 데이터용 생성자 (title, author, 이미지 리소스만)

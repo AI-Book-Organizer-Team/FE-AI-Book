@@ -37,7 +37,7 @@ public class SearchActivity extends AppCompatActivity {
         recyclerViewSearchResults = findViewById(R.id.recyclerViewSearchResults);
 
         // 더미 데이터 초기화
-        initDummyData();
+        /*initDummyData();*/
 
         recyclerViewSearchResults.setLayoutManager(new LinearLayoutManager(this));
         bookListAdapter = new BookListAdapter(bookList);
@@ -56,7 +56,7 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
-    private void initDummyData() {
+/*    private void initDummyData() {
         allBooks.add(new Book("미움받을 용기", "기시미 이치로", "인플루엔셜", "아들러 심리학을 바탕으로 한 자기계발서", "https://example.com/courage.jpg"));
         allBooks.add(new Book("82년생 김지영", "조남주", "민음사", "한국 여성의 삶을 그린 소설", "https://example.com/kimjiyoung.jpg"));
         allBooks.add(new Book("사피엔스", "유발 하라리", "김영사", "인류 역사에 대한 통찰", "https://example.com/sapiens.jpg"));
@@ -65,7 +65,7 @@ public class SearchActivity extends AppCompatActivity {
         allBooks.add(new Book("해리포터와 마법사의 돌", "J.K. 롤링", "문학수첩", "마법 세계 판타지 소설", "https://example.com/harry.jpg"));
         allBooks.add(new Book("돈의 속성", "김승호", "스노우폭스북스", "부의 원리에 대한 실용서", "https://example.com/money.jpg"));
         allBooks.add(new Book("알고리즘 문제해결전략", "구종만", "인사이트", "프로그래밍 대회 준비서", "https://example.com/algorithm.jpg"));
-    }
+    }*/
 
     private void performSearch(String query) {
         Log.d("SearchActivity", "Search started with query: " + query);
