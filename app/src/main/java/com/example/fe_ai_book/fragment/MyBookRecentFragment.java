@@ -27,6 +27,7 @@ public class MyBookRecentFragment extends Fragment {
     private RecyclerView recyclerView;
     private MyBookAdapter adapter;
     private List<Book> bookList = new ArrayList<>();
+    private List<Book> originalList = new ArrayList<>();
     private FirebaseFirestore db;
     private String userId;
 
@@ -70,6 +71,8 @@ public class MyBookRecentFragment extends Fragment {
                 .get()
                 .addOnSuccessListener(querySnapshot -> {
                     bookList.clear();
+                    originalList.clear();
+
                     if (querySnapshot.isEmpty()) {
                         Log.d("MyBook", "책이 없습니다.");
                     } else {
@@ -88,5 +91,39 @@ public class MyBookRecentFragment extends Fragment {
                     adapter.notifyDataSetChanged();
                 })
                 .addOnFailureListener(e -> Log.e("MyBook", "책 불러오기 실패", e));
+    }
+
+    public void search(String query) {
+        if (originalList.isEmpty()) return;
+
+        if (query == null || query.trim().isEmpty()) {
+            // 검색어 없으면 원본 복구
+            bookList.clear();
+            bookList.addAll(originalList);
+            adapter.notifyDataSetChanged();
+            return;
+        }
+
+        String q = query.toLowerCase().trim();
+        List<Book> filtered = new ArrayList<>();
+
+        for (Book b : originalList) {
+            if (safe(b.getTitle()).contains(q) ||
+                    safe(b.getAuthor()).contains(q) ||
+                    safe(b.getPublisher()).contains(q) ||
+                    safe(b.getIsbn()).contains(q)) {
+
+                filtered.add(b);
+            }
+        }
+
+        bookList.clear();
+        bookList.addAll(filtered);
+        adapter.notifyDataSetChanged();
+    }
+
+    // NPE 방지
+    private String safe(String s) {
+        return s == null ? "" : s.toLowerCase();
     }
 }
