@@ -8,7 +8,16 @@ public class BookSearchEnvelope {
     @SerializedName("response") public Inner response;
 
     public static class Inner {
-        @SerializedName("docs") public List<DocItem> docs;
+        public Request request;
+        public int numFound;
+        public List<DocItem> docs;
+    }
+
+    public static class Request {
+        public String keyword;
+        public String title;
+        public int pageNo;
+        public int pageSize;
     }
 
     public static class DocItem {

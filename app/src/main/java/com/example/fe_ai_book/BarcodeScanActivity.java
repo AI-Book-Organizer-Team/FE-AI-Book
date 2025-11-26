@@ -183,7 +183,7 @@ public class BarcodeScanActivity extends AppCompatActivity {
         // 먼저 API 호출
         currentBook = new Book();
         DataLibraryApi api = ApiClient.get();
-        apiCall = api.getBookDetail(BuildConfig.DATA4LIB_AUTH_KEY, isbn, "N", "age", "json");
+        apiCall = api.getBookDetail(BuildConfig.DATA4LIB_AUTH_KEY, isbn, "N", "age");
         
         // 로딩 중 토스트 메시지 표시
         Toast.makeText(this, "ISBN: " + isbn + " 정보를 가져오는 중...", Toast.LENGTH_SHORT).show();

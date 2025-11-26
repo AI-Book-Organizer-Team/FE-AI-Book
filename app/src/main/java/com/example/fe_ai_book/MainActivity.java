@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
 
         DataLibraryApi api = ApiClient.get();
 
-        call = api.getBookDetail(BuildConfig.DATA4LIB_AUTH_KEY, isbn, "N", "age", "json");
+        call = api.getBookDetail(BuildConfig.DATA4LIB_AUTH_KEY, isbn, "N", "age");
 
         call.enqueue(new Callback<BookDetailEnvelope>() {
             @Override

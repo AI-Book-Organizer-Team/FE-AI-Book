@@ -109,6 +109,35 @@ public class BookFirebaseService {
                         Log.w(TAG, "Error saving/updating UserBook", e));
     }
 
+    // 도서 대출 정보 가져오기
+    public void saveLoanStats(String isbn, String gender, String ageRange, int loanCount) {
+        if (isbn == null || isbn.isEmpty()) {
+            Log.w(TAG, "ISBN is empty, cannot save loan stats.");
+            return;
+        }
+
+        String docId = gender + "_" + ageRange;
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("gender", gender);
+        data.put("ageRange", ageRange);
+        data.put("loanCount", loanCount);
+        data.put("updatedAt", FieldValue.serverTimestamp());
+
+        db.collection("Books")
+                .document(isbn)
+                .collection("loanStats")
+                .document(docId)
+                .set(data, SetOptions.merge())
+                .addOnSuccessListener(aVoid -> {
+                    Log.d(TAG, "LoanStats saved: " + isbn + " / " + docId);
+                })
+                .addOnFailureListener(e -> {
+                    Log.w(TAG, "Error saving LoanStats", e);
+                });
+    }
+
+
     // =====================================================================
     // 3. 사용자 책장에서 책 삭제
     //    - 전체 책 정보(Books)는 그대로 두고,

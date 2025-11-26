@@ -14,13 +14,12 @@ public interface DataLibraryApi {
             @Query("authKey") String authKey,
             @Query("isbn13") String isbn13,
             @Query("loaninfoYN") String loaninfoYN,
-            @Query("displayInfo") String displayInfo,
-            @Query("format") String format
+            @Query("displayInfo") String displayInfo
     );
     
     // 도서 검색 (제목/저자/출판사 등으로 검색)
     @GET("srchBooks?format=json")
-    Call<BookDetailEnvelope> searchBooks(
+    Call<BookDetailEnvelope> getSearchBooks(
             @Query("authKey") String authKey,
             @Query("title") String title,
             @Query("author") String author,
@@ -43,14 +42,21 @@ public interface DataLibraryApi {
 
     // 도서 제목, 키워드, 페이지 수 등 상세정보
     @GET("srchBooks?format=json")
-    Call<BookSearchEnvelope> searchBooks(
+    Call<BookSearchEnvelope> searchBooksByKeyword(
             @Query("authKey") String authKey,
             @Query("keyword") String keyword,
-            @Query("searchType") String searchType, // "title" / "author" / "all"
+            @Query("searchType") String searchType, // all/title/author
             @Query("pageNo") int pageNo,
             @Query("pageSize") int pageSize
     );
 
+    @GET("srchBooks?format=json")
+    Call<BookSearchEnvelope> searchBooksByTitle(
+            @Query("authKey") String authKey,
+            @Query("title") String title,
+            @Query("pageNo") int pageNo,
+            @Query("pageSize") int pageSize
+    );
 
     // 디버깅용
     @GET("srchDtlList?format=json")

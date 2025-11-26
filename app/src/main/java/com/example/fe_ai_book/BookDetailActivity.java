@@ -290,7 +290,7 @@ public class BookDetailActivity extends AppCompatActivity {
         currentBook.setIsbn(isbn13);
 
         DataLibraryApi api = ApiClient.get();
-        inFlight = api.getBookDetail(BuildConfig.DATA4LIB_AUTH_KEY, isbn13, "Y", "age", "json");
+        inFlight = api.getBookDetail(BuildConfig.DATA4LIB_AUTH_KEY, isbn13, "Y", "age");
 
         inFlight.enqueue(new Callback<BookDetailEnvelope>() {
             @Override

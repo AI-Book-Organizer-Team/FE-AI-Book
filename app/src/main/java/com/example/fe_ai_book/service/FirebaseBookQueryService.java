@@ -304,7 +304,7 @@ public class FirebaseBookQueryService {
             DataLibraryApi api = ApiClient.get();
             
             // 장르 관련 키워드로 검색
-            Call<BookDetailEnvelope> call = api.searchBooks(authKey, genre, null, null, 1, 20, "json");
+            Call<BookDetailEnvelope> call = api.getSearchBooks(authKey, genre, null, null, 1, 20, "json");
             
             call.enqueue(new Callback<BookDetailEnvelope>() {
                 @Override
@@ -347,7 +347,7 @@ public class FirebaseBookQueryService {
             String authKey = com.example.fe_ai_book.BuildConfig.DATA4LIB_AUTH_KEY;
             DataLibraryApi api = ApiClient.get();
             
-            Call<BookDetailEnvelope> call = api.searchBooks(authKey, null, author, null, 1, 20, "json");
+            Call<BookDetailEnvelope> call = api.getSearchBooks(authKey, null, author, null, 1, 20, "json");
             
             call.enqueue(new Callback<BookDetailEnvelope>() {
                 @Override
@@ -390,7 +390,7 @@ public class FirebaseBookQueryService {
             String authKey = com.example.fe_ai_book.BuildConfig.DATA4LIB_AUTH_KEY;
             DataLibraryApi api = ApiClient.get();
             
-            Call<BookDetailEnvelope> call = api.searchBooks(authKey, null, null, publisher, 1, 20, "json");
+            Call<BookDetailEnvelope> call = api.getSearchBooks(authKey, null, null, publisher, 1, 20, "json");
             
             call.enqueue(new Callback<BookDetailEnvelope>() {
                 @Override
